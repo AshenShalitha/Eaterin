@@ -1,7 +1,9 @@
 export const colors = {
     white: '#ffffff',
-    ash_light: '#e7ecef',
-    ash_dark: '#41504b',
+    ash_lighter: '#e7ecef',
+    ash_light: '#d2dbe0',
+    ash_dark: '#4f5352',
+    ash_transparent: '#d2dbe033',
     green_light: '#3faa4a',
     orange: '#f3b337',
     black: '#2a3234',

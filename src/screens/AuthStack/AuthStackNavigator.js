@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import LoginScreen from './LoginScreen';
 import SignupScreen from './SignupScreen';
 

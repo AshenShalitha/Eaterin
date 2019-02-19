@@ -6,6 +6,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { colors } from '../utils/Colors';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
@@ -35,7 +36,7 @@ class SplashScreen extends Component {
 const styles = EStyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: '#542682',
+        backgroundColor: colors.white,
         justifyContent: 'center',
         alignItems: 'center'
     }

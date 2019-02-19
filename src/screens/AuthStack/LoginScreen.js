@@ -3,13 +3,24 @@ import {
     Dimensions,
     View,
     Text,
-    TouchableOpacity,
     Animated,
-    Easing
+    ImageBackground,
+    TouchableOpacity
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import {
+    Form,
+    Item,
+    Input,
+    Label,
+    Button,
+    Icon
+} from 'native-base';
 
 import NavigationService from '../../services/NavigationService';
+import coverImg from '../../utils/images/login_bg.jpg';
+import { colors } from '../../utils/Colors';
+import { strings } from '../../utils/Strings';
 
 const entireScreenWidth = Dimensions.get('window').width;
 const entireScreenHeight = Dimensions.get('window').height;
@@ -21,25 +32,68 @@ class LoginScreen extends Component {
     componentDidMount() { this.slideInParentView(); }
 
     slideInParentView() {
-        Animated.spring(this.state.parentViewX,
+        Animated.timing(this.state.parentViewX,
             {
                 toValue: 0,
-                friction: 3.9,
-                tension: 0.8,
                 useNativeDriver: true,
             }
         ).start();
     }
 
+    onSignupPressed = () => { this.props.navigation.navigate('SignupScreen'); }
+
+    onLoginPressed = () => { NavigationService.navigate('App'); }
+
+    validateEmail(email) {
+        const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return reg.test(email);
+    }
+
     render() {
         return (
             <Animated.View style={[styles.mainContainer, { transform: [{ translateY: this.state.parentViewX }] }]}>
-                <TouchableOpacity onPress={() => NavigationService.navigate('App')}>
-                    <Text>Login screen</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('SignupScreen')}>
-                    <Text>Signup</Text>
-                </TouchableOpacity>
+                <ImageBackground style={{ flex: 1 }} source={coverImg}>
+                    <View style={styles.logoContainer}>
+                        <Text style={styles.logoStyle}>eaterin</Text>
+                    </View>
+                    <View style={styles.formContainer}>
+                        <Form style={styles.formStyle}>
+                            <Item floatingLabel last>
+                                <Icon name={'email'} type={'MaterialCommunityIcons'} style={styles.iconStyle} />
+                                <Label style={styles.textStyle}>{strings.login.username}</Label>
+                                <Input
+                                    style={styles.textStyle}
+                                    keyboardType="email-address"
+                                    returnKeyType={'next'}
+                                    onSubmitEditing={() => { this.Password._root.focus(); }}
+                                    blurOnSubmit={false}
+                                />
+                            </Item>
+                            <Item floatingLabel last>
+                                <Icon name={'lock'} type={'MaterialCommunityIcons'} style={styles.iconStyle} />
+                                <Label style={styles.textStyle}> {strings.login.password}</Label>
+                                <Input
+                                    password style={styles.textStyle}
+                                    secureTextEntry
+                                    getRef={input => {
+                                        this.Password = input;
+                                    }}
+                                />
+                            </Item>
+                        </Form>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <Button block style={styles.buttonStyle} onPress={this.onLoginPressed.bind(this)}>
+                            <Text style={styles.buttonTextStyle}>{strings.login.buttonText}</Text>
+                        </Button>
+                    </View>
+                    <View style={styles.bottomContainer}>
+                        <Text style={styles.plainTextStyle}>{strings.login.text}</Text>
+                        <TouchableOpacity onPress={this.onSignupPressed.bind(this)}>
+                            <Text style={styles.signupTextStyle}>{strings.login.signup}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ImageBackground>
             </Animated.View>
         );
     }
@@ -48,9 +102,70 @@ class LoginScreen extends Component {
 const styles = EStyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: '#ac3657',
+        backgroundColor: colors.green_light,
+    },
+    logoContainer: {
+        flex: 4,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignSelf: 'stretch',
+    },
+    formContainer: {
+        flex: 3,
+        justifyContent: 'center',
+        alignSelf: 'stretch',
+    },
+    buttonContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignSelf: 'stretch',
+        paddingHorizontal: '15rem'
+    },
+    bottomContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        paddingHorizontal: '15rem',
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    logoStyle: {
+        color: colors.ash_light,
+        fontSize: '75rem',
+        fontWeight: '400',
+        alignSelf: 'center'
+    },
+    formStyle: {
+        paddingHorizontal: '15rem'
+    },
+    textStyle: {
+        color: colors.white,
+    },
+    buttonStyle: {
+        backgroundColor: colors.green_light,
+        height: '45rem',
+    },
+    signupBtnStyle: {
+        alignSelf: 'center',
+    },
+    signupTextStyle: {
+        color: colors.white,
+        fontSize: '14rem',
+        fontWeight: '500',
+    },
+    plainTextStyle: {
+        color: colors.ash_light,
+        fontSize: '14rem',
+        fontWeight: '400',
+    },
+    buttonTextStyle: {
+        color: colors.white,
+        fontWeight: '300',
+        fontSize: '18rem',
+        alignSelf: 'center'
+    },
+    iconStyle: {
+        color: colors.ash_light,
+        fontSize: EStyleSheet.value('18rem')
     }
 });
 
