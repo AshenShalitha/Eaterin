@@ -19,6 +19,10 @@ export const strings = {
         confirmPassword: 'Confirm Password',
         buttonText: 'Signup',
         text: 'Already have an Account?  ',
-        login: 'Login'
+        login: 'Login',
+        passwordMismatch: 'Paswords doesn\'t match!',
+        passwordLengthError: 'Minimum 6 letters!',
+        invalidEmailError: 'Invalid email!',
+        invalidContactNoError: 'Invalid contact number!',
     }
 };

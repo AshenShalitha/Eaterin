@@ -92,6 +92,7 @@ class LoginScreen extends Component {
             this.setState({
                 emailError: true,
             });
+        } else {
             NavigationService.navigate('App');
         }
     }
@@ -159,7 +160,7 @@ class LoginScreen extends Component {
                         </Form>
                     </View>
                     <View style={styles.buttonContainer}>
-                        <Button block style={styles.buttonStyle} onPress={this.onLoginPressed.bind(this)}>
+                        <Button block style={styles.buttonStyle} onPress={() => NavigationService.navigate('App')}>
                             <Text style={styles.buttonTextStyle}>{strings.login.buttonText}</Text>
                         </Button>
                     </View>
@@ -249,7 +250,7 @@ const mapStateToProps = state => {
     return {
         email: state.login.email,
         password: state.login.password,
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, actions)(LoginScreen);

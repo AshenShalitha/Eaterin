@@ -13,7 +13,7 @@ class BokkingScreen extends Component {
     render() {
         return (
             <View style={styles.mainContainer}>
-                <Text>Bokking Screen</Text>
+                <Text>Booking Screen</Text>
             </View>
         );
     }

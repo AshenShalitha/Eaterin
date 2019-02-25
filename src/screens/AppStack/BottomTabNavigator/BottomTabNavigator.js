@@ -19,36 +19,36 @@ export default createBottomTabNavigator(
             screen: RestaurantStack,
             navigationOptions: () => ({
                 tabBarLabel: strings.tabBar.home,
-                tabBarIcon: ({ tintColor }) => (<Icon name='home' type={'AntDesign'} size={EStyleSheet.value('25rem')} color={tintColor} />),
+                tabBarIcon: ({ tintColor }) => (<Icon name='home' type={'SimpleLineIcons'} size={EStyleSheet.value('25rem')} color={tintColor} />),
             })
         },
         BookingsStack: {
             screen: BookingsStack,
             navigationOptions: () => ({
                 tabBarLabel: strings.tabBar.bookings,
-                tabBarIcon: ({ tintColor }) => (<Icon name='clipboard-notes' type={'Foundation'} size={EStyleSheet.value('25rem')} color={tintColor} />),
+                tabBarIcon: ({ tintColor }) => (<Icon name='book-open' type={'SimpleLineIcons'} size={EStyleSheet.value('25rem')} color={tintColor} />),
             })
         },
         ProfileStack: {
             screen: ProfileStack,
             navigationOptions: () => ({
                 tabBarLabel: strings.tabBar.profile,
-                tabBarIcon: ({ tintColor }) => (<Icon name='person-outline' type={'MaterialIcons'} size={EStyleSheet.value('25rem')} color={tintColor} />),
+                tabBarIcon: ({ tintColor }) => (<Icon name='user' type={'SimpleLineIcons'} size={EStyleSheet.value('25rem')} color={tintColor} />),
             })
-        }
+        },
     },
     {
         tabBarOptions: {
             showLabel: true,
             activeTintColor: colors.green_light,
-            inactiveTintColor: colors.textAsh,
+            inactiveTintColor: colors.ash_dark,
             style: {
                 backgroundColor: colors.white,
-                shadowColor: colors.textAsh,
-                shadowOffset: { width: 0, height: -9 },
+                shadowColor: colors.ash_light,
+                shadowOffset: { width: 0, height: 10 },
                 shadowRadius: 15,
                 elevation: 10,
-                borderTopColor: colors.white
+                borderTopColor: colors.ash_lighter
             }
         },
         initialLayout: 'RestaurantStack'

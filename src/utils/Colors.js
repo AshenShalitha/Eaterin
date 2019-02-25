@@ -2,11 +2,13 @@ export const colors = {
     white: '#ffffff',
     ash_lighter: '#e7ecef',
     ash_light: '#d2dbe0',
+    ash: '#999',
     ash_dark: '#4f5352',
     ash_transparent: '#d2dbe033',
     green_light: '#3faa4a',
     orange: '#f3b337',
     black: '#2a3234',
     red: '#f04e4c',
-    blue: '#7eb2da'
+    blue: '#7eb2da',
+    dangerRed: '#ff0000',
 };
