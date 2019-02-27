@@ -24,5 +24,8 @@ export const strings = {
         passwordLengthError: 'Minimum 6 letters!',
         invalidEmailError: 'Invalid email!',
         invalidContactNoError: 'Invalid contact number!',
+    },
+    selectBooking: {
+        guestNumber: 'How many guests?'
     }
 };

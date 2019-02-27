@@ -2,21 +2,53 @@ import React, { Component } from 'react';
 import {
     Dimensions,
     View,
+
 } from 'react-native';
 import {
     Icon,
     Card
 } from 'native-base';
+import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { colors } from '../../utils/Colors';
+import { strings } from '../../utils/Strings';
 import { CustomHeader } from '../../components/CustomHeader';
 import { DatesGroup } from '../../components/DatesGroup';
+import { GuestView } from '../../components/GuestView';
+import * as actions from '../../redux/actions';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 class SelectBookingScreen extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            incrementDisabled: false,
+            decrementDisabled: false
+        };
+        this.max = 8;
+    }
+
+    incrementPressed() {
+        this.setState({ decrementDisabled: false });
+        if (this.props.numberOfGuests >= this.max) {
+            this.setState({ incrementDisabled: true });
+        } else {
+            this.props.guestsIncreased(this.props.numberOfGuests);
+        }
+    }
+
+    decrementPressed() {
+        this.setState({ incrementDisabled: false });
+        if (this.props.numberOfGuests < 2) {
+            this.setState({ decrementDisabled: true });
+        } else {
+            this.props.guestsDecreased(this.props.numberOfGuests);
+        }
+    }
 
     render() {
         return (
@@ -32,9 +64,13 @@ class SelectBookingScreen extends Component {
                     <DatesGroup />
                 </View>
                 <View style={styles.guestsContainer}>
-                    <View style={styles.guestView}>
-
-                    </View>
+                    <GuestView
+                        numberOfGuests={this.props.numberOfGuests}
+                        onIncrementPressed={this.incrementPressed.bind(this)}
+                        onDecrementPressed={this.decrementPressed.bind(this)}
+                        decrementDisabled={this.state.decrementDisabled}
+                        incrementDisabled={this.state.incrementDisabled}
+                    />
                 </View>
                 <View style={styles.timeSlotContainer}>
                     <View>
@@ -65,14 +101,13 @@ const styles = EStyleSheet.create({
     timeSlotContainer: {
         flex: 4,
         backgroundColor: colors.white
-    },
-    guestView: {
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: colors.white,
-        marginVertical: '8rem',
-        alignItems: 'center'
     }
 });
 
-export default SelectBookingScreen;
+const mapStateToProps = state => {
+    return {
+        numberOfGuests: state.booking.numberOfGuests
+    };
+};
+
+export default connect(mapStateToProps, actions)(SelectBookingScreen);
