@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Dimensions,
     View,
@@ -16,38 +16,41 @@ import { strings } from '../../utils/Strings';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-class GuestView extends Component {
-
-    render() {
-        return (
-            <View style={styles.guestView}>
-                <View style={styles.guestLeft}>
-                    <Icon name={'user-alt'} type={'FontAwesome5'} style={styles.guestIcon} />
-                    <Text style={styles.guestText}>{strings.selectBooking.guestNumber}</Text>
-                </View>
-                <View style={styles.guestRight}>
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        onPress={this.props.onDecrementPressed}
-                        disabled={this.props.decrementDisabled}
-                        style={this.props.decrementDisabled ? styles.iconContainerDisabled : styles.iconContainer}
-                    >
-                        <Icon name={'minus'} type={'AntDesign'} style={this.props.decrementDisabled ? styles.disabledIcon : styles.countIcons} />
-                    </TouchableOpacity>
-                    <Text style={styles.count}>{this.props.numberOfGuests}</Text>
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        onPress={this.props.onIncrementPressed}
-                        disabled={this.props.incrementDisabled}
-                        style={this.props.incrementDisabled ? styles.iconContainerDisabled : styles.iconContainer}
-                    >
-                        <Icon name={'plus'} type={'AntDesign'} style={this.props.incrementDisabled ? styles.disabledIcon : styles.countIcons} />
-                    </TouchableOpacity>
-                </View>
+const GuestView = ({
+    onDecrementPressed,
+    decrementDisabled,
+    numberOfGuests,
+    onIncrementPressed,
+    incrementDisabled
+}) => {
+    return (
+        <View style={styles.guestView}>
+            <View style={styles.guestLeft}>
+                <Icon name={'user-alt'} type={'FontAwesome5'} style={styles.guestIcon} />
+                <Text style={styles.guestText}>{strings.selectBooking.guestNumber}</Text>
             </View>
-        );
-    }
-}
+            <View style={styles.guestRight}>
+                <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={onDecrementPressed}
+                    disabled={decrementDisabled}
+                    style={decrementDisabled ? styles.iconContainerDisabled : styles.iconContainer}
+                >
+                    <Icon name={'minus'} type={'AntDesign'} style={decrementDisabled ? styles.disabledIcon : styles.countIcons} />
+                </TouchableOpacity>
+                <Text style={styles.count}>{numberOfGuests}</Text>
+                <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={onIncrementPressed}
+                    disabled={incrementDisabled}
+                    style={incrementDisabled ? styles.iconContainerDisabled : styles.iconContainer}
+                >
+                    <Icon name={'plus'} type={'AntDesign'} style={incrementDisabled ? styles.disabledIcon : styles.countIcons} />
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+};
 
 const styles = EStyleSheet.create({
     guestView: {

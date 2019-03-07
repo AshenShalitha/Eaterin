@@ -28,4 +28,7 @@ export const TIME_SLOT_SELECTED = 'time_slot_selected';
 export const FETCH_RESTAURANTS = 'fetch_restaurants';
 export const FETCH_RESTAURANTS_SUCCESS = 'fetch_restaurants_success';
 export const FETCH_RESTAURANTS_FAILED = 'fetch_restaurants_failed';
+export const FETCH_TIME_SLOTS = 'fetch_time_slots';
+export const FETCH_TIME_SLOTS_SUCCESS = 'fetch_time_slots_success';
+export const FETCH_TIME_SLOTS_FAILED = 'fetch_time_slots_failed';
 

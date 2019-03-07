@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Dimensions,
     ScrollView,
@@ -12,39 +12,36 @@ import { colors } from '../../utils/Colors';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-class DatesGroup extends Component {
-
-    generateDateArray() {
-        const dates = [];
-        let item = {};
-        for (let i = 0; i < 7; i++) {
-            item.label = moment().add(i, 'd').format('DD MMM');
-            item.value = moment().add(i, 'd').format('MM/DD/YYYY');
-            dates.push(item);
-            item = {};
-        }
-        return dates;
+const generateDateArray = () => {
+    const dates = [];
+    let item = {};
+    for (let i = 0; i < 7; i++) {
+        item.label = moment().add(i, 'd').format('DD MMM');
+        item.value = moment().add(i, 'd').format('MM/DD/YYYY');
+        dates.push(item);
+        item = {};
     }
+    return dates;
+};
 
-    render() {
-        return (
-            <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={{ alignItems: 'flex-end' }}>
-                <RadioGroup
-                    radioGroupList={this.generateDateArray()}
-                    containerStyle={styles.containerStyle}
-                    buttonContainerStyle={styles.radioButton}
-                    buttonContainerActiveStyle={{ backgroundColor: colors.green_light }}
-                    buttonContainerInactiveStyle={{ backgroundColor: colors.ash_lighter }}
-                    buttonTextActiveStyle={{ color: colors.white }}
-                    buttonTextInactiveStyle={{ color: colors.black }}
-                    buttonTextStyle={{ fontWeight: '100', fontSize: EStyleSheet.value('14rem') }}
-                    initialValue={moment().format('MM/DD/YYYY')}
-                    onChange={this.props.onDateChanged}
-                />
-            </ScrollView>
-        );
-    }
-}
+const DatesGroup = ({ onDateChanged }) => {
+    return (
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={{ alignItems: 'flex-end' }}>
+            <RadioGroup
+                radioGroupList={generateDateArray()}
+                containerStyle={styles.containerStyle}
+                buttonContainerStyle={styles.radioButton}
+                buttonContainerActiveStyle={{ backgroundColor: colors.green_light }}
+                buttonContainerInactiveStyle={{ backgroundColor: colors.ash_lighter }}
+                buttonTextActiveStyle={{ color: colors.white }}
+                buttonTextInactiveStyle={{ color: colors.black }}
+                buttonTextStyle={{ fontWeight: '100', fontSize: EStyleSheet.value('14rem') }}
+                initialValue={moment().format('MM/DD/YYYY')}
+                onChange={onDateChanged}
+            />
+        </ScrollView>
+    );
+};
 
 const styles = EStyleSheet.create({
     timeSlotContainer: {

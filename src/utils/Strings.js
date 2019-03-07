@@ -39,5 +39,12 @@ export const strings = {
         noInternet: 'Failed to load content',
         serverError: 'A technical error has occured',
         retry: 'Tap to retry',
+    },
+    finishBooking: {
+        thanksYou: 'Thank you',
+        text1: 'Your reservation has been confirmed.',
+        refNo: 'Ref No',
+        text2: 'Please be at restaurant on time to grab above mentioned discount. You will have 15 mins grace period.',
+        buttonText: 'Let\'s go',
     }
 };

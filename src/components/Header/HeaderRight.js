@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Dimensions,
     View,
@@ -14,17 +14,15 @@ import { colors } from '../../utils/Colors';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-class HeaderRight extends Component {
-    render() {
-        return (
-            <View style={styles.mainContainer}>
-                <TouchableOpacity>
-                    <Icon name={'search1'} type={'AntDesign'} style={styles.iconStyle} />
-                </TouchableOpacity>
-            </View>
-        );
-    }
-}
+const HeaderRight = () => {
+    return (
+        <View style={styles.mainContainer}>
+            <TouchableOpacity>
+                <Icon name={'search1'} type={'AntDesign'} style={styles.iconStyle} />
+            </TouchableOpacity>
+        </View>
+    );
+};
 
 const styles = EStyleSheet.create({
     mainContainer: {

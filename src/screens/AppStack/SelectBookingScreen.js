@@ -32,7 +32,6 @@ class SelectBookingScreen extends Component {
             incrementDisabled: false,
             decrementDisabled: false
         };
-        this.max = 8;
     }
 
     componentDidMount() {
@@ -41,7 +40,7 @@ class SelectBookingScreen extends Component {
 
     incrementPressed() {
         this.setState({ decrementDisabled: false });
-        if (this.props.numberOfGuests >= this.max) {
+        if (this.props.numberOfGuests >= this.props.selectedRestaurant.max_guests) {
             this.setState({ incrementDisabled: true });
         } else {
             this.props.guestsIncreased(this.props.numberOfGuests);
@@ -50,7 +49,7 @@ class SelectBookingScreen extends Component {
 
     decrementPressed() {
         this.setState({ incrementDisabled: false });
-        if (this.props.numberOfGuests < 2) {
+        if (this.props.numberOfGuests < this.props.selectedRestaurant.max_guests + 1) {
             this.setState({ decrementDisabled: true });
         } else {
             this.props.guestsDecreased(this.props.numberOfGuests);
@@ -98,6 +97,7 @@ class SelectBookingScreen extends Component {
                         onDecrementPressed={this.decrementPressed.bind(this)}
                         decrementDisabled={this.state.decrementDisabled}
                         incrementDisabled={this.state.incrementDisabled}
+
                     />
                 </View>
                 <View style={styles.timeSlotContainer}>

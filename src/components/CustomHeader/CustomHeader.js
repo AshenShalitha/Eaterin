@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Dimensions,
     View,
@@ -17,42 +17,46 @@ import { colors } from '../../utils/Colors';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-class CustomHeader extends Component {
-    render() {
-        return (
-            <ImageBackground
-                style={styles.imageBackgroundStyle}
-                source={{ uri: this.props.image }}
-                resizeMode={'cover'}
+const CustomHeader = ({
+    image,
+    onBackPressed,
+    restaurantName,
+    ratings,
+    address
+}) => {
+    return (
+        <ImageBackground
+            style={styles.imageBackgroundStyle}
+            source={{ uri: image }}
+            resizeMode={'cover'}
+        >
+            <TouchableOpacity
+                style={styles.iconContainer}
+                activeOpacity={0.7}
+                onPress={onBackPressed}
             >
-                <TouchableOpacity
-                    style={styles.iconContainer}
-                    activeOpacity={0.7}
-                    onPress={this.props.onBackPressed}
-                >
-                    <Icon name={'ios-arrow-round-back'} type={'Ionicons'} style={styles.backIcon} />
-                </TouchableOpacity>
-                <Card style={styles.titleCard}>
-                    <View style={styles.cardItem}>
-                        <View style={styles.left}>
-                            <Text style={styles.titleStyle}>{this.props.restaurantName}</Text>
-                        </View>
-                        <View style={styles.right}>
-                            <View style={styles.ratingsView}>
-                                <Text style={styles.ratingsText}>{this.props.ratings}</Text>
-                                <Icon name={'star'} type={'AntDesign'} style={styles.starIcon} />
-                            </View>
+                <Icon name={'ios-arrow-round-back'} type={'Ionicons'} style={styles.backIcon} />
+            </TouchableOpacity>
+            <Card style={styles.titleCard}>
+                <View style={styles.cardItem}>
+                    <View style={styles.left}>
+                        <Text style={styles.titleStyle}>{restaurantName}</Text>
+                    </View>
+                    <View style={styles.right}>
+                        <View style={styles.ratingsView}>
+                            <Text style={styles.ratingsText}>{ratings}</Text>
+                            <Icon name={'star'} type={'AntDesign'} style={styles.starIcon} />
                         </View>
                     </View>
-                    <View style={styles.cardItem}>
-                        <Icon name={'location-on'} type={'MaterialIcons'} style={styles.iconStyle} />
-                        <Text style={styles.addressText}>{this.props.address}</Text>
-                    </View>
-                </Card>
-            </ImageBackground>
-        );
-    }
-}
+                </View>
+                <View style={styles.cardItem}>
+                    <Icon name={'location-on'} type={'MaterialIcons'} style={styles.iconStyle} />
+                    <Text style={styles.addressText}>{address}</Text>
+                </View>
+            </Card>
+        </ImageBackground>
+    );
+};
 
 const styles = EStyleSheet.create({
     imageBackgroundStyle: {

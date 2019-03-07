@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Dimensions,
     View,
@@ -16,23 +16,25 @@ import { colors } from '../../utils/Colors';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-class TimeSlotItem extends Component {
-    render() {
-        return (
-            <TouchableOpacity activeOpacity={0.6} onPress={this.props.onItemPressed}>
-                <Card style={styles.listItem}>
-                    <View style={styles.left}>
-                        <Text style={styles.timeText}>{this.props.timeSlot}</Text>
-                    </View>
-                    <View style={styles.right}>
-                        <Text style={styles.discountText}>{this.props.discount}%</Text>
-                        <Icon name={'arrow-right'} type={'SimpleLineIcons'} style={styles.arrowIcon} />
-                    </View>
-                </Card>
-            </TouchableOpacity>
-        );
-    }
-}
+const TimeSlotItem = ({
+    onItemPressed,
+    timeSlot,
+    discount
+}) => {
+    return (
+        <TouchableOpacity activeOpacity={0.6} onPress={onItemPressed}>
+            <Card style={styles.listItem}>
+                <View style={styles.left}>
+                    <Text style={styles.timeText}>{timeSlot}</Text>
+                </View>
+                <View style={styles.right}>
+                    <Text style={styles.discountText}>{discount}%</Text>
+                    <Icon name={'arrow-right'} type={'SimpleLineIcons'} style={styles.arrowIcon} />
+                </View>
+            </Card>
+        </TouchableOpacity>
+    );
+};
 
 const styles = EStyleSheet.create({
     listItem: {

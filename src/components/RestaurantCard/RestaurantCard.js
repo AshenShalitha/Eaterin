@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Dimensions,
     View,
@@ -17,46 +17,51 @@ import { colors } from '../../utils/Colors';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-class RestaurantCard extends Component {
-    render() {
-        return (
-            <TouchableOpacity activeOpacity={0.8} onPress={this.props.onPress}>
-                <Card style={styles.cardStyle}>
+const RestaurantCard = ({
+    onPress,
+    image,
+    maxDiscount,
+    restaurantName,
+    address,
+    ratings
+}) => {
+    return (
+        <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+            <Card style={styles.cardStyle}>
+                <ImageBackground
+                    style={styles.imageBackgroundStyle}
+                    source={{ uri: image }}
+                    resizeMode={'cover'}
+                >
                     <ImageBackground
-                        style={styles.imageBackgroundStyle}
-                        source={{ uri: this.props.image }}
-                        resizeMode={'cover'}
+                        style={styles.greenTabStyle}
+                        source={greenTab}
                     >
-                        <ImageBackground
-                            style={styles.greenTabStyle}
-                            source={greenTab}
-                        >
-                            <Text style={styles.textLarge}>Up to {this.props.maxDiscount} % off</Text>
-                            <Text style={styles.textSmall}>on your reservation</Text>
-                        </ImageBackground>
+                        <Text style={styles.textLarge}>Up to {maxDiscount} % off</Text>
+                        <Text style={styles.textSmall}>on your reservation</Text>
                     </ImageBackground>
-                    <View style={styles.footerStyle}>
-                        <View style={styles.footerItem}>
-                            <Text style={styles.titleStyle}>{this.props.restaurantName}</Text>
+                </ImageBackground>
+                <View style={styles.footerStyle}>
+                    <View style={styles.footerItem}>
+                        <Text style={styles.titleStyle}>{restaurantName}</Text>
+                    </View>
+                    <View style={styles.footerItem}>
+                        <View style={styles.footerLeft}>
+                            <Icon name={'location-on'} type={'MaterialIcons'} style={styles.iconStyle} />
+                            <Text style={styles.addressText}>{address}</Text>
                         </View>
-                        <View style={styles.footerItem}>
-                            <View style={styles.footerLeft}>
-                                <Icon name={'location-on'} type={'MaterialIcons'} style={styles.iconStyle} />
-                                <Text style={styles.addressText}>{this.props.address}</Text>
-                            </View>
-                            <View style={styles.footerRight}>
-                                <View style={styles.ratingsView}>
-                                    <Text style={styles.ratingsText}>{this.props.ratings}</Text>
-                                    <Icon name={'star'} type={'AntDesign'} style={styles.starIcon} />
-                                </View>
+                        <View style={styles.footerRight}>
+                            <View style={styles.ratingsView}>
+                                <Text style={styles.ratingsText}>{ratings}</Text>
+                                <Icon name={'star'} type={'AntDesign'} style={styles.starIcon} />
                             </View>
                         </View>
                     </View>
-                </Card>
-            </TouchableOpacity>
-        );
-    }
-}
+                </View>
+            </Card>
+        </TouchableOpacity>
+    );
+};
 
 const styles = EStyleSheet.create({
     cardStyle: {

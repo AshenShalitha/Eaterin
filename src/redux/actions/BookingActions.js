@@ -69,7 +69,7 @@ export const fetchRestaurants = accessToken => {
             }
         }).then(response => {
             dispatch({ type: FETCH_RESTAURANTS_SUCCESS, payload: response.data.data });
-        }).catch(error => {
+        }).catch(() => {
             dispatch({ type: FETCH_RESTAURANTS_FAILED });
         });
     };

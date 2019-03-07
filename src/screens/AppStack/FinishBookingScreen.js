@@ -2,22 +2,18 @@ import React, { Component } from 'react';
 import {
     Dimensions,
     View,
-    ScrollView,
-    Text,
 } from 'react-native';
-import {
-    Button,
-    Icon
-} from 'native-base';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { CustomHeader } from '../../components/CustomHeader';
 import { BookingSummary } from '../../components/BookingSummary';
+import { RefNoView } from '../../components/RefNoView';
 import { colors } from '../../utils/Colors';
 import * as actions from '../../redux/actions';
 import { PROTOCOL, HOST } from '../../api/API';
+import { strings } from '../../utils/Strings';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
@@ -40,29 +36,9 @@ class FinishBookingScreen extends Component {
                         paxCount={this.props.numberOfGuests}
                         discount={this.props.selectedTimeSlotObj.discount}
                     />
-                    <View style={styles.bottomContainer}>
-                        <View style={styles.topContainer}>
-                            <View>
-                                <Icon name={'md-checkmark-circle-outline'} type={'Ionicons'} style={styles.iconStyle} />
-                                <Text style={styles.textBold}>Thank you</Text>
-                                <Text style={styles.textNormal}>Your reservation has been confirmed.</Text>
-                            </View>
-                            <View style={styles.refNoContainer}>
-                                <Text style={styles.normalLarge}>Ref No</Text>
-                                <Text style={styles.refNoText}>3197187</Text>
-                            </View>
-                            <View>
-                                <Text style={styles.textNormal}>Please be at restaurant on time to grab above mentioned discount.
-                                    You will have 15 mins grace period.
-                                </Text>
-                            </View>
-                        </View>
-                        <View style={styles.buttonContainer}>
-                            <Button block style={styles.buttonStyle} >
-                                <Text style={styles.buttonTextStyle}>Let's go</Text>
-                            </Button>
-                        </View>
-                    </View>
+                    <RefNoView
+                        refNo={'3197187'}
+                    />
                 </View>
             </View >
         );

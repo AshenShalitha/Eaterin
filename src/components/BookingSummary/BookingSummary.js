@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Dimensions,
     View,
@@ -12,32 +12,35 @@ import { strings } from '../../utils/Strings';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-class BookingSummary extends Component {
-    render() {
-        return (
-            <View style={styles.topContainer}>
-                <View style={styles.topContentContainer}>
-                    <View style={styles.itemRow}>
-                        <Text style={styles.textAsh}>{strings.confirmBooking.date}</Text>
-                        <Text style={styles.textBlack}>{this.props.date}</Text>
-                    </View>
-                    <View style={styles.itemRow}>
-                        <Text style={styles.textAsh}>{strings.confirmBooking.time}</Text>
-                        <Text style={styles.textBlack}>{this.props.time}</Text>
-                    </View>
-                    <View style={styles.itemRow}>
-                        <Text style={styles.textAsh}>{strings.confirmBooking.paxCount}</Text>
-                        <Text style={styles.textBlack}>{this.props.paxCount}</Text>
-                    </View>
-                    <View style={styles.itemRow}>
-                        <Text style={styles.textAsh}>{strings.confirmBooking.discount}</Text>
-                        <Text style={styles.textGreen}>{this.props.discount}%</Text>
-                    </View>
+const BookingSummary = ({
+    date,
+    time,
+    paxCount,
+    discount
+}) => {
+    return (
+        <View style={styles.topContainer}>
+            <View style={styles.topContentContainer}>
+                <View style={styles.itemRow}>
+                    <Text style={styles.textAsh}>{strings.confirmBooking.date}</Text>
+                    <Text style={styles.textBlack}>{date}</Text>
+                </View>
+                <View style={styles.itemRow}>
+                    <Text style={styles.textAsh}>{strings.confirmBooking.time}</Text>
+                    <Text style={styles.textBlack}>{time}</Text>
+                </View>
+                <View style={styles.itemRow}>
+                    <Text style={styles.textAsh}>{strings.confirmBooking.paxCount}</Text>
+                    <Text style={styles.textBlack}>{paxCount}</Text>
+                </View>
+                <View style={styles.itemRow}>
+                    <Text style={styles.textAsh}>{strings.confirmBooking.discount}</Text>
+                    <Text style={styles.textGreen}>{discount}%</Text>
                 </View>
             </View>
-        );
-    }
-}
+        </View>
+    );
+};
 
 const styles = EStyleSheet.create({
     topContainer: {

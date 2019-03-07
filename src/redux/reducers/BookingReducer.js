@@ -8,7 +8,10 @@ import {
     FETCH_RESTAURANTS,
     FETCH_RESTAURANTS_SUCCESS,
     FETCH_RESTAURANTS_FAILED,
-    GUEST_COUNT_CHANGED
+    GUEST_COUNT_CHANGED,
+    FETCH_TIME_SLOTS,
+    FETCH_TIME_SLOTS_SUCCESS,
+    FETCH_TIME_SLOTS_FAILED
 } from '../types';
 
 const INITIAL_STATE = {
@@ -19,6 +22,8 @@ const INITIAL_STATE = {
     restaurantList: [],
     restaurantsLoading: false,
     restaurantFetchError: false,
+    timeSlots: [],
+    timeSlotsLoading: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -41,6 +46,12 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, restaurantList: action.payload, restaurantsLoading: false, restaurantFetchError: false };
         case FETCH_RESTAURANTS_FAILED:
             return { ...state, restaurantsLoading: false, restaurantFetchError: true };
+        case FETCH_TIME_SLOTS:
+            return { ...state, timeSlotsLoading: true };
+        case FETCH_TIME_SLOTS_SUCCESS:
+            return { ...state, timeSlotsLoading: false, timeSlots: action.payload };
+        case FETCH_TIME_SLOTS_FAILED:
+            return { ...state, timeSlotsLoading: false };
         default:
             return state;
     }
