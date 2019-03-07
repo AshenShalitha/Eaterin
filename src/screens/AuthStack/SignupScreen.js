@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StackActions, NavigationActions } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImagePicker from 'react-native-image-picker';
+import { SkypeIndicator } from 'react-native-indicators';
 import {
     Dimensions,
     View,
     ScrollView,
     Text,
     ImageBackground,
-    TouchableOpacity
+    TouchableOpacity,
+    NetInfo,
+    Alert
 } from 'react-native';
 import {
     Form,
@@ -22,18 +24,12 @@ import {
 } from 'native-base';
 
 import coverImg from '../../utils/images/login_bg.jpg';
+import { OfflineNotice } from '../../components/OfflineNotice';
 import { colors } from '../../utils/Colors';
 import { strings } from '../../utils/Strings';
 import * as actions from '../../redux/actions';
 
 const entireScreenWidth = Dimensions.get('window').width;
-
-const resetAction = StackActions.reset({
-    index: 0,
-    actions: [
-        NavigationActions.navigate({ routeName: 'LoginScreen' }),
-    ],
-});
 
 const options = {
     title: 'Select Profile Picture',
@@ -67,6 +63,32 @@ class SignupScreen extends Component {
             invalidContactNoError: false,
             avatarSource: null
         };
+        this.isConnected = true;
+        NetInfo.isConnected.fetch().then(isConnected => {
+            this.isConnected = isConnected;
+        });
+    }
+
+    componentDidMount() {
+        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+    }
+
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+    }
+
+    handleConnectivityChange = isConnected => {
+        if (isConnected) {
+            this.isConnected = isConnected;
+        } else {
+            this.isConnected = isConnected;
+        }
+    };
+
+    componentDidUpdate() {
+        // if (this.props.signupSuccess) {
+        //     this.props.navigation.pop();
+        // }
     }
 
     onLoginPressed = () => { this.props.navigation.pop(); }
@@ -93,7 +115,7 @@ class SignupScreen extends Component {
 
     onContactChanged(value) {
         this.props.signupContactNumberChanged(value);
-        if (value !== '' && value.length === 10) {
+        if (value !== '' && (value.length >= 9 && value.length <= 15)) {
             this.setState({
                 contactNoSuccess: true,
                 contactNoError: false,
@@ -167,7 +189,15 @@ class SignupScreen extends Component {
         const { name, contactNumber, email, password, confirmPassword } = this.props;
         const { nameSuccess, contactNoSuccess, emailSuccess, passwordSuccess, confirmPasswordSuccess } = this.state;
 
-        if (name === '' || contactNumber === '' || email === '' || password === '' || confirmPassword === '') {
+        if (!this.isConnected) {
+            Alert.alert(
+                'Registration Failed!',
+                'No internet connection',
+                [
+                    { text: 'Ok' },
+                ],
+            );
+        } else if (name === '' || contactNumber === '' || email === '' || password === '' || confirmPassword === '') {
             if (name === '') {
                 this.setState({
                     nameError: true
@@ -194,7 +224,7 @@ class SignupScreen extends Component {
                 });
             }
         } else if (nameSuccess && contactNoSuccess && emailSuccess && passwordSuccess && confirmPasswordSuccess) {
-            this.props.navigation.dispatch(resetAction);
+            this.props.signupUser(name, email, contactNumber, password);
         }
     }
 
@@ -233,12 +263,14 @@ class SignupScreen extends Component {
     }
 
     render() {
-        const { name, contactNumber, email, password, confirmPassword } = this.props;
+        const { name, contactNumber, email, password, confirmPassword, signupLoading } = this.props;
         return (
             <ScrollView style={{ flex: 1, flexDirection: 'column' }}>
+                <OfflineNotice />
                 <ImageBackground style={[styles.mainContainer]} source={coverImg}>
                     <View style={styles.imageContainer}>
-                        {this.renderThumbnail()}
+                        {/* {this.renderThumbnail()} */}
+                        <Text style={styles.title}>SIGNUP</Text>
                     </View>
                     <View style={styles.formContainer}>
                         <Form style={styles.formStyle}>
@@ -443,9 +475,14 @@ class SignupScreen extends Component {
                         </Form>
                     </View>
                     <View style={styles.buttonContainer}>
-                        <Button block style={styles.buttonStyle} onPress={this.onSignupPressed.bind(this)}>
-                            <Text style={styles.buttonTextStyle}>{strings.signup.buttonText}</Text>
-                        </Button>
+                        {
+                            signupLoading ?
+                                <SkypeIndicator color={colors.green_light} size={EStyleSheet.value('40rem')} />
+                                :
+                                <Button block style={styles.buttonStyle} onPress={this.onSignupPressed.bind(this)}>
+                                    <Text style={styles.buttonTextStyle}>{strings.signup.buttonText}</Text>
+                                </Button>
+                        }
                     </View>
                     <View style={styles.bottomContainer}>
                         <Text style={styles.plainTextStyle}>{strings.signup.text}</Text>
@@ -465,7 +502,7 @@ const styles = EStyleSheet.create({
         // backgroundColor: colors.black,
     },
     imageContainer: {
-        flex: 2,
+        flex: 1,
         alignItems: 'center',
         paddingTop: '50rem',
         paddingBottom: '15rem'
@@ -505,6 +542,12 @@ const styles = EStyleSheet.create({
     cameraIcon: {
         color: colors.ash_light,
         fontSize: '50rem'
+    },
+    title: {
+        fontSize: '52rem',
+        color: colors.white,
+        alignSelf: 'center',
+        // fontWeight: '500'
     },
     formStyle: {
         paddingHorizontal: '15rem'
@@ -553,6 +596,8 @@ const mapStateToProps = state => {
         email: state.signup.email,
         password: state.signup.password,
         confirmPassword: state.signup.confirmPassword,
+        signupSuccess: state.signup.signupSuccess,
+        signupLoading: state.signup.signupLoading,
     };
 };
 

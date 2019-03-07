@@ -26,6 +26,18 @@ export const strings = {
         invalidContactNoError: 'Invalid contact number!',
     },
     selectBooking: {
-        guestNumber: 'How many guests?'
+        guestNumber: 'How many guests?',
+        timeSlotTitle: 'Pick a time slot',
+    },
+    confirmBooking: {
+        date: 'Date',
+        time: 'Time',
+        paxCount: 'Pax Count',
+        discount: 'Discount'
+    },
+    errors: {
+        noInternet: 'Failed to load content',
+        serverError: 'A technical error has occured',
+        retry: 'Tap to retry',
     }
 };

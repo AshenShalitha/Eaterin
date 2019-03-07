@@ -5,10 +5,13 @@ import {
     Text,
     Animated,
     ImageBackground,
-    TouchableOpacity
+    TouchableOpacity,
+    NetInfo,
+    Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SkypeIndicator } from 'react-native-indicators';
 import {
     Form,
     Item,
@@ -18,7 +21,7 @@ import {
     Icon
 } from 'native-base';
 
-import NavigationService from '../../services/NavigationService';
+import { OfflineNotice } from '../../components/OfflineNotice';
 import coverImg from '../../utils/images/login_bg.jpg';
 import { colors } from '../../utils/Colors';
 import { strings } from '../../utils/Strings';
@@ -37,8 +40,28 @@ class LoginScreen extends Component {
             emailError: false,
             pwError: false,
         };
+        this.isConnected = false;
+        NetInfo.isConnected.fetch().then(isConnected => {
+            this.isConnected = isConnected;
+        });
     }
-    componentDidMount() { this.slideInParentView(); }
+
+    componentDidMount() {
+        this.slideInParentView();
+        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+    }
+
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+    }
+
+    handleConnectivityChange = isConnected => {
+        if (isConnected) {
+            this.isConnected = isConnected;
+        } else {
+            this.isConnected = isConnected;
+        }
+    };
 
     slideInParentView() {
         Animated.timing(this.state.parentViewX,
@@ -75,7 +98,9 @@ class LoginScreen extends Component {
         }
     }
 
-    onSignupPressed = () => { this.props.navigation.navigate('SignupScreen'); }
+    onSignupPressed = () => {
+        this.props.navigation.navigate('SignupScreen');
+    }
 
     onLoginPressed = () => {
         const { email, password } = this.props;
@@ -83,7 +108,15 @@ class LoginScreen extends Component {
     }
 
     validate(email, password) {
-        if (email === '' || password === '') {
+        if (!this.isConnected) {
+            Alert.alert(
+                'Login Failed!',
+                'No internet connection',
+                [
+                    { text: 'Ok' },
+                ],
+            );
+        } else if (email === '' || password === '') {
             this.setState({
                 emailError: true,
                 pwError: true
@@ -93,7 +126,7 @@ class LoginScreen extends Component {
                 emailError: true,
             });
         } else {
-            NavigationService.navigate('App');
+            this.props.loginUser(email, password);
         }
     }
 
@@ -105,6 +138,7 @@ class LoginScreen extends Component {
     render() {
         return (
             <Animated.View style={[styles.mainContainer, { transform: [{ translateY: this.state.parentViewX }] }]}>
+                <OfflineNotice />
                 <ImageBackground style={{ flex: 1 }} source={coverImg}>
                     <View style={styles.logoContainer}>
                         <Text style={styles.logoStyle}>eaterin</Text>
@@ -160,9 +194,14 @@ class LoginScreen extends Component {
                         </Form>
                     </View>
                     <View style={styles.buttonContainer}>
-                        <Button block style={styles.buttonStyle} onPress={() => NavigationService.navigate('App')}>
-                            <Text style={styles.buttonTextStyle}>{strings.login.buttonText}</Text>
-                        </Button>
+                        {
+                            this.props.loginLoading ?
+                                <SkypeIndicator color={colors.green_light} size={EStyleSheet.value('40rem')} />
+                                :
+                                <Button block style={styles.buttonStyle} onPress={() => this.onLoginPressed()}>
+                                    <Text style={styles.buttonTextStyle}>{strings.login.buttonText}</Text>
+                                </Button>
+                        }
                     </View>
                     <View style={styles.bottomContainer}>
                         <Text style={styles.plainTextStyle}>{strings.login.text}</Text>
@@ -250,6 +289,7 @@ const mapStateToProps = state => {
     return {
         email: state.login.email,
         password: state.login.password,
+        loginLoading: state.login.loginLoading
     };
 };
 

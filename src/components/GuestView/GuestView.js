@@ -27,17 +27,21 @@ class GuestView extends Component {
                 </View>
                 <View style={styles.guestRight}>
                     <TouchableOpacity
+                        activeOpacity={0.5}
                         onPress={this.props.onDecrementPressed}
                         disabled={this.props.decrementDisabled}
+                        style={this.props.decrementDisabled ? styles.iconContainerDisabled : styles.iconContainer}
                     >
-                        <Icon name={'minus'} type={'EvilIcons'} style={this.props.decrementDisabled ? styles.disabledIcon : styles.countIcons} />
+                        <Icon name={'minus'} type={'AntDesign'} style={this.props.decrementDisabled ? styles.disabledIcon : styles.countIcons} />
                     </TouchableOpacity>
                     <Text style={styles.count}>{this.props.numberOfGuests}</Text>
                     <TouchableOpacity
+                        activeOpacity={0.5}
                         onPress={this.props.onIncrementPressed}
                         disabled={this.props.incrementDisabled}
+                        style={this.props.incrementDisabled ? styles.iconContainerDisabled : styles.iconContainer}
                     >
-                        <Icon name={'plus'} type={'EvilIcons'} style={this.props.incrementDisabled ? styles.disabledIcon : styles.countIcons} />
+                        <Icon name={'plus'} type={'AntDesign'} style={this.props.incrementDisabled ? styles.disabledIcon : styles.countIcons} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -70,22 +74,42 @@ const styles = EStyleSheet.create({
     },
     guestText: {
         fontSize: '12rem',
-        color: colors.black,
+        color: colors.ash_dark,
         alignSelf: 'center'
     },
+    iconContainer: {
+        height: '36rem',
+        width: '36rem',
+        borderRadius: '18rem',
+        borderWidth: '1rem',
+        borderColor: colors.black,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    iconContainerDisabled: {
+        height: '36rem',
+        width: '36rem',
+        borderRadius: '18rem',
+        borderWidth: '1rem',
+        borderColor: colors.ash_light,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     countIcons: {
-        fontSize: '55rem',
+        fontSize: '18rem',
         color: colors.black,
     },
+    disabledIcon: {
+        fontSize: '18rem',
+        color: colors.ash_light,
+        fontWeight: '100'
+    },
     count: {
-        paddingHorizontal: '20rem',
+        paddingHorizontal: '32rem',
         fontSize: '14rem',
         color: colors.ash_dark
     },
-    disabledIcon: {
-        fontSize: '55rem',
-        color: colors.ash_light,
-    }
+
 });
 
 export { GuestView };

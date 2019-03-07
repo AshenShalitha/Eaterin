@@ -19,7 +19,7 @@ class DatesGroup extends Component {
         let item = {};
         for (let i = 0; i < 7; i++) {
             item.label = moment().add(i, 'd').format('DD MMM');
-            item.value = moment().add(i, 'd').format('DD-MM-YYY');
+            item.value = moment().add(i, 'd').format('MM/DD/YYYY');
             dates.push(item);
             item = {};
         }
@@ -38,8 +38,8 @@ class DatesGroup extends Component {
                     buttonTextActiveStyle={{ color: colors.white }}
                     buttonTextInactiveStyle={{ color: colors.black }}
                     buttonTextStyle={{ fontWeight: '100', fontSize: EStyleSheet.value('14rem') }}
-                    initialValue={moment().format('DD-MM-YYY')}
-                    onChange={this.props.onChange}
+                    initialValue={moment().format('MM/DD/YYYY')}
+                    onChange={this.props.onDateChanged}
                 />
             </ScrollView>
         );

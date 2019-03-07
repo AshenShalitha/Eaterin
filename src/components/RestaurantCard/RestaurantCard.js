@@ -84,6 +84,7 @@ const styles = EStyleSheet.create({
         flex: 5,
         flexDirection: 'row',
         alignItems: 'flex-start',
+        paddingRight: '10rem'
     },
     footerRight: {
         flex: 1,
@@ -127,7 +128,7 @@ const styles = EStyleSheet.create({
         justifyContent: 'center'
     },
     textLarge: {
-        fontSize: '16rem',
+        fontSize: '14rem',
         color: colors.white,
         alignSelf: 'flex-end',
         paddingHorizontal: '25rem'

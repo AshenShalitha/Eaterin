@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {
     Dimensions,
     View,
-    Text,
-    TouchableOpacity
+    AsyncStorage
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { colors } from '../utils/Colors';
@@ -15,20 +14,28 @@ class SplashScreen extends Component {
 
     constructor(props) {
         super(props);
-        this._bootstrapAsync();
+        this.state = { hasToken: false };
     }
 
-    _bootstrapAsync = () => {
-        setTimeout(() => {
-            this.props.navigation.navigate('Auth');
-        }, 2000);
+    componentDidMount() {
+        this.bootstrapAsync();
+    }
+
+    bootstrapAsync = () => {
+        AsyncStorage.getItem('accessToken').then(accessToken => {
+            this.setState({ hasToken: accessToken !== null });
+        }).then(() => {
+            if (this.state.hasToken) {
+                this.props.navigation.navigate('App');
+            } else {
+                this.props.navigation.navigate('Auth');
+            }
+        });
     }
 
     render() {
         return (
-            <View style={styles.mainContainer}>
-                <Text>Splash screen</Text>
-            </View>
+            <View style={styles.mainContainer} />
         );
     }
 }
