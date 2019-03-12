@@ -1,0 +1,201 @@
+import React, { Component } from 'react';
+import {
+    Dimensions,
+    View,
+    ScrollView,
+    Text,
+    AsyncStorage
+} from 'react-native';
+import {
+    Button
+} from 'native-base';
+import moment from 'moment';
+import { connect } from 'react-redux';
+import EStyleSheet from 'react-native-extended-stylesheet';
+
+import { CustomHeader } from '../../components/CustomHeader';
+import { BookingSummary } from '../../components/BookingSummary';
+import { colors } from '../../utils/Colors';
+import { PROTOCOL, HOST } from '../../api/API';
+
+const entireScreenWidth = Dimensions.get('window').width;
+const entireScreenHeight = Dimensions.get('window').height;
+EStyleSheet.build({ $rem: entireScreenWidth / 380 });
+
+class ConfirmBookingScreen extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: '',
+            email: '',
+            contactNo: ''
+        };
+    }
+    componentDidMount() {
+        this.getItemsFromStorage();
+    }
+
+    getItemsFromStorage() {
+        const keys = ['name', 'email', 'mobile_number'];
+        AsyncStorage.multiGet(keys).then((result) => {
+            this.setState({
+                name: result[0][1],
+                email: result[1][1],
+                contactNo: result[2][1]
+            });
+        });
+    }
+
+    onNextPressed() {
+        this.props.navigation.navigate('FinishBookingScreen');
+    }
+
+    render() {
+        return (
+            <ScrollView style={styles.mainContainer} contentContainerStyle={styles.contentContainerStyle}>
+                <CustomHeader
+                    image={`${PROTOCOL}${HOST}${this.props.selectedRestaurant.image_url}`}
+                    restaurantName={this.props.selectedRestaurant.name}
+                    ratings={this.props.selectedRestaurant.ratings}
+                    address={this.props.selectedRestaurant.address}
+                    onBackPressed={() => this.props.navigation.pop()}
+                />
+                <View style={{ flex: 6.1 }}>
+                    <BookingSummary
+                        date={moment(new Date(this.props.selectedDate), 'MM/DD/YYYY', true).format('DD MMM YYYY')}
+                        time={this.props.selectedTimeSlotObj.timeSlot}
+                        paxCount={this.props.numberOfGuests}
+                        discount={this.props.selectedTimeSlotObj.discount}
+                    />
+                    <View style={styles.bottomContainer}>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.title}>Customer details</Text>
+                            <Text style={styles.subTitle}>Following details will be helpful for restaurant to make the reservation</Text>
+                        </View>
+                        <View style={styles.userDetailsContainer}>
+                            <View style={styles.itemRow}>
+                                <Text style={styles.textAsh}>Full Name</Text>
+                                <Text style={styles.textBlack}>{this.state.name}</Text>
+                            </View>
+                            <View style={styles.itemRow}>
+                                <Text style={styles.textAsh}>Telephone Number</Text>
+                                <Text style={styles.textBlack}>{this.state.contactNo}</Text>
+                            </View>
+                            <View style={styles.itemRow}>
+                                <Text style={styles.textAsh}>Email Address</Text>
+                                <Text style={styles.textBlack}>{this.state.email}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.footerContainer}>
+                            <Button block style={styles.buttonStyle} onPress={() => this.onNextPressed()}>
+                                <Text style={styles.buttonTextStyle}>Next</Text>
+                            </Button>
+                            <Text style={styles.footerText}>
+                                By clicking next, you agree to our terms and conditions
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+            </ScrollView >
+        );
+    }
+}
+
+const styles = EStyleSheet.create({
+    mainContainer: {
+        flex: 1,
+    },
+    contentContainerStyle: {
+        height: entireScreenHeight * 1,
+        backgroundColor: colors.white
+    },
+    topContainer: {
+        flex: 1.8,
+        backgroundColor: colors.ash_light
+    },
+    bottomContainer: {
+        flex: 3
+    },
+    topContentContainer: {
+        flex: 1,
+        backgroundColor: colors.white,
+        marginBottom: '8rem',
+        paddingTop: '40rem',
+        paddingBottom: '8rem',
+        paddingHorizontal: '25rem'
+    },
+    itemRow: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginVertical: '5rem',
+    },
+    textAsh: {
+        fontSize: '13rem',
+        color: colors.ash_dark,
+        alignSelf: 'center'
+    },
+    textBlack: {
+        fontSize: '13rem',
+        color: colors.black,
+        fontWeight: '500',
+        alignSelf: 'center'
+    },
+    textGreen: {
+        fontSize: '13rem',
+        color: colors.green_light,
+        fontWeight: '500'
+    },
+    titleContainer: {
+        flex: 1,
+        paddingHorizontal: '25rem'
+    },
+    userDetailsContainer: {
+        flex: 2.4,
+        paddingHorizontal: '25rem',
+        paddingVertical: '20rem',
+        justifyContent: 'center'
+    },
+    footerContainer: {
+        flex: 1.6,
+        paddingHorizontal: '25rem',
+        justifyContent: 'space-around',
+    },
+    title: {
+        fontSize: '14rem',
+        color: colors.black,
+        paddingVertical: '6rem',
+        fontWeight: '500'
+    },
+    subTitle: {
+        fontSize: '11rem',
+        color: colors.ash_dark
+    },
+    buttonStyle: {
+        backgroundColor: colors.green_light,
+        height: '35rem',
+    },
+    buttonTextStyle: {
+        color: colors.white,
+        fontWeight: '300',
+        fontSize: '14rem',
+        alignSelf: 'center'
+    },
+    footerText: {
+        fontSize: '9rem',
+        color: colors.ash_dark,
+        alignSelf: 'center'
+    }
+});
+
+const mapStateToProps = state => {
+    return {
+        numberOfGuests: state.booking.numberOfGuests,
+        selectedRestaurant: state.booking.selectedRestaurant,
+        selectedTimeSlotObj: state.booking.selectedTimeSlotObj,
+        selectedDate: state.booking.selectedDate
+    };
+};
+
+export default connect(mapStateToProps, null)(ConfirmBookingScreen);
