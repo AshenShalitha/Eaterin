@@ -24,7 +24,7 @@ const generateDateArray = () => {
     return dates;
 };
 
-const DatesGroup = ({ onDateChanged }) => {
+const DatesGroup = ({ onDateChanged, datesArray }) => {
     return (
         <ScrollView showsHorizontalScrollIndicator={false} horizontal contentContainerStyle={{ alignItems: 'flex-end' }}>
             <RadioGroup

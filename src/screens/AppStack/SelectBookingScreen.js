@@ -5,17 +5,20 @@ import {
     Text,
     FlatList,
     AsyncStorage,
-    InteractionManager
+    NetInfo,
+    InteractionManager,
+    TouchableOpacity
 } from 'react-native';
 import {
     Icon,
 } from 'native-base';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SkypeIndicator } from 'react-native-indicators';
 
 import { colors } from '../../utils/Colors';
 import { strings } from '../../utils/Strings';
-import { timeSlots } from '../../utils/mockData';
 import { CustomHeader } from '../../components/CustomHeader';
 import { DatesGroup } from '../../components/DatesGroup';
 import { GuestView } from '../../components/GuestView';
@@ -37,15 +40,32 @@ class SelectBookingScreen extends Component {
             decrementDisabled: false,
             modalVisible: false,
         };
+        this.isConnected = true;
+        NetInfo.isConnected.fetch().then(isConnected => {
+            this.isConnected = isConnected;
+        });
     }
 
     componentDidMount() {
+        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+        this.interaction = InteractionManager.runAfterInteractions(() => {
+            this.fetchTimeSlots(moment().format('dddd'));
+        });
         this.props.guestCountChanged(1);
     }
 
-    fetchTimeSlots() {
-        this.props.fetchTimeSlots(this.props.selectedRestaurant.id);
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+        if (this.interaction) this.interaction.cancel();
     }
+
+    handleConnectivityChange = isConnected => {
+        if (isConnected) {
+            this.isConnected = isConnected;
+        } else {
+            this.isConnected = isConnected;
+        }
+    };
 
     incrementPressed() {
         this.setState({ decrementDisabled: false });
@@ -63,10 +83,6 @@ class SelectBookingScreen extends Component {
         } else {
             this.props.guestsDecreased(this.props.numberOfGuests);
         }
-    }
-
-    onTimeSlotPressed(item) {
-        this.checkLoggedInStatus(item);
     }
 
     checkLoggedInStatus(item) {
@@ -87,18 +103,62 @@ class SelectBookingScreen extends Component {
         this.props.navigation.navigate('Auth');
     }
 
+    onTimeSlotPressed(item) {
+        this.checkLoggedInStatus(item);
+    }
+
     dateSelected(date) {
         this.props.dateSelected(date);
+        this.fetchTimeSlots(date);
+    }
+
+    fetchTimeSlots(date) {
+        const day = moment(new Date(date)).format('dddd');
+        this.props.fetchTimeSlots(this.props.selectedRestaurant.id, day);
     }
 
     renderItem(item) {
         return (
             <TimeSlotItem
-                timeSlot={item.item.timeSlot}
+                timeSlot={item.item.time}
                 discount={item.item.discount}
                 onItemPressed={() => this.onTimeSlotPressed(item.item)}
+                isValueDeal={item.item.is_value_deal}
             />
         );
+    }
+
+    renderTimeSlots() {
+        if (this.isConnected) {
+            if (this.props.timeSlotsLoading) {
+                return (
+                    <SkypeIndicator color={colors.green_light} size={EStyleSheet.value('40rem')} />
+                );
+            } else if (this.props.timeSlotError) {
+                return (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>{this.props.timeSlotErrorMessage}</Text>
+                    </View>
+                );
+            } else {
+                return (
+                    <FlatList
+                        data={this.props.timeSlots}
+                        renderItem={this.renderItem.bind(this)}
+                        keyExtractor={item => item.time}
+                    />
+                );
+            }
+        } else if (!this.isConnected) {
+            return (
+                <View style={styles.errorContainer}>
+                    <TouchableOpacity onPress={() => this.fetchTimeSlots(this.props.selectedDate)}>
+                        <Text style={styles.errorText}>{strings.errors.noInternet} {'\n'}{strings.errors.retry}</Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
+
     }
 
     render() {
@@ -131,11 +191,7 @@ class SelectBookingScreen extends Component {
                         <Icon name={'ios-clock'} type={'Ionicons'} style={styles.iconStyle} />
                         <Text style={styles.title}>{strings.selectBooking.timeSlotTitle}</Text>
                     </View>
-                    <FlatList
-                        data={timeSlots}
-                        renderItem={this.renderItem.bind(this)}
-                        keyExtractor={item => item.timeSlot.toString()}
-                    />
+                    {this.renderTimeSlots()}
                 </View>
                 <AlertPopUp
                     isVisible={this.state.modalVisible}
@@ -236,6 +292,15 @@ const styles = EStyleSheet.create({
         color: colors.white,
         fontSize: '40rem',
         alignSelf: 'center'
+    },
+    errorContainer: {
+        flex: 1,
+        alignSelf: 'stretch',
+        justifyContent: 'center'
+    },
+    errorText: {
+        textAlign: 'center',
+        paddingVertical: '5rem',
     }
 });
 
@@ -243,6 +308,11 @@ const mapStateToProps = state => {
     return {
         numberOfGuests: state.booking.numberOfGuests,
         selectedRestaurant: state.booking.selectedRestaurant,
+        selectedDate: state.booking.selectedDate,
+        timeSlots: state.booking.timeSlots,
+        timeSlotsLoading: state.booking.timeSlotsLoading,
+        timeSlotError: state.booking.timeSlotError,
+        timeSlotErrorMessage: state.booking.timeSlotErrorMessage
     };
 };
 

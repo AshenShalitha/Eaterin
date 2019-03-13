@@ -88,7 +88,6 @@ class ProileScreen extends Component {
 
     renderThumbnail() {
         if (this.props.profilePic === null) {
-            console.log('nnnnn')
             return (
                 <TouchableOpacity style={{ alignSelf: 'center' }} onPress={this.onImagePickerPressed.bind(this)}>
                     <View style={styles.imagePickerContainer}>
@@ -97,7 +96,6 @@ class ProileScreen extends Component {
                 </TouchableOpacity>
             );
         } else {
-            console.log('okkk');
             return (
                 <TouchableOpacity style={{ alignSelf: 'center' }} onPress={this.onImagePickerPressed.bind(this)}>
                     <Thumbnail source={this.setAvatar()} style={styles.thumbnailStyle} />

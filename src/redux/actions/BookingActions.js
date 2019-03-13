@@ -68,9 +68,6 @@ export const fetchRestaurants = () => {
         axios({
             method: 'get',
             url: GET_RESTAURANTS,
-            // headers: {
-            //     Authorization: `Bearer ${accessToken}`
-            // }
         }).then(response => {
             dispatch({ type: FETCH_RESTAURANTS_SUCCESS, payload: response.data.data });
         }).catch(() => {
@@ -79,16 +76,27 @@ export const fetchRestaurants = () => {
     };
 };
 
-export const fetchTimeSlots = (restaurantId) => {
+export const fetchTimeSlots = (restaurantId, date) => {
+    // console.log(date)
     return (dispatch) => {
         dispatch({ type: FETCH_TIME_SLOTS });
         axios({
-            method: 'get',
-            url: `${GET_TIME}/${restaurantId}`
+            method: 'post',
+            url: GET_TIME_SLOTS,
+            data: {
+                restaurant_id: restaurantId,
+                day: date
+            }
         }).then(response => {
             dispatch({ type: FETCH_TIME_SLOTS_SUCCESS, payload: response.data.data });
-        }).catch(() => {
-            dispatch({ type: FETCH_TIME_SLOTS_FAILED });
+        }).catch((error) => {
+            if (error.response) {
+                if (error.response.status === 500) {
+                    dispatch({ type: FETCH_TIME_SLOTS_FAILED, payload: 'Time slots not available' });
+                } else {
+                    dispatch({ type: FETCH_TIME_SLOTS_FAILED, payload: 'Failed to load data' });
+                }
+            }
         });
     };
 };

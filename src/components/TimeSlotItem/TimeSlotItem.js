@@ -3,7 +3,8 @@ import {
     Dimensions,
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Image
 } from 'react-native';
 import {
     Icon,
@@ -11,6 +12,7 @@ import {
 } from 'native-base';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import valueDealBanner from '../../utils/images/valueDealBanner.png';
 import { colors } from '../../utils/Colors';
 
 const entireScreenWidth = Dimensions.get('window').width;
@@ -19,12 +21,22 @@ EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 const TimeSlotItem = ({
     onItemPressed,
     timeSlot,
-    discount
+    discount,
+    isValueDeal
 }) => {
     return (
         <TouchableOpacity activeOpacity={0.6} onPress={onItemPressed}>
             <Card style={styles.listItem}>
                 <View style={styles.left}>
+                    {
+                        isValueDeal === 1 ?
+                            <Image
+                                source={valueDealBanner}
+                                style={styles.bannerStyle}
+                            />
+                            :
+                            <View style={styles.emptyView} />
+                    }
                     <Text style={styles.timeText}>{timeSlot}</Text>
                 </View>
                 <View style={styles.right}>
@@ -45,8 +57,9 @@ const styles = EStyleSheet.create({
     },
     left: {
         flex: 2.5,
-        justifyContent: 'center',
-        marginLeft: '20rem',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: '0rem',
     },
     right: {
         flex: 1,
@@ -57,7 +70,7 @@ const styles = EStyleSheet.create({
     timeText: {
         fontSize: '16rem',
         color: colors.black,
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
     },
     discountText: {
         fontSize: '22rem',
@@ -67,6 +80,16 @@ const styles = EStyleSheet.create({
     arrowIcon: {
         fontSize: '14rem',
         color: colors.ash
+    },
+    bannerStyle: {
+        height: '35rem',
+        width: '35rem',
+        alignSelf: 'flex-start'
+    },
+    emptyView: {
+        height: '35rem',
+        width: '35rem',
+        alignSelf: 'flex-start'
     }
 });
 
