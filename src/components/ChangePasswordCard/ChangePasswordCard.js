@@ -180,12 +180,12 @@ const styles = EStyleSheet.create({
         alignSelf: 'center',
         marginTop: '15rem',
         borderRadius: '2rem',
-        elevation: 2,
+        elevation: 5,
         shadowColor: '#000',
-        shadowOffset: { width: 3, height: 3 },
+        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
-        shadowRadius: 3
-
+        shadowRadius: 3,
+        backgroundColor: colors.white
     },
     lableContainer: {
         flex: 1,
