@@ -503,7 +503,7 @@ const styles = EStyleSheet.create({
         // backgroundColor: colors.black,
     },
     imageContainer: {
-        flex: 1,
+        flex: 1.2,
         alignItems: 'center',
         paddingTop: '50rem',
         paddingBottom: '15rem'
@@ -520,7 +520,7 @@ const styles = EStyleSheet.create({
         justifyContent: 'flex-end'
     },
     bottomContainer: {
-        flex: 1,
+        flex: 0.3,
         flexDirection: 'row',
         paddingHorizontal: '15rem',
         paddingTop: '10rem',
@@ -547,7 +547,7 @@ const styles = EStyleSheet.create({
         fontSize: '50rem'
     },
     title: {
-        fontSize: '52rem',
+        fontSize: '40rem',
         color: colors.white,
         alignSelf: 'center',
         // fontWeight: '500'
