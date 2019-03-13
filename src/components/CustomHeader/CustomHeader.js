@@ -67,7 +67,8 @@ const styles = EStyleSheet.create({
         },
         '@media android': {
             paddingTop: '10rem',
-        }
+        },
+        zIndex: 1
     },
     backIcon: {
         color: colors.ash,

@@ -53,7 +53,8 @@ const styles = EStyleSheet.create({
         marginBottom: '8rem',
         paddingTop: '40rem',
         paddingBottom: '8rem',
-        paddingHorizontal: '25rem'
+        paddingHorizontal: '25rem',
+        zIndex: 0
     },
     itemRow: {
         flex: 1,
