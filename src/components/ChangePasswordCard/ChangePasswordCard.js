@@ -14,6 +14,7 @@ import {
     Label
 } from 'native-base';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SkypeIndicator } from 'react-native-indicators';
 
 import { colors } from '../../utils/Colors';
 import { strings } from '../../utils/Strings';
@@ -34,7 +35,7 @@ class ChangePasswordCard extends Component {
 
     componentWillMount() {
         this.animation = new Animated.Value(EStyleSheet.value('50rem'));
-    } 4
+    }
 
     onEditPressed() {
         const initialValue = this.state.expanded ? this.state.maxHeight : this.state.minHeight;
@@ -51,10 +52,6 @@ class ChangePasswordCard extends Component {
                 toValue: finalValue
             }
         ).start();
-    }
-
-    onSavePressed() {
-
     }
 
     render() {
@@ -164,10 +161,15 @@ class ChangePasswordCard extends Component {
                                     }
                                 </Form>
                             </View>
-                            <View style={styles.buttonContainer} onPress={() => this.onSavePressed()} disabled={this.props.disabled}>
-                                <TouchableOpacity style={styles.saveButton}>
-                                    <Text style={[styles.loginBtnText, { color: this.props.buttonColor }]}>{strings.profile.changePasswordCard.btn}</Text>
-                                </TouchableOpacity>
+                            <View style={styles.buttonContainer} disabled={this.props.disabled}>
+                                {
+                                    this.props.loading ?
+                                        <SkypeIndicator color={colors.green_light} size={EStyleSheet.value('20rem')} style={{ alignSelf: 'flex-end' }} />
+                                        :
+                                        <TouchableOpacity style={styles.saveButton} onPress={this.props.onPress}>
+                                            <Text style={[styles.loginBtnText, { color: this.props.buttonColor }]}>{strings.profile.changePasswordCard.btn}</Text>
+                                        </TouchableOpacity>
+                                }
                             </View>
                         </View>
                         :

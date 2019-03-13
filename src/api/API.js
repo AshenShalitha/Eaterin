@@ -7,4 +7,5 @@ export const GET_RESTAURANTS = `${PROTOCOL}${HOST}api/get_restaurants`;
 export const GET_TIME_SLOTS = `${PROTOCOL}${HOST}api/get_time_slots/`;
 export const POST_PROFILE_PICTURE = `${PROTOCOL}${HOST}api/update_profile_pic`;
 export const UPDATE_USER = `${PROTOCOL}${HOST}api/user/`;
+export const CHANGE_PASSWORD = `${PROTOCOL}${HOST}api/update_password`;
 

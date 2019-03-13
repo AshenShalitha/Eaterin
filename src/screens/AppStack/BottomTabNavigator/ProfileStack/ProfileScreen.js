@@ -173,6 +173,11 @@ class ProileScreen extends Component {
         }
     }
 
+    onPasswordChanged() {
+        const { id, oldPassword, newPassword, confirmPassword, accessToken } = this.props;
+        this.props.changePassword(id, oldPassword, newPassword, confirmPassword, accessToken);
+    }
+
     onUserDetailsSavePressed() {
         const { name, contactNo } = this.props;
         const keys = ['id', 'accessToken'];
@@ -226,6 +231,8 @@ class ProileScreen extends Component {
                     passwordsNotMatch={this.state.passwordsNotMatch}
                     disabled={this.props.disabledPasswordChange}
                     buttonColor={this.props.colorPasswordChange}
+                    onPress={() => this.onPasswordChanged()}
+                    loading={this.props.passwordChangeLoading}
                 />
                 <LogoutCard
                     onLogoutPress={() => this.setState({ modalVisible: true })}
@@ -238,6 +245,10 @@ class ProileScreen extends Component {
         return (
             <LoggedOutProfileView onPress={() => this.props.navigation.navigate('Auth')} />
         );
+    }
+
+    onErrorPopupCancelled() {
+        this.props.resetPaswordChangeError();
     }
 
     render() {
@@ -272,6 +283,18 @@ class ProileScreen extends Component {
                     iconType={'Feather'}
                     onPositivePress={() => this.onLogoutPressed()}
                     onNegativePress={() => this.setState({ modalVisible: false })}
+                />
+                <AlertPopUp
+                    isVisible={this.props.passwordChangeError}
+                    onBackdropPress={() => this.onErrorPopupCancelled()}
+                    onBackButtonPress={() => this.onErrorPopupCancelled()}
+                    title={'Update Failed'}
+                    text={this.props.passwordChangeErrorMessage}
+                    buttonText={'Ok'}
+                    buttonCount={1}
+                    onPress={() => this.onErrorPopupCancelled()}
+                    iconName={'alert-circle'}
+                    iconType={'Feather'}
                 />
             </ScrollView>
         );
@@ -338,7 +361,10 @@ const mapStateToProps = state => {
         accessToken: state.profile.accessToken,
         id: state.profile.id,
         disabledPasswordChange: state.profile.disabledPasswordChange,
-        colorPasswordChange: state.profile.colorPasswordChange
+        colorPasswordChange: state.profile.colorPasswordChange,
+        passwordChangeError: state.profile.passwordChangeError,
+        passwordChangeErrorMessage: state.profile.passwordChangeErrorMessage,
+        passwordChangeLoading: state.profile.passwordChangeLoading,
     };
 };
 

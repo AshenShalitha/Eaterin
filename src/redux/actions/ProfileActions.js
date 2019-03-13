@@ -22,10 +22,16 @@ import {
     SET_ACCESS_TOKEN,
     PROFILE_DISABLE_CONTACT_BUTTON,
     PROFILE_DISABLE_PASSWORD_CHANGE_BUTTON,
-    PROFILE_ENABLE_PASSWORD_CHANGE_BUTTON
+    PROFILE_ENABLE_PASSWORD_CHANGE_BUTTON,
+    PROFILE_PASSWORD_CHANGE,
+    PROFILE_PASSWORD_CHANGE_SUCCESS,
+    PROFILE_PASSWORD_CHANGE_FAILED,
+    PROFILE_RESET_PASSOWRD_ERROR
 } from '../types';
 import {
-    POST_PROFILE_PICTURE, UPDATE_USER
+    POST_PROFILE_PICTURE,
+    UPDATE_USER,
+    CHANGE_PASSWORD
 } from '../../api/API';
 
 export const setId = value => {
@@ -165,7 +171,6 @@ export const updateProfilePicture = (fileName, fileType, fileUri, userId, access
 };
 
 export const updateProfile = (name, contactNo, id, accessToken) => {
-    console.log(contactNo)
     return (dispatch) => {
         dispatch({ type: PROFILE_UPDATE });
         axios({
@@ -187,5 +192,36 @@ export const updateProfile = (name, contactNo, id, accessToken) => {
             dispatch({ type: PROFILE_UPDATE_FAILED, payload: error.data });
             console.log(error.response);
         });
+    };
+};
+
+export const changePassword = (userId, oldPassword, newPassword, confirmPassword, accessToken) => {
+    return (dispatch) => {
+        dispatch({ type: PROFILE_PASSWORD_CHANGE });
+        axios({
+            method: 'put',
+            url: CHANGE_PASSWORD,
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            data: {
+                user_id: userId,
+                old_password: oldPassword,
+                password: newPassword,
+                confirm_password: confirmPassword
+            }
+        }).then(response => {
+            dispatch({ type: PROFILE_PASSWORD_CHANGE_SUCCESS });
+            console.log(response.data)
+        }).catch(error => {
+            dispatch({ type: PROFILE_PASSWORD_CHANGE_FAILED, payload: error.response.data.errors.detail });
+            console.log(error.response);
+        })
+    };
+};
+
+export const resetPaswordChangeError = () => {
+    return {
+        type: PROFILE_RESET_PASSOWRD_ERROR,
     };
 };
