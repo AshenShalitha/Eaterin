@@ -93,13 +93,14 @@ const styles = EStyleSheet.create({
     normalLarge: {
         fontSize: '15rem',
         color: colors.ash_dark,
-        textAlignVertical: 'center',
+        alignSelf: 'center',
+        flexDirection:'row',
         paddingRight: '10rem',
     },
     refNoText: {
         fontSize: '22rem',
         color: colors.black,
-        fontWeight: '500'
+        fontWeight: '500',
     }
 });
 
