@@ -72,13 +72,13 @@ const styles = EStyleSheet.create({
     },
     backIcon: {
         color: colors.ash,
-        fontSize: '30rem',
+        fontSize: '26rem',
         alignSelf: 'center'
     },
     iconContainer: {
-        height: '26rem',
-        width: '26rem',
-        borderRadius: '13rem',
+        height: '28rem',
+        width: '28rem',
+        borderRadius: '14rem',
         backgroundColor: colors.white,
         justifyContent: 'center',
     },
