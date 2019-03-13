@@ -114,7 +114,8 @@ const styles = EStyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 3, height: 3 },
         shadowOpacity: 0.3,
-        shadowRadius: 3
+        shadowRadius: 3,
+        backgroundColor: colors.white
     },
     lableContainer: {
         flex: 1,
