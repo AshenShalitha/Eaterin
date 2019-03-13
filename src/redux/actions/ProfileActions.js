@@ -20,7 +20,9 @@ import {
     SET_CONTACT_NUMBER,
     SET_PROFILE_PIC,
     SET_ACCESS_TOKEN,
-    PROFILE_DISABLE_CONTACT_BUTTON
+    PROFILE_DISABLE_CONTACT_BUTTON,
+    PROFILE_DISABLE_PASSWORD_CHANGE_BUTTON,
+    PROFILE_ENABLE_PASSWORD_CHANGE_BUTTON
 } from '../types';
 import {
     POST_PROFILE_PICTURE, UPDATE_USER
@@ -118,6 +120,18 @@ export const enableContactButton = () => {
 export const disableContactButton = () => {
     return {
         type: PROFILE_DISABLE_CONTACT_BUTTON
+    };
+};
+
+export const disablePasswordChangeButton = () => {
+    return {
+        type: PROFILE_DISABLE_PASSWORD_CHANGE_BUTTON
+    };
+};
+
+export const enablePasswordChangeButton = () => {
+    return {
+        type: PROFILE_ENABLE_PASSWORD_CHANGE_BUTTON
     };
 };
 

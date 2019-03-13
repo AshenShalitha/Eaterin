@@ -19,7 +19,9 @@ import {
     SET_CONTACT_NUMBER,
     SET_PROFILE_PIC,
     SET_ACCESS_TOKEN,
-    PROFILE_DISABLE_CONTACT_BUTTON
+    PROFILE_DISABLE_CONTACT_BUTTON,
+    PROFILE_ENABLE_PASSWORD_CHANGE_BUTTON,
+    PROFILE_DISABLE_PASSWORD_CHANGE_BUTTON
 } from '../types';
 import { colors } from '../../utils/Colors';
 
@@ -39,6 +41,8 @@ const INITIAL_STATE = {
     disabledName: true,
     colorContact: colors.ash_dark,
     disabledContact: true,
+    colorPasswordChange: colors.ash_dark,
+    disabledPasswordChange: true,
     profileUpdateLoading: false,
     profileUpdateError: ''
 };
@@ -61,6 +65,16 @@ const NAME_BUTTON_ENABLED_STATE = {
 const CONTACT_BUTTON_ENABLED_STATE = {
     colorContact: colors.green_light,
     disabledContact: false
+};
+
+const PASSWORD_CHANGE_BUTTON_ENABLE_STATE = {
+    colorPasswordChange: colors.green_light,
+    disabledPasswordChange: false,
+};
+
+const PASSWORD_CHANGE_BUTTON_DISABLE_STATE = {
+    colorPasswordChange: colors.ash,
+    disabledPasswordChange: true,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -99,6 +113,10 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, ...CONTACT_BUTTON_ENABLED_STATE };
         case PROFILE_DISABLE_CONTACT_BUTTON:
             return { ...state, ...CONTACT_BUTTON_DISABLED_STATE };
+        case PROFILE_ENABLE_PASSWORD_CHANGE_BUTTON:
+            return { ...state, ...PASSWORD_CHANGE_BUTTON_ENABLE_STATE };
+        case PROFILE_DISABLE_PASSWORD_CHANGE_BUTTON:
+            return { ...state, ...PASSWORD_CHANGE_BUTTON_DISABLE_STATE };
         case PROFILE_UPDATE:
             return { ...state, profileUpdateLoading: true };
         case PROFILE_UPDATE_SUCCESS:

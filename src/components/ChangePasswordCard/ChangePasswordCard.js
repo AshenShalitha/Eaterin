@@ -53,6 +53,10 @@ class ChangePasswordCard extends Component {
         ).start();
     }
 
+    onSavePressed() {
+
+    }
+
     render() {
         return (
             <Animated.View style={[styles.expandableCard, { height: this.animation }]}>
@@ -160,9 +164,9 @@ class ChangePasswordCard extends Component {
                                     }
                                 </Form>
                             </View>
-                            <View style={styles.buttonContainer}>
+                            <View style={styles.buttonContainer} onPress={() => this.onSavePressed()} disabled={this.props.disabled}>
                                 <TouchableOpacity style={styles.saveButton}>
-                                    <Text style={styles.loginBtnText}>{strings.profile.changePasswordCard.btn}</Text>
+                                    <Text style={[styles.loginBtnText, { color: this.props.buttonColor }]}>{strings.profile.changePasswordCard.btn}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -204,7 +208,7 @@ const styles = EStyleSheet.create({
     buttonContainer: {
         flex: 1,
         justifyContent: 'center',
-        paddingHorizontal: '15rem',
+        paddingHorizontal: '0rem',
     },
     left: {
         flex: 3,
@@ -232,7 +236,7 @@ const styles = EStyleSheet.create({
     },
     saveButton: {
         alignSelf: 'flex-end',
-        paddingHorizontal: '25rem',
+        paddingHorizontal: '15rem',
         paddingVertical: '10rem',
     },
     loginBtnText: {

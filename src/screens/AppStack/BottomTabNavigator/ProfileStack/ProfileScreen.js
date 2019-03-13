@@ -162,12 +162,14 @@ class ProileScreen extends Component {
                 confirmPasswordError: false,
                 passwordsNotMatch: false
             });
+            this.props.enablePasswordChangeButton();
         } else {
             this.setState({
                 confirmPasswordSuccess: false,
                 confirmPasswordError: true,
                 passwordsNotMatch: true
             });
+            this.props.disablePasswordChangeButton();
         }
     }
 
@@ -222,6 +224,8 @@ class ProileScreen extends Component {
                     confirmPwSuccess={this.state.confirmPasswordSuccess}
                     passwordLengthError={this.state.passwordLengthError}
                     passwordsNotMatch={this.state.passwordsNotMatch}
+                    disabled={this.props.disabledPasswordChange}
+                    buttonColor={this.props.colorPasswordChange}
                 />
                 <LogoutCard
                     onLogoutPress={() => this.setState({ modalVisible: true })}
@@ -332,7 +336,9 @@ const mapStateToProps = state => {
         profileUpdateLoading: state.profile.profileUpdateLoading,
         profilePic: state.profile.profilePic,
         accessToken: state.profile.accessToken,
-        id: state.profile.id
+        id: state.profile.id,
+        disabledPasswordChange: state.profile.disabledPasswordChange,
+        colorPasswordChange: state.profile.colorPasswordChange
     };
 };
 
