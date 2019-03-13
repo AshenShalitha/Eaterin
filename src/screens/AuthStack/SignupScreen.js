@@ -30,6 +30,7 @@ import { strings } from '../../utils/Strings';
 import * as actions from '../../redux/actions';
 
 const entireScreenWidth = Dimensions.get('window').width;
+const entireScreenHeight = Dimensions.get('window').height;
 
 const options = {
     title: 'Select Profile Picture',
@@ -498,7 +499,7 @@ class SignupScreen extends Component {
 
 const styles = EStyleSheet.create({
     mainContainer: {
-        flex: 1,
+        height: entireScreenHeight
         // backgroundColor: colors.black,
     },
     imageContainer: {
@@ -508,13 +509,15 @@ const styles = EStyleSheet.create({
         paddingBottom: '15rem'
     },
     formContainer: {
-        flex: 4
+        flex: 4,
+        justifyContent: 'center'
     },
     buttonContainer: {
         flex: 1,
         paddingBottom: '20rem',
         paddingTop: '40rem',
-        paddingHorizontal: '15rem'
+        paddingHorizontal: '15rem',
+        justifyContent: 'flex-end'
     },
     bottomContainer: {
         flex: 1,
