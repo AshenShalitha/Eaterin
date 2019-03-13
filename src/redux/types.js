@@ -45,9 +45,15 @@ export const PROFILE_CONFIRM_PASSWORD_CHANGED = 'profile_confirm_password_change
 export const PROFILE_ENABLE_NAME_BUTTON = 'profile_enable_name_button';
 export const PROFILE_ENABLE_CONTACT_BUTTON = 'profile_enable_contact_button';
 export const PROFILE_DISABLE_CONTACT_BUTTON = 'profile_disable_contact_button';
+export const PROFILE_ENABLE_PASSWORD_CHANGE_BUTTON = 'profile_enable_passowrd_change_button';
+export const PROFILE_DISABLE_PASSWORD_CHANGE_BUTTON = 'profile_disable_passowrd_change_button';
 export const PROFILE_UPDATE = 'profile_update';
 export const PROFILE_UPDATE_SUCCESS = 'profile_update_success';
 export const PROFILE_UPDATE_FAILED = 'profile_update_failed';
+export const PROFILE_PASSWORD_CHANGE = 'profile_password_change';
+export const PROFILE_PASSWORD_CHANGE_SUCCESS = 'profile_password_change_success';
+export const PROFILE_PASSWORD_CHANGE_FAILED = 'profile_password_change_failed';
+export const PROFILE_RESET_PASSOWRD_ERROR = 'reset_password_error';
 
 //User
 export const SET_ID = 'set_id';

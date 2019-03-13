@@ -23,7 +23,9 @@ const INITIAL_STATE = {
     restaurantsLoading: false,
     restaurantFetchError: false,
     timeSlots: [],
-    timeSlotsLoading: false
+    timeSlotsLoading: false,
+    timeSlotError: false,
+    timeSlotErrorMessage: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -49,9 +51,9 @@ export default (state = INITIAL_STATE, action) => {
         case FETCH_TIME_SLOTS:
             return { ...state, timeSlotsLoading: true };
         case FETCH_TIME_SLOTS_SUCCESS:
-            return { ...state, timeSlotsLoading: false, timeSlots: action.payload };
+            return { ...state, timeSlotsLoading: false, timeSlots: action.payload, timeSlotError: false };
         case FETCH_TIME_SLOTS_FAILED:
-            return { ...state, timeSlotsLoading: false };
+            return { ...state, timeSlotsLoading: false, timeSlotError: true, timeSlotErrorMessage: action.payload };
         default:
             return state;
     }

@@ -24,29 +24,6 @@ EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 class ConfirmBookingScreen extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            email: '',
-            contactNo: ''
-        };
-    }
-    componentDidMount() {
-        this.getItemsFromStorage();
-    }
-
-    getItemsFromStorage() {
-        const keys = ['name', 'email', 'mobile_number'];
-        AsyncStorage.multiGet(keys).then((result) => {
-            this.setState({
-                name: result[0][1],
-                email: result[1][1],
-                contactNo: result[2][1]
-            });
-        });
-    }
-
     onNextPressed() {
         this.props.navigation.navigate('FinishBookingScreen');
     }
@@ -64,7 +41,7 @@ class ConfirmBookingScreen extends Component {
                 <View style={{ flex: 6.1 }}>
                     <BookingSummary
                         date={moment(new Date(this.props.selectedDate), 'MM/DD/YYYY', true).format('DD MMM YYYY')}
-                        time={this.props.selectedTimeSlotObj.timeSlot}
+                        time={this.props.selectedTimeSlotObj.time}
                         paxCount={this.props.numberOfGuests}
                         discount={this.props.selectedTimeSlotObj.discount}
                     />
@@ -76,15 +53,15 @@ class ConfirmBookingScreen extends Component {
                         <View style={styles.userDetailsContainer}>
                             <View style={styles.itemRow}>
                                 <Text style={styles.textAsh}>Full Name</Text>
-                                <Text style={styles.textBlack}>{this.state.name}</Text>
+                                <Text style={styles.textBlack}>{this.props.name}</Text>
                             </View>
                             <View style={styles.itemRow}>
                                 <Text style={styles.textAsh}>Telephone Number</Text>
-                                <Text style={styles.textBlack}>{this.state.contactNo}</Text>
+                                <Text style={styles.textBlack}>{this.props.contactNo}</Text>
                             </View>
                             <View style={styles.itemRow}>
                                 <Text style={styles.textAsh}>Email Address</Text>
-                                <Text style={styles.textBlack}>{this.state.email}</Text>
+                                <Text style={styles.textBlack}>{this.props.email}</Text>
                             </View>
                         </View>
                         <View style={styles.footerContainer}>
@@ -194,7 +171,12 @@ const mapStateToProps = state => {
         numberOfGuests: state.booking.numberOfGuests,
         selectedRestaurant: state.booking.selectedRestaurant,
         selectedTimeSlotObj: state.booking.selectedTimeSlotObj,
-        selectedDate: state.booking.selectedDate
+        selectedDate: state.booking.selectedDate,
+        id: state.profile.id,
+        name: state.profile.name,
+        contactNo: state.profile.contactNo,
+        email: state.profile.email,
+        accessToken: state.profile.accessToken,
     };
 };
 
