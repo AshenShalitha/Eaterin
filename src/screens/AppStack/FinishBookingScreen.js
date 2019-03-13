@@ -38,6 +38,7 @@ class FinishBookingScreen extends Component {
                     />
                     <RefNoView
                         refNo={'3197187'}
+                        onPress={() => this.props.navigation.popToTop()}
                     />
                 </View>
             </View >

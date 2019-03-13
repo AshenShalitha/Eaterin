@@ -53,7 +53,8 @@ const styles = EStyleSheet.create({
         width: '70rem',
         borderRadius: '13rem',
         borderWidth: '0rem',
-        marginHorizontal: '3rem'
+        marginHorizontal: '3rem',
+        paddingVertical: 0
     },
     containerStyle: {
         marginBottom: '12rem',
