@@ -180,9 +180,9 @@ const styles = EStyleSheet.create({
         alignSelf: 'center',
         marginTop: '15rem',
         borderRadius: '2rem',
-        elevation: 5,
+        elevation: 2,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: { width: 3, height: 3 },
         shadowOpacity: 0.3,
         shadowRadius: 3,
         backgroundColor: colors.white
