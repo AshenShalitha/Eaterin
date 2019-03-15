@@ -45,6 +45,19 @@ class RestaurantScreen extends Component {
         this.setUserData();
     }
 
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+        if (this.interaction) this.interaction.cancel();
+    }
+
+    handleConnectivityChange = isConnected => {
+        if (isConnected) {
+            this.isConnected = isConnected;
+        } else {
+            this.isConnected = isConnected;
+        }
+    };
+
     setUserData() {
         const keys = ['id', 'name', 'email', 'mobileNumber', 'imageUrl', 'accessToken'];
         AsyncStorage.multiGet(keys).then((result) => {
@@ -81,19 +94,6 @@ class RestaurantScreen extends Component {
             this.setState({ isFetching: false })
         }
     }
-
-    componentWillUnmount() {
-        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
-        if (this.interaction) this.interaction.cancel();
-    }
-
-    handleConnectivityChange = isConnected => {
-        if (isConnected) {
-            this.isConnected = isConnected;
-        } else {
-            this.isConnected = isConnected;
-        }
-    };
 
     onItemPressed(item) {
         this.props.restaurantSelected(item.item);

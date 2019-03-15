@@ -24,7 +24,7 @@ import { UserDetailCard } from '../../../../components/UserDetailCard';
 import { ChangePasswordCard } from '../../../../components/ChangePasswordCard';
 import { LogoutCard } from '../../../../components/LogoutCard';
 import { OfflineNotice } from '../../../../components/OfflineNotice';
-import profileBg from '../../../../utils/images/profile_bg.png';
+import profileBg from '../../../../utils/images/profile_bg.jpg';
 import { AlertPopUp } from '../../../../components/AlertPopUp';
 import { colors } from '../../../../utils/Colors';
 import { strings } from '../../../../utils/Strings';
@@ -97,7 +97,7 @@ class ProileScreen extends Component {
             );
         } else {
             return (
-                <TouchableOpacity style={{ alignSelf: 'center' }} onPress={this.onImagePickerPressed.bind(this)}>
+                <TouchableOpacity style={styles.profilePic} onPress={this.onImagePickerPressed.bind(this)}>
                     <Thumbnail source={this.setAvatar()} style={styles.thumbnailStyle} />
                 </TouchableOpacity>
             );
@@ -339,6 +339,14 @@ const styles = EStyleSheet.create({
         height: '120rem',
         borderRadius: '60rem',
     },
+    profilePic: {
+        alignSelf: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 10, height: 10 },
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+    }
 });
 
 const mapStateToProps = state => {

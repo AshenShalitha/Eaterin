@@ -19,8 +19,8 @@ export const BookingsStack = createStackNavigator(
                 headerStyle: {
                     backgroundColor: colors.white,
                 },
-                headerRight: (<HeaderRight />),
-                headerLeft: (<HeaderLeft />),
+                // headerRight: (<HeaderRight />),
+                // headerLeft: (<HeaderLeft />),
                 headerTitle: (
                     <View style={{ flex: 1, alignItems: 'center' }}>
                         <Image

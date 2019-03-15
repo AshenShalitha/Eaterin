@@ -87,7 +87,7 @@ class ConfirmBookingScreen extends Component {
         const date = moment(new Date(selectedDate), 'MM/DD/YYYY', true).format('YYYY-MM-DD');
         this.props.addBooking(
             restaurantId,
-            // userId,     
+            userId,
             date,
             time,
             numberOfGuests,

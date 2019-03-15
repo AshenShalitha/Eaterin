@@ -15,12 +15,16 @@ import {
     MAKE_RESERVATION,
     MAKE_RESERVATION_SUCCESS,
     MAKE_RESERVATION_FAILED,
-    RESET_RESERVATION_ERROR
+    RESET_RESERVATION_ERROR,
+    FETCH_BOOKING_LIST,
+    FETCH_BOOKING_LIST_SUCCESS,
+    FETCH_BOOKING_LIST_FAILED
 } from '../types';
 import {
     GET_RESTAURANTS,
     GET_TIME_SLOTS,
     CREATE_RESERVATION,
+    GET_BOOKINGS,
 } from '../../api/API';
 
 export const restaurantSelected = (restaurant) => {
@@ -138,6 +142,7 @@ export const addBooking = (
             }
         }).then(response => {
             dispatch({ type: MAKE_RESERVATION_SUCCESS });
+            refreshBookingList(userId, accessToken, dispatch);
         }).catch(error => {
             dispatch({ type: MAKE_RESERVATION_FAILED, payload: 'Something went wrong' });
         });
@@ -148,4 +153,36 @@ export const resetReservationError = () => {
     return {
         type: RESET_RESERVATION_ERROR
     };
+};
+
+export const fetchBookingList = (userId, accessToken) => {
+    return (dispatch) => {
+        dispatch({ type: FETCH_BOOKING_LIST });
+        axios({
+            method: 'get',
+            url: GET_BOOKINGS,
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then(response => {
+            dispatch({ type: FETCH_BOOKING_LIST_SUCCESS, payload: response.data.data });
+        }).catch(error => {
+            dispatch({ type: FETCH_BOOKING_LIST_FAILED, payload: 'Failed to load data' });
+        });
+    };
+};
+
+const refreshBookingList = (userId, accessToken, dispatch) => {
+    dispatch({ type: FETCH_BOOKING_LIST });
+    axios({
+        method: 'get',
+        url: GET_BOOKINGS,
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    }).then(response => {
+        dispatch({ type: FETCH_BOOKING_LIST_SUCCESS, payload: response.data.data });
+    }).catch(error => {
+        dispatch({ type: FETCH_BOOKING_LIST_FAILED, payload: 'Failed to load data' });
+    });
 };

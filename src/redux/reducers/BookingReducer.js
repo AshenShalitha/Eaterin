@@ -15,7 +15,10 @@ import {
     MAKE_RESERVATION,
     MAKE_RESERVATION_SUCCESS,
     MAKE_RESERVATION_FAILED,
-    RESET_RESERVATION_ERROR
+    RESET_RESERVATION_ERROR,
+    FETCH_BOOKING_LIST,
+    FETCH_BOOKING_LIST_SUCCESS,
+    FETCH_BOOKING_LIST_FAILED
 } from '../types';
 
 const INITIAL_STATE = {
@@ -34,6 +37,10 @@ const INITIAL_STATE = {
     reservationError: false,
     reservationErrorMessage: '',
     reservationLoading: false,
+    bookingList: [],
+    bookingListLoading: false,
+    bookingListError: false,
+    bookingListErrorMessage: ''
 };
 
 const ERROR_RESET_STATE = {
@@ -75,6 +82,12 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, reservationLoading: false, reservationError: true, reservationErrorMessage: action.payload };
         case RESET_RESERVATION_ERROR:
             return { ...state, ...ERROR_RESET_STATE };
+        case FETCH_BOOKING_LIST:
+            return { ...state, bookingListLoading: true };
+        case FETCH_BOOKING_LIST_SUCCESS:
+            return { ...state, bookingListLoading: false, bookingListError: false, bookingList: action.payload };
+        case FETCH_BOOKING_LIST_FAILED:
+            return { ...state, bookingList: false, bookingListError: true, bookingListErrorMessage: action.payload };
         default:
             return state;
     }
