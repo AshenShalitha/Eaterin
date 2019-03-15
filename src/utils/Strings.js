@@ -41,6 +41,7 @@ export const strings = {
         retry: 'Tap to retry',
         loginError: 'Please login to proceed',
         alert: 'Alert!',
+        reservationError: 'Failed to make the reservation.Please try again later.'
     },
     finishBooking: {
         thanksYou: 'Thank you',

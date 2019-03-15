@@ -11,11 +11,16 @@ import {
     GUEST_COUNT_CHANGED,
     FETCH_TIME_SLOTS,
     FETCH_TIME_SLOTS_SUCCESS,
-    FETCH_TIME_SLOTS_FAILED
+    FETCH_TIME_SLOTS_FAILED,
+    MAKE_RESERVATION,
+    MAKE_RESERVATION_SUCCESS,
+    MAKE_RESERVATION_FAILED,
+    RESET_RESERVATION_ERROR
 } from '../types';
 import {
     GET_RESTAURANTS,
     GET_TIME_SLOTS,
+    CREATE_RESERVATION,
 } from '../../api/API';
 
 export const restaurantSelected = (restaurant) => {
@@ -77,7 +82,6 @@ export const fetchRestaurants = () => {
 };
 
 export const fetchTimeSlots = (restaurantId, date) => {
-    // console.log(date)
     return (dispatch) => {
         dispatch({ type: FETCH_TIME_SLOTS });
         axios({
@@ -98,5 +102,50 @@ export const fetchTimeSlots = (restaurantId, date) => {
                 }
             }
         });
+    };
+};
+
+export const addBooking = (
+    restaurantId,
+    userId,
+    date,
+    timeSlot,
+    guestCount,
+    discount,
+    fullName,
+    email,
+    contactNumber,
+    accessToken,
+) => {
+    return (dispatch) => {
+        dispatch({ type: MAKE_RESERVATION });
+        axios({
+            method: 'post',
+            url: CREATE_RESERVATION,
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            data: {
+                restaurant_id: restaurantId,
+                user_id: userId,
+                date,
+                time: timeSlot,
+                guests_number: guestCount,
+                discount,
+                full_name: fullName,
+                email,
+                mobile_number: contactNumber
+            }
+        }).then(response => {
+            dispatch({ type: MAKE_RESERVATION_SUCCESS });
+        }).catch(error => {
+            dispatch({ type: MAKE_RESERVATION_FAILED, payload: 'Something went wrong' });
+        });
+    };
+};
+
+export const resetReservationError = () => {
+    return {
+        type: RESET_RESERVATION_ERROR
     };
 };

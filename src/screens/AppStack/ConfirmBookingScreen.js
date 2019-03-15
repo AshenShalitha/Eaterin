@@ -4,7 +4,7 @@ import {
     View,
     ScrollView,
     Text,
-    AsyncStorage
+    NetInfo
 } from 'react-native';
 import {
     Button
@@ -15,8 +15,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { CustomHeader } from '../../components/CustomHeader';
 import { BookingSummary } from '../../components/BookingSummary';
+import { AlertPopUp } from '../../components/AlertPopUp';
+import { OfflineNotice } from '../../components/OfflineNotice';
 import { colors } from '../../utils/Colors';
 import { PROTOCOL, HOST } from '../../api/API';
+import * as actions from '../../redux/actions';
 
 const entireScreenWidth = Dimensions.get('window').width;
 const entireScreenHeight = Dimensions.get('window').height;
@@ -24,13 +27,84 @@ EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 class ConfirmBookingScreen extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            modalVisible: false,
+            noInternet: false
+        };
+        this.isConnected = true;
+        NetInfo.isConnected.fetch().then(isConnected => {
+            this.isConnected = isConnected;
+        });
+    }
+
+    componentDidMount() {
+        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+    }
+
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+        if (this.interaction) this.interaction.cancel();
+    }
+
+    handleConnectivityChange = isConnected => {
+        if (isConnected) {
+            this.isConnected = isConnected;
+        } else {
+            this.isConnected = isConnected;
+        }
+    };
+
     onNextPressed() {
+        if (this.isConnected) {
+            this.setState({
+                modalVisible: true
+            });
+        } else {
+            this.setState({
+                noInternet: true
+            });
+        }
+    }
+
+    closeModal() {
+        this.setState({
+            modalVisible: false
+        });
+    }
+
+    noInternetPopupCancelled() {
+        this.setState({
+            noInternet: false
+        });
+    }
+
+    onOkPressed() {
+        const { id: restaurantId } = this.props.selectedRestaurant;
+        const { time, discount, } = this.props.selectedTimeSlotObj;
+        const { id: userId, selectedDate, numberOfGuests, name, email, contactNo, accessToken } = this.props;
+        const date = moment(new Date(selectedDate), 'MM/DD/YYYY', true).format('YYYY-MM-DD');
+        this.props.addBooking(
+            restaurantId,
+            // userId,     
+            date,
+            time,
+            numberOfGuests,
+            discount,
+            name,
+            email,
+            contactNo,
+            accessToken
+        );
+        this.closeModal();
         this.props.navigation.navigate('FinishBookingScreen');
     }
 
     render() {
         return (
             <ScrollView style={styles.mainContainer} contentContainerStyle={styles.contentContainerStyle}>
+                <OfflineNotice />
                 <CustomHeader
                     image={`${PROTOCOL}${HOST}${this.props.selectedRestaurant.image_url}`}
                     restaurantName={this.props.selectedRestaurant.name}
@@ -74,6 +148,32 @@ class ConfirmBookingScreen extends Component {
                         </View>
                     </View>
                 </View>
+                <AlertPopUp
+                    isVisible={this.state.modalVisible}
+                    onBackdropPress={() => this.closeModal()}
+                    onBackButtonPress={() => this.closeModal()}
+                    title={'Confirm'}
+                    text={'Press Ok to confirm the reservation'}
+                    positiveButtonText={'Ok'}
+                    negativeButtonText={'Cancel'}
+                    buttonCount={2}
+                    iconName={'infocirlceo'}
+                    iconType={'AntDesign'}
+                    onPositivePress={() => this.onOkPressed()}
+                    onNegativePress={() => this.closeModal()}
+                />
+                <AlertPopUp
+                    isVisible={this.state.noInternet}
+                    onBackdropPress={() => this.noInternetPopupCancelled()}
+                    onBackButtonPress={() => this.noInternetPopupCancelled()}
+                    title={'Reservation Failed'}
+                    text={'No internet connection!'}
+                    buttonText={'Ok'}
+                    buttonCount={1}
+                    onPress={() => this.noInternetPopupCancelled()}
+                    iconName={'alert-circle'}
+                    iconType={'Feather'}
+                />
             </ScrollView >
         );
     }
@@ -177,7 +277,10 @@ const mapStateToProps = state => {
         contactNo: state.profile.contactNo,
         email: state.profile.email,
         accessToken: state.profile.accessToken,
+        reservationError: state.booking.reservationError,
+        reservationErrorMessage: state.booking.reservationErrorMessage,
+        reservationLoading: state.booking.reservationLoading
     };
 };
 
-export default connect(mapStateToProps, null)(ConfirmBookingScreen);
+export default connect(mapStateToProps, actions)(ConfirmBookingScreen);

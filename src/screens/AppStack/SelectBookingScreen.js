@@ -24,6 +24,7 @@ import { DatesGroup } from '../../components/DatesGroup';
 import { GuestView } from '../../components/GuestView';
 import { TimeSlotItem } from '../../components/TimeSlotItem';
 import { AlertPopUp } from '../../components/AlertPopUp';
+import { OfflineNotice } from '../../components/OfflineNotice';
 import * as actions from '../../redux/actions';
 import { PROTOCOL, HOST } from '../../api/API';
 
@@ -164,6 +165,7 @@ class SelectBookingScreen extends Component {
     render() {
         return (
             <View style={styles.mainContainer}>
+                <OfflineNotice />
                 <CustomHeader
                     image={`${PROTOCOL}${HOST}${this.props.selectedRestaurant.image_url}`}
                     restaurantName={this.props.selectedRestaurant.name}

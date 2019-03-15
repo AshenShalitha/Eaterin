@@ -27,9 +27,10 @@ export const ProfileStack = createStackNavigator(
                             source={logo}
                             style={{
                                 height: EStyleSheet.value('28rem'),
-                                width: EStyleSheet.value('95rem'),
+                                width: EStyleSheet.value('110rem'),
                                 alignSelf: 'center'
                             }}
+                            resizeMode={'contain'}
                         />
                     </View>
                 ),

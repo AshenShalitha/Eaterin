@@ -32,6 +32,10 @@ export const FETCH_RESTAURANTS_FAILED = 'fetch_restaurants_failed';
 export const FETCH_TIME_SLOTS = 'fetch_time_slots';
 export const FETCH_TIME_SLOTS_SUCCESS = 'fetch_time_slots_success';
 export const FETCH_TIME_SLOTS_FAILED = 'fetch_time_slots_failed';
+export const MAKE_RESERVATION = 'make_reservation';
+export const MAKE_RESERVATION_SUCCESS = 'make_reservation_success';
+export const MAKE_RESERVATION_FAILED = 'make_reservation_failed';
+export const RESET_RESERVATION_ERROR = 'reset_reservation_error';
 
 //profile
 export const UPDATE_PROFILE_PICTURE = 'update_profile_picture';

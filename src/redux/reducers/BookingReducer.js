@@ -11,7 +11,11 @@ import {
     GUEST_COUNT_CHANGED,
     FETCH_TIME_SLOTS,
     FETCH_TIME_SLOTS_SUCCESS,
-    FETCH_TIME_SLOTS_FAILED
+    FETCH_TIME_SLOTS_FAILED,
+    MAKE_RESERVATION,
+    MAKE_RESERVATION_SUCCESS,
+    MAKE_RESERVATION_FAILED,
+    RESET_RESERVATION_ERROR
 } from '../types';
 
 const INITIAL_STATE = {
@@ -26,6 +30,15 @@ const INITIAL_STATE = {
     timeSlotsLoading: false,
     timeSlotError: false,
     timeSlotErrorMessage: '',
+    refNumber: '',
+    reservationError: false,
+    reservationErrorMessage: '',
+    reservationLoading: false,
+};
+
+const ERROR_RESET_STATE = {
+    reservationError: false,
+    reservationErrorMessage: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -54,6 +67,14 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, timeSlotsLoading: false, timeSlots: action.payload, timeSlotError: false };
         case FETCH_TIME_SLOTS_FAILED:
             return { ...state, timeSlotsLoading: false, timeSlotError: true, timeSlotErrorMessage: action.payload };
+        case MAKE_RESERVATION:
+            return { ...state, reservationLoading: true };
+        case MAKE_RESERVATION_SUCCESS:
+            return { ...state, reservationLoading: false, refNumber: action.payload, reservationError: false };
+        case MAKE_RESERVATION_FAILED:
+            return { ...state, reservationLoading: false, reservationError: true, reservationErrorMessage: action.payload };
+        case RESET_RESERVATION_ERROR:
+            return { ...state, ...ERROR_RESET_STATE };
         default:
             return state;
     }
