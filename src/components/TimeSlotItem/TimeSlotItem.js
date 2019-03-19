@@ -11,6 +11,7 @@ import {
     Card
 } from 'native-base';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import moment from 'moment';
 
 import valueDealBanner from '../../utils/images/valueDealBanner.png';
 import { colors } from '../../utils/Colors';
@@ -37,7 +38,7 @@ const TimeSlotItem = ({
                             :
                             <View style={styles.emptyView} />
                     }
-                    <Text style={styles.timeText}>{timeSlot}</Text>
+                    <Text style={styles.timeText}>{moment(timeSlot, 'HH:mm').format('LT')}</Text>
                 </View>
                 <View style={styles.right}>
                     <Text style={styles.discountText}>{discount}%</Text>

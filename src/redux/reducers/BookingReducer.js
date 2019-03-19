@@ -18,7 +18,9 @@ import {
     RESET_RESERVATION_ERROR,
     FETCH_BOOKING_LIST,
     FETCH_BOOKING_LIST_SUCCESS,
-    FETCH_BOOKING_LIST_FAILED
+    FETCH_BOOKING_LIST_FAILED,
+    BOOKING_SELECTED,
+    SEARCH_PRESSED
 } from '../types';
 
 const INITIAL_STATE = {
@@ -40,7 +42,9 @@ const INITIAL_STATE = {
     bookingList: [],
     bookingListLoading: false,
     bookingListError: false,
-    bookingListErrorMessage: ''
+    bookingListErrorMessage: '',
+    selectedBooking: {},
+    isSearchVisible: false
 };
 
 const ERROR_RESET_STATE = {
@@ -88,6 +92,10 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, bookingListLoading: false, bookingListError: false, bookingList: action.payload };
         case FETCH_BOOKING_LIST_FAILED:
             return { ...state, bookingList: false, bookingListError: true, bookingListErrorMessage: action.payload };
+        case BOOKING_SELECTED:
+            return { ...state, selectedBooking: action.payload };
+        case SEARCH_PRESSED:
+            return { ...state, isSearchVisible: action.payload };
         default:
             return state;
     }

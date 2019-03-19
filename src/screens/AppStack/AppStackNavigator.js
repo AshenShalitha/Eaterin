@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation';
 import SelectBookingScreen from './SelectBookingScreen';
 import ConfirmBookingScreen from './ConfirmBookingScreen';
 import FinishBookingScreen from './FinishBookingScreen';
+import CancelBookingScreen from './CancelBookingScreen';
 import BottomTabNavigator from './BottomTabNavigator/BottomTabNavigator';
 
 export const AppStackNavigator = createStackNavigator(
@@ -38,9 +39,17 @@ export const AppStackNavigator = createStackNavigator(
             navigationOptions: {
                 header: null
             }
+        },
+        CancelBookingScreen: {
+            screen: CancelBookingScreen,
+            headerMode: 'none',
+            header: null,
+            navigationOptions: {
+                header: null
+            }
         }
     },
     {
         initialRouteKey: 'SelectBookingScreen'
     }
-)
+);

@@ -4,7 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import RestaurantScreen from './RestaurantScreen';
-import { HeaderLeft, HeaderRight } from '../../../../components/Header';
+import HeaderRight from '../../../../components/Header/HeaderRight';
 import { colors } from '../../../../utils/Colors';
 import logo from '../../../../utils/images/logoEaterin.png';
 
@@ -19,7 +19,7 @@ export const RestaurantStack = createStackNavigator(
                 headerStyle: {
                     backgroundColor: colors.white,
                 },
-                // headerRight: (<HeaderRight />),
+                headerRight: (<HeaderRight />),
                 // headerLeft: (<HeaderLeft />),
                 headerTitle: (
                     <View style={{ flex: 1, alignItems: 'center' }}>

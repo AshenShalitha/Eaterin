@@ -11,4 +11,5 @@ export const colors = {
     red: '#f04e4c',
     blue: '#7eb2da',
     dangerRed: '#ff0000',
+    red_dark: '#b4352e',
 };

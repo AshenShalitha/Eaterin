@@ -18,7 +18,9 @@ import {
     RESET_RESERVATION_ERROR,
     FETCH_BOOKING_LIST,
     FETCH_BOOKING_LIST_SUCCESS,
-    FETCH_BOOKING_LIST_FAILED
+    FETCH_BOOKING_LIST_FAILED,
+    BOOKING_SELECTED,
+    SEARCH_PRESSED
 } from '../types';
 import {
     GET_RESTAURANTS,
@@ -68,6 +70,20 @@ export const timeSlotSelected = (timeSlotObj) => {
     return {
         type: TIME_SLOT_SELECTED,
         payload: timeSlotObj
+    };
+};
+
+export const onBookingSelected = booking => {
+    return {
+        type: BOOKING_SELECTED,
+        payload: booking
+    };
+};
+
+export const onSearchPressed = status => {
+    return {
+        type: SEARCH_PRESSED,
+        payload: status
     };
 };
 
@@ -145,6 +161,7 @@ export const addBooking = (
             refreshBookingList(userId, accessToken, dispatch);
         }).catch(error => {
             dispatch({ type: MAKE_RESERVATION_FAILED, payload: 'Something went wrong' });
+            console.log(error.response)
         });
     };
 };
@@ -160,7 +177,7 @@ export const fetchBookingList = (userId, accessToken) => {
         dispatch({ type: FETCH_BOOKING_LIST });
         axios({
             method: 'get',
-            url: GET_BOOKINGS,
+            url: `${GET_BOOKINGS}/${userId}`,
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
@@ -176,7 +193,7 @@ const refreshBookingList = (userId, accessToken, dispatch) => {
     dispatch({ type: FETCH_BOOKING_LIST });
     axios({
         method: 'get',
-        url: GET_BOOKINGS,
+        url: `${GET_BOOKINGS}/${userId}`,
         headers: {
             Authorization: `Bearer ${accessToken}`
         }

@@ -4,7 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import BookingsScreen from './BookingsScreen';
-import { HeaderLeft, HeaderRight } from '../../../../components/Header';
+import HeaderRight from '../../../../components/Header/HeaderRight';
 import { colors } from '../../../../utils/Colors';
 import logo from '../../../../utils/images/logoEaterin.png';
 

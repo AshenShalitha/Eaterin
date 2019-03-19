@@ -5,6 +5,7 @@ import {
     Text,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import moment from 'moment';
 
 import { colors } from '../../utils/Colors';
 import { strings } from '../../utils/Strings';
@@ -16,25 +17,30 @@ const BookingSummary = ({
     date,
     time,
     paxCount,
-    discount
+    discount,
+    refNo
 }) => {
     return (
         <View style={styles.topContainer}>
             <View style={styles.topContentContainer}>
                 <View style={styles.itemRow}>
-                    <Text style={styles.textAsh}>{strings.confirmBooking.date}</Text>
+                    <Text style={styles.textAsh}>{strings.cancelBooking.date}</Text>
                     <Text style={styles.textBlack}>{date}</Text>
                 </View>
                 <View style={styles.itemRow}>
-                    <Text style={styles.textAsh}>{strings.confirmBooking.time}</Text>
-                    <Text style={styles.textBlack}>{time}</Text>
+                    <Text style={styles.textAsh}>{strings.cancelBooking.time}</Text>
+                    <Text style={styles.textBlack}>{moment(time, 'HH:mm').format('LT')}</Text>
                 </View>
                 <View style={styles.itemRow}>
-                    <Text style={styles.textAsh}>{strings.confirmBooking.paxCount}</Text>
+                    <Text style={styles.textAsh}>{strings.cancelBooking.paxCount}</Text>
                     <Text style={styles.textBlack}>{paxCount}</Text>
                 </View>
                 <View style={styles.itemRow}>
-                    <Text style={styles.textAsh}>{strings.confirmBooking.discount}</Text>
+                    <Text style={styles.textAsh}>{strings.cancelBooking.refNo}</Text>
+                    <Text style={styles.textBlack}>{refNo}</Text>
+                </View>
+                <View style={styles.itemRow}>
+                    <Text style={styles.textAsh}>{strings.cancelBooking.discount}</Text>
                     <Text style={styles.textGreen}>{discount}%</Text>
                 </View>
             </View>

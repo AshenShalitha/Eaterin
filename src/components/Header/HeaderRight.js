@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
     Dimensions,
     View,
@@ -8,21 +8,34 @@ import {
     Icon
 } from 'native-base';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { connect } from 'react-redux';
 
 import { colors } from '../../utils/Colors';
+import * as actions from '../../redux/actions';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-const HeaderRight = () => {
-    return (
-        <View style={styles.mainContainer}>
-            <TouchableOpacity>
-                <Icon name={'search1'} type={'AntDesign'} style={styles.iconStyle} />
-            </TouchableOpacity>
-        </View>
-    );
-};
+class HeaderRight extends Component {
+
+    onPress() {
+        if (this.props.isSearchVisible) {
+            this.props.onSearchPressed(false);
+        } else {
+            this.props.onSearchPressed(true);
+        }
+    }
+
+    render() {
+        return (
+            <View style={styles.mainContainer}>
+                <TouchableOpacity onPress={() => this.onPress()}>
+                    <Icon name={'search1'} type={'AntDesign'} style={styles.iconStyle} />
+                </TouchableOpacity>
+            </View>
+        );
+    }
+}
 
 const styles = EStyleSheet.create({
     mainContainer: {
@@ -38,4 +51,10 @@ const styles = EStyleSheet.create({
     },
 });
 
-export { HeaderRight };
+const mapStateToProps = state => {
+    return {
+        isSearchVisible: state.booking.isSearchVisible
+    };
+};
+
+export default connect(mapStateToProps, actions)(HeaderRight);

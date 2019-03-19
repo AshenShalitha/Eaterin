@@ -6,11 +6,13 @@ import {
     AsyncStorage,
     TouchableOpacity,
     FlatList,
+    SectionList,
     NetInfo,
     InteractionManager
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { SkypeIndicator } from 'react-native-indicators';
 import {
     Icon
@@ -22,9 +24,13 @@ import { OfflineNotice } from '../../../../components/OfflineNotice';
 import { colors } from '../../../../utils/Colors';
 import { strings } from '../../../../utils/Strings';
 import * as actions from '../../../../redux/actions';
+import { PROTOCOL, HOST } from '../../../../api/API';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
+
+const title1 = 'Upcoming';
+const title2 = 'History';
 
 class BokkingScreen extends Component {
 
@@ -45,6 +51,10 @@ class BokkingScreen extends Component {
         this.interaction = InteractionManager.runAfterInteractions(() => {
             this.checkLoginStatus();
         });
+    }
+
+    componentDidUpdate() {
+        console.log(this.generateSectionData());
     }
 
     componentWillUnmount() {
@@ -83,15 +93,55 @@ class BokkingScreen extends Component {
         this.setState({ isFetching: true }, function () { this.fetchData(); });
     }
 
-    renderItem(item) {
+    generateSectionData() {
+        const sectionArray = [];
+        const historyDataArray = [];
+        const upcomingDataArray = [];
+        const historyObject = {};
+        const upcomingObject = {};
+        const now = moment().format('YYYY-MM-DD HH:mm');
+        this.props.bookingList.forEach(element => {
+            if (moment(now).isBefore(`${element.date} ${element.time}`)) {
+                upcomingDataArray.push(element);
+            } else {
+                historyDataArray.push(element);
+            }
+        });
+        historyObject.title = title1;
+        historyObject.data = upcomingDataArray;
+        upcomingObject.title = title2;
+        upcomingObject.data = historyDataArray;
+        sectionArray.push(historyObject);
+        sectionArray.push(upcomingObject);
+        return sectionArray;
+    }
+
+    renderHeader(title) {
+        return (
+            <View style={styles.headerContainer}>
+                <Text style={styles.headerTextStyle}>{title}</Text>
+            </View>
+        )
+    }
+
+    renderItem(item, section) {
         return (
             <BookingCard
-                date={item.item.date}
-                time={item.item.time}
-                discount={item.item.discount}
-                guestCount={item.item.guest_number}
+                onPress={() => this.onItemPressed(item)}
+                image={`${PROTOCOL}${HOST}${item.image_url}`}
+                timeSlot={item.time}
+                date={item.date}
+                restaurantName={item.name}
+                address={item.address}
+                sectionTitle={section.title}
+            // ratings
             />
         );
+    }
+
+    onItemPressed(item) {
+        this.props.onBookingSelected(item);
+        this.props.navigation.navigate('CancelBookingScreen');
     }
 
     renderList() {
@@ -110,15 +160,27 @@ class BokkingScreen extends Component {
                 );
             } else {
                 return (
-                    <FlatList
-                        data={this.props.bookingList}
-                        renderItem={this.renderItem.bind(this)}
-                        keyExtractor={item => item.toString()}
+                    // <FlatList
+                    //     data={this.props.bookingList}
+                    //     renderItem={this.renderItem.bind(this)}
+                    //     keyExtractor={item => item.reservation_id.toString()}
+                    //     onRefresh={() => this.onRefresh()}
+                    //     refreshing={this.state.isFetching}
+                    //     initialNumToRender={5}
+                    //     removeClippedSubviews
+                    //     windowSize={11}
+                    // />
+                    <SectionList
+                        renderItem={({ item, section }) => (
+                            this.renderItem(item, section)
+                        )}
+                        renderSectionHeader={({ section: { title } }) => (
+                            this.renderHeader(title)
+                        )}
+                        sections={this.generateSectionData()}
+                        keyExtractor={(item) => item.reservation_id.toString()}
                         onRefresh={() => this.onRefresh()}
                         refreshing={this.state.isFetching}
-                        initialNumToRender={5}
-                        removeClippedSubviews
-                        windowSize={11}
                     />
                 );
             }
@@ -140,12 +202,10 @@ class BokkingScreen extends Component {
     }
 
     render() {
+
         return (
             <View style={styles.mainContainer}>
                 <OfflineNotice />
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Bookings</Text>
-                </View>
                 {
                     this.state.isLoggedIn ?
                         this.renderList()
@@ -163,96 +223,6 @@ const styles = EStyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    titleContainer: {
-        height: '45rem',
-        width: entireScreenWidth
-    },
-    title: {
-        fontSize: '13rem',
-        color: colors.ash_dark,
-        paddingVertical: '15rem',
-        paddingLeft: '10rem',
-        alignSelf: 'flex-start'
-    },
-    reservationCard: {
-        height: '220rem',
-        width: entireScreenWidth * 0.9,
-        alignSelf: 'center',
-        marginTop: '15rem',
-        borderRadius: '2rem',
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 3, height: 3 },
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-        backgroundColor: colors.white
-    },
-    topContainer: {
-        flex: 0.8,
-        justifyContent: 'center',
-        paddingHorizontal: '15rem'
-    },
-    bottomContainer: {
-        flex: 1.6,
-        marginHorizontal: '15rem',
-        borderTopWidth: '1rem',
-        borderColor: colors.ash_light,
-        justifyContent: 'center'
-    },
-    ferNoContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    topLeft: {
-        flex: 2,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    topRight: {
-        flex: 0.2,
-        justifyContent: 'flex-end',
-        alignItems: 'center'
-    },
-    restaurantName: {
-        fontSize: '18rem',
-        fontWeight: '600',
-        color: colors.black,
-        alignSelf: 'flex-start'
-    },
-    textNormal: {
-        fontSize: '16rem',
-        color: colors.ash_dark,
-        paddingRight: '15rem'
-    },
-    arrowIcon: {
-        fontSize: '30rem',
-        color: colors.black
-    },
-    itemRow: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: '15rem'
-    },
-    collapseButtonContainer: {
-        flex: 0.6,
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-    },
-    textAsh: {
-        fontSize: '13rem',
-        color: colors.ash_dark,
-        alignSelf: 'center',
-        flexDirection: 'row',
-    },
-    textBlack: {
-        fontSize: '13rem',
-        color: colors.black,
-        fontWeight: '500',
-        alignSelf: 'center',
-        flexDirection: 'row',
-    },
     errorContainer: {
         flex: 1,
         alignSelf: 'stretch',
@@ -261,6 +231,16 @@ const styles = EStyleSheet.create({
     errorText: {
         textAlign: 'center',
         paddingVertical: '5rem',
+    },
+    headerContainer: {
+        flex: 1,
+        alignItems: 'flex-start',
+        paddingLeft: '10rem',
+        paddingVertical: '10rem'
+    },
+    headerTextStyle: {
+        fontSize: '13rem',
+        color: colors.ash_dark
     }
 });
 

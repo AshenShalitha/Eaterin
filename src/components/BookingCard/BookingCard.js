@@ -1,198 +1,178 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Dimensions,
     View,
     Text,
-    TouchableOpacity,
-    Animated
+    ImageBackground,
+    TouchableOpacity
 } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import {
+    Card,
     Icon
 } from 'native-base';
-
+import moment from 'moment';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import greenTab from '../../utils/images/greenTab1_inverted.png';
+import orangeTab from '../../utils/images/orangeTab1_inverted.png';
 import { colors } from '../../utils/Colors';
-import { strings } from '../../utils/Strings';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-class BookingCard extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            expanded: false,
-            maxHeight: EStyleSheet.value('210rem'),
-            minHeight: EStyleSheet.value('70rem'),
-        };
+const cropAddress = address => {
+    if (address.length > 42) {
+        return `${address.slice(0, 42)}...`;
     }
+    return address;
+};
 
-    componentWillMount() {
-        this.animation = new Animated.Value(EStyleSheet.value('70rem'));
-    }
-
-    toggleExpand() {
-        const initialValue = this.state.expanded ? this.state.maxHeight : this.state.minHeight;
-        const finalValue = this.state.expanded ? this.state.minHeight : this.state.maxHeight;
-
-        this.setState({
-            expanded: !this.state.expanded
-        });
-
-        this.animation.setValue(initialValue);
-        Animated.spring(
-            this.animation,
-            {
-                toValue: finalValue
-            }
-        ).start();
-    }
-
-    render() {
-        return (
-            <Animated.View style={[styles.reservationCard, { height: this.animation }]}>
-                <View style={styles.topContainer}>
-                    <View style={styles.rowItem}>
-                        <Text style={styles.restaurantName}>Rare at Residence</Text>
-                    </View>
-                    <View style={[styles.refNoContainer]}>
-                        <View style={styles.topLeft}>
-                            <Text style={styles.textNormal}>{strings.finishBooking.refNo}</Text>
-                            <Text style={[styles.textNormal, { color: colors.black, fontWeight: '500' }]}>3197187</Text>
+const BookingCard = ({
+    onPress,
+    image,
+    timeSlot,
+    date,
+    restaurantName,
+    address,
+    ratings,
+    sectionTitle
+}) => {
+    return (
+        <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+            <Card style={styles.cardStyle}>
+                <ImageBackground
+                    style={styles.imageBackgroundStyle}
+                    source={{ uri: image }}
+                    resizeMode={'cover'}
+                >
+                    <ImageBackground
+                        style={[styles.greenTabStyle]}
+                        source={sectionTitle === 'Upcoming' ? orangeTab : greenTab}
+                    >
+                        <View style={styles.iconContainer}>
+                            <Icon name={'ios-clock'} type={'Ionicons'} style={styles.clockIcon} />
                         </View>
-                        <View style={styles.topRight}>
-                            <TouchableOpacity style={styles.button} onPress={() => this.toggleExpand()}>
-                                {
-                                    !this.state.expanded ?
-                                        <Icon name={'md-arrow-dropdown'} type={'Ionicons'} style={styles.arrowIcon} />
-                                        :
-                                        <Icon name={'md-arrow-dropup'} type={'Ionicons'} style={styles.arrowIcon} />
-                                }
-
-                            </TouchableOpacity>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.textLarge}>{moment(timeSlot, 'HH:mm').format('LT')}</Text>
+                            <Text style={styles.textSmall}>{moment(new Date(date), 'MM/DD/YYYY', true).format('Do MMM YYYY')}</Text>
+                        </View>
+                    </ImageBackground>
+                </ImageBackground>
+                <View style={styles.footerStyle}>
+                    <View style={styles.footerItem}>
+                        <Text style={styles.titleStyle}>{restaurantName}</Text>
+                    </View>
+                    <View style={styles.footerItem}>
+                        <View style={styles.footerLeft}>
+                            <Icon name={'location-on'} type={'MaterialIcons'} style={styles.iconStyle} />
+                            <Text style={styles.addressText}>{cropAddress(address)}</Text>
+                        </View>
+                        <View style={styles.footerRight}>
+                            <View style={styles.ratingsView}>
+                                <Text style={styles.ratingsText}>{ratings}</Text>
+                                <Icon name={'star'} type={'AntDesign'} style={styles.starIcon} />
+                            </View>
                         </View>
                     </View>
                 </View>
-                {
-                    this.state.expanded ?
-                        <View style={styles.bottomContainer}>
-                            <View style={styles.itemRow}>
-                                <Text style={styles.textAsh}>{strings.confirmBooking.date}</Text>
-                                <Text style={styles.textBlack}>{this.props.date}</Text>
-                            </View>
-                            <View style={styles.itemRow}>
-                                <Text style={styles.textAsh}>{strings.confirmBooking.time}</Text>
-                                <Text style={styles.textBlack}>{this.props.time}</Text>
-                            </View>
-                            <View style={styles.itemRow}>
-                                <Text style={styles.textAsh}>{strings.confirmBooking.paxCount}</Text>
-                                <Text style={styles.textBlack}>{this.props.guestCount}</Text>
-                            </View>
-                            <View style={styles.itemRow}>
-                                <Text style={styles.textAsh}>{strings.confirmBooking.discount}</Text>
-                                <Text style={styles.textGreen}>{this.props.discount}%</Text>
-                            </View>
-                        </View>
-                        :
-                        null
-                }
-            </Animated.View>
-        );
-    }
-}
+            </Card>
+        </TouchableOpacity>
+    );
+};
 
 const styles = EStyleSheet.create({
-    reservationCard: {
-        width: entireScreenWidth * 0.9,
-        alignSelf: 'center',
-        marginTop: '15rem',
-        marginHorizontal: '5rem',
-        borderRadius: '2rem',
-        elevation: 2,
-        shadowColor: '#000',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-        backgroundColor: colors.white
+    cardStyle: {
+        height: '200rem'
     },
-    topContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: '15rem',
-    },
-    bottomContainer: {
+    imageBackgroundStyle: {
         flex: 2,
-        marginHorizontal: '15rem',
-        borderTopWidth: '1rem',
-        borderColor: colors.ash_light,
-        justifyContent: 'center',
+        width: entireScreenWidth - EStyleSheet.value('20rem'),
     },
-    refNoContainer: {
+    footerStyle: {
+        flex: 0.8,
+        paddingHorizontal: '15rem'
+    },
+    footerItem: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between'
     },
-    topLeft: {
-        flex: 2,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    topRight: {
-        flex: 0.6,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end'
-    },
-    restaurantName: {
+    titleStyle: {
         fontSize: '18rem',
         fontWeight: '600',
         color: colors.black,
-        alignSelf: 'flex-start',
+        alignSelf: 'center'
     },
-    textNormal: {
-        fontSize: '16rem',
-        color: colors.ash_dark,
-        paddingRight: '15rem',
-        alignSelf: 'center',
+    footerLeft: {
+        flex: 5,
         flexDirection: 'row',
+        alignItems: 'flex-start',
+        paddingRight: '10rem'
     },
-    arrowIcon: {
-        fontSize: '30rem',
-        color: colors.ash_dark
-    },
-    itemRow: {
+    footerRight: {
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: '15rem'
+        justifyContent: 'flex-start',
     },
-    collapseButtonContainer: {
-        flex: 0.6,
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-    },
-    textAsh: {
-        fontSize: '13rem',
-        color: colors.ash_dark,
-        alignSelf: 'center',
-        flexDirection: 'row',
-    },
-    textBlack: {
-        fontSize: '13rem',
+    iconStyle: {
+        fontSize: '12rem',
         color: colors.black,
-        fontWeight: '500',
-        alignSelf: 'center',
-        flexDirection: 'row',
+        paddingRight: '3rem'
     },
-    textGreen: {
-        fontSize: '13rem',
-        color: colors.green_light,
-        fontWeight: '500',
-        alignSelf: 'center',
-        flexDirection: 'row',
+    addressText: {
+        fontSize: '11rem',
+        color: colors.ash
     },
-    button: {
-        paddingHorizontal: '10rem',
+    ratingsView: {
+        width: '40rem',
+        height: '20rem',
+        borderRadius: '10rem',
+        justifyContent: 'space-around',
+        paddingHorizontal: '5rem',
+        borderColor: colors.ash_light,
+        borderWidth: '1rem',
+        alignSelf: 'center',
+        flexDirection: 'row'
+    },
+    ratingsText: {
+        fontSize: '10rem',
+        color: colors.black,
+        textAlign: 'center',
+        alignSelf: 'center'
+    },
+    starIcon: {
+        fontSize: '9rem',
+        color: colors.orange,
+        alignSelf: 'center'
+    },
+    greenTabStyle: {
+        width: '150rem',
+        height: '35rem',
+        flexDirection: 'row',
+        alignSelf: 'flex-start',
+        justifyContent: 'flex-start',
+        marginTop: '8rem',
+    },
+    iconContainer: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    textContainer: {
+        flex: 2,
+        justifyContent: 'center',
+        alignItems: 'flex-start'
+    },
+    textLarge: {
+        fontSize: '15rem',
+        color: colors.white,
+    },
+    textSmall: {
+        fontSize: '7rem',
+        color: colors.white,
+        paddingLeft: '2rem',
+
+    },
+    clockIcon: {
+        fontSize: '22rem',
+        color: colors.white,
+        alignSelf: 'center'
     }
 });
 

@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SkypeIndicator } from 'react-native-indicators';
+import { Container, Header, Item, Input, Icon, Button } from 'native-base';
 
 import { OfflineNotice } from '../../../../components/OfflineNotice';
 import { RestaurantCard } from '../../../../components/RestaurantCard';
@@ -153,9 +154,22 @@ class RestaurantScreen extends Component {
         return (
             <View style={styles.mainContainer}>
                 <OfflineNotice />
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Restaurants</Text>
-                </View>
+                {
+                    this.props.isSearchVisible ?
+                        <View style={styles.searchBarContainer}>
+                            <Container searchBar rounded style={styles.searchContainer}>
+                                <Item style={styles.searchItem}>
+                                    <Icon name="ios-search" />
+                                    <Input placeholder="Search by Name, Location" style={styles.input} />
+                                </Item>
+                                {/* <Button transparent style={styles.searchButton}>
+                                    <Text style={styles.buttonText}>Search</Text>
+                                </Button> */}
+                            </Container>
+                        </View>
+                        :
+                        null
+                }
                 {
                     this.renderList()
                 }
@@ -170,7 +184,7 @@ const styles = EStyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
-    titleContainer: {
+    searchBarContainer: {
         height: '45rem',
         width: entireScreenWidth
     },
@@ -192,6 +206,26 @@ const styles = EStyleSheet.create({
     errorText: {
         textAlign: 'center',
         paddingVertical: '5rem',
+    },
+    searchContainer: {
+        flexDirection: 'row',
+        paddingVertical: '5rem',
+        paddingHorizontal: '10rem',
+    },
+    searchItem: {
+        flex: 1,
+        paddingHorizontal: '5rem'
+    },
+    searchButton: {
+        paddingHorizontal: '10rem'
+    },
+    buttonText: {
+        color: colors.green_light,
+        fontSize: '14rem'
+    },
+    input: {
+        fontSize: '14rem',
+        color: colors.black
     }
 });
 
@@ -199,7 +233,8 @@ const mapStateToProps = state => {
     return {
         restaurantsLoading: state.booking.restaurantsLoading,
         restaurantList: state.booking.restaurantList,
-        restaurantFetchError: state.booking.restaurantFetchError
+        restaurantFetchError: state.booking.restaurantFetchError,
+        isSearchVisible: state.booking.isSearchVisible
     };
 };
 

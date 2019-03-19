@@ -17,6 +17,13 @@ import { colors } from '../../utils/Colors';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
+const cropAddress = address => {
+    if (address.length > 42) {
+        return `${address.slice(0, 42)}...`;
+    }
+    return address;
+};
+
 const RestaurantCard = ({
     onPress,
     image,
@@ -48,7 +55,7 @@ const RestaurantCard = ({
                     <View style={styles.footerItem}>
                         <View style={styles.footerLeft}>
                             <Icon name={'location-on'} type={'MaterialIcons'} style={styles.iconStyle} />
-                            <Text style={styles.addressText}>{address}</Text>
+                            <Text style={styles.addressText}>{cropAddress(address)}</Text>
                         </View>
                         <View style={styles.footerRight}>
                             <View style={styles.ratingsView}>

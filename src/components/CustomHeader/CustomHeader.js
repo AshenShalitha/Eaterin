@@ -17,6 +17,13 @@ import { colors } from '../../utils/Colors';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
+const cropAddress = address => {
+    if (address.length > 52) {
+        return `${address.slice(0, 52)}...`;
+    }
+    return address;
+};
+
 const CustomHeader = ({
     image,
     onBackPressed,
@@ -51,7 +58,7 @@ const CustomHeader = ({
                 </View>
                 <View style={styles.cardItem}>
                     <Icon name={'location-on'} type={'MaterialIcons'} style={styles.iconStyle} />
-                    <Text style={styles.addressText}>{address}</Text>
+                    <Text style={styles.addressText}>{cropAddress(address)}</Text>
                 </View>
             </Card>
         </ImageBackground>

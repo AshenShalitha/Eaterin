@@ -39,6 +39,8 @@ export const RESET_RESERVATION_ERROR = 'reset_reservation_error';
 export const FETCH_BOOKING_LIST = 'fetch_booking_list';
 export const FETCH_BOOKING_LIST_SUCCESS = 'fetch_booking_list_success';
 export const FETCH_BOOKING_LIST_FAILED = 'fetch_booking_list_failed';
+export const BOOKING_SELECTED = 'booking_selected';
+export const SEARCH_PRESSED = 'search_pressed';
 
 //profile
 export const UPDATE_PROFILE_PICTURE = 'update_profile_picture';

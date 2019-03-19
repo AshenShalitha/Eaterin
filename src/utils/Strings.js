@@ -33,7 +33,14 @@ export const strings = {
         date: 'Date',
         time: 'Time',
         paxCount: 'Pax Count',
-        discount: 'Discount'
+        discount: 'Discount',
+    },
+    cancelBooking: {
+        date: 'Date',
+        time: 'Time',
+        paxCount: 'Pax Count',
+        discount: 'Discount',
+        refNo: 'ref No'
     },
     errors: {
         noInternet: 'Failed to load content',
