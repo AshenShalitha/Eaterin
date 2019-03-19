@@ -63,6 +63,8 @@ export const PROFILE_PASSWORD_CHANGE = 'profile_password_change';
 export const PROFILE_PASSWORD_CHANGE_SUCCESS = 'profile_password_change_success';
 export const PROFILE_PASSWORD_CHANGE_FAILED = 'profile_password_change_failed';
 export const PROFILE_RESET_PASSOWRD_ERROR = 'reset_password_error';
+export const SET_ARRAYHOLDER = 'set_arrayholder';
+export const SEARCH_FIELD_CHANGED = 'search_field_changed';
 
 //User
 export const SET_ID = 'set_id';

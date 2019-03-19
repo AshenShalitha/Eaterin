@@ -20,7 +20,9 @@ import {
     FETCH_BOOKING_LIST_SUCCESS,
     FETCH_BOOKING_LIST_FAILED,
     BOOKING_SELECTED,
-    SEARCH_PRESSED
+    SEARCH_PRESSED,
+    SET_ARRAYHOLDER,
+    SEARCH_FIELD_CHANGED
 } from '../types';
 
 const INITIAL_STATE = {
@@ -44,7 +46,8 @@ const INITIAL_STATE = {
     bookingListError: false,
     bookingListErrorMessage: '',
     selectedBooking: {},
-    isSearchVisible: false
+    isSearchVisible: false,
+    arrayholder: [],
 };
 
 const ERROR_RESET_STATE = {
@@ -96,6 +99,10 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, selectedBooking: action.payload };
         case SEARCH_PRESSED:
             return { ...state, isSearchVisible: action.payload };
+        case SET_ARRAYHOLDER:
+            return { ...state, arrayholder: action.payload };
+        case SEARCH_FIELD_CHANGED:
+            return { ...state, restaurantList: action.payload };
         default:
             return state;
     }

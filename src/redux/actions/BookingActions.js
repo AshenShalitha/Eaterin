@@ -20,7 +20,9 @@ import {
     FETCH_BOOKING_LIST_SUCCESS,
     FETCH_BOOKING_LIST_FAILED,
     BOOKING_SELECTED,
-    SEARCH_PRESSED
+    SEARCH_PRESSED,
+    SEARCH_FIELD_CHANGED,
+    SET_ARRAYHOLDER
 } from '../types';
 import {
     GET_RESTAURANTS,
@@ -95,6 +97,7 @@ export const fetchRestaurants = () => {
             url: GET_RESTAURANTS,
         }).then(response => {
             dispatch({ type: FETCH_RESTAURANTS_SUCCESS, payload: response.data.data });
+            dispatch({ type: SET_ARRAYHOLDER, payload: response.data.data });
         }).catch(() => {
             dispatch({ type: FETCH_RESTAURANTS_FAILED });
         });
@@ -202,4 +205,16 @@ const refreshBookingList = (userId, accessToken, dispatch) => {
     }).catch(error => {
         dispatch({ type: FETCH_BOOKING_LIST_FAILED, payload: 'Failed to load data' });
     });
+};
+
+export const searchFilterAction = (text, arrayHolder) => {
+    const newData = arrayHolder.filter(item => {
+        const itemDataName = item.name.toUpperCase();
+        const itemDataAddress = item.address.toUpperCase();
+        const textData = text.toUpperCase();
+        return (itemDataName.indexOf(textData) > -1) || (itemDataAddress.indexOf(textData) > -1);
+    });
+    return (dispatch) => {
+        dispatch({ type: SEARCH_FIELD_CHANGED, payload: newData });
+    };
 };

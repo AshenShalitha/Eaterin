@@ -7,7 +7,8 @@ import {
     NetInfo,
     TouchableOpacity,
     InteractionManager,
-    AsyncStorage
+    AsyncStorage,
+    Animated
 } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -150,21 +151,26 @@ class RestaurantScreen extends Component {
         }
     }
 
+    searchFilterFunction(text) {
+        this.props.searchFilterAction(text, this.props.arrayholder);
+    }
+
     render() {
         return (
             <View style={styles.mainContainer}>
                 <OfflineNotice />
                 {
                     this.props.isSearchVisible ?
-                        <View style={styles.searchBarContainer}>
+                        <View style={[styles.searchBarContainer]}>
                             <Container searchBar rounded style={styles.searchContainer}>
                                 <Item style={styles.searchItem}>
                                     <Icon name="ios-search" />
-                                    <Input placeholder="Search by Name, Location" style={styles.input} />
+                                    <Input
+                                        placeholder="Search by Name, Location"
+                                        style={styles.input}
+                                        onChangeText={text => this.searchFilterFunction(text)}
+                                    />
                                 </Item>
-                                {/* <Button transparent style={styles.searchButton}>
-                                    <Text style={styles.buttonText}>Search</Text>
-                                </Button> */}
                             </Container>
                         </View>
                         :
@@ -185,8 +191,8 @@ const styles = EStyleSheet.create({
         alignItems: 'center'
     },
     searchBarContainer: {
-        height: '45rem',
-        width: entireScreenWidth
+        width: entireScreenWidth,
+        height: '45rem'
     },
     title: {
         fontSize: '13rem',
@@ -234,7 +240,8 @@ const mapStateToProps = state => {
         restaurantsLoading: state.booking.restaurantsLoading,
         restaurantList: state.booking.restaurantList,
         restaurantFetchError: state.booking.restaurantFetchError,
-        isSearchVisible: state.booking.isSearchVisible
+        isSearchVisible: state.booking.isSearchVisible,
+        arrayholder: state.booking.arrayholder,
     };
 };
 

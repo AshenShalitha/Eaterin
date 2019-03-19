@@ -20,7 +20,7 @@ export const RestaurantStack = createStackNavigator(
                     backgroundColor: colors.white,
                 },
                 headerRight: (<HeaderRight />),
-                // headerLeft: (<HeaderLeft />),
+                headerLeft: (<View />),
                 headerTitle: (
                     <View style={{ flex: 1, alignItems: 'center' }}>
                         <Image
