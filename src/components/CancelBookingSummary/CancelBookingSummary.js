@@ -13,11 +13,12 @@ import { strings } from '../../utils/Strings';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-const BookingSummary = ({
+const CancelBookingSummary = ({
     date,
     time,
     paxCount,
     discount,
+    refNo
 }) => {
     return (
         <View style={styles.topContainer}>
@@ -33,6 +34,10 @@ const BookingSummary = ({
                 <View style={styles.itemRow}>
                     <Text style={styles.textAsh}>{strings.cancelBooking.paxCount}</Text>
                     <Text style={styles.textBlack}>{paxCount}</Text>
+                </View>
+                <View style={styles.itemRow}>
+                    <Text style={styles.textAsh}>{strings.cancelBooking.refNo}</Text>
+                    <Text style={styles.textBlack}>{refNo}</Text>
                 </View>
                 <View style={styles.itemRow}>
                     <Text style={styles.textAsh}>{strings.cancelBooking.discount}</Text>
@@ -78,4 +83,4 @@ const styles = EStyleSheet.create({
     }
 });
 
-export { BookingSummary };
+export { CancelBookingSummary };

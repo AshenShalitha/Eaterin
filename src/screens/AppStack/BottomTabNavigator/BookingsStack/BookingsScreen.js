@@ -96,20 +96,22 @@ class BokkingScreen extends Component {
         const historyObject = {};
         const upcomingObject = {};
         const now = moment().format('YYYY-MM-DD HH:mm');
-        this.props.bookingList.forEach(element => {
-            if (moment(now).isBefore(`${element.date} ${element.time}`)) {
-                upcomingDataArray.push(element);
-            } else {
-                historyDataArray.push(element);
-            }
-        });
-        historyObject.title = title1;
-        historyObject.data = upcomingDataArray;
-        upcomingObject.title = title2;
-        upcomingObject.data = historyDataArray;
-        sectionArray.push(historyObject);
-        sectionArray.push(upcomingObject);
-        return sectionArray;
+        if (this.props.bookingList.length > 0) {
+            this.props.bookingList.forEach(element => {
+                if (moment(now).isBefore(`${element.date} ${element.time}`)) {
+                    upcomingDataArray.push(element);
+                } else {
+                    historyDataArray.push(element);
+                }
+            });
+            historyObject.title = title1;
+            historyObject.data = upcomingDataArray;
+            upcomingObject.title = title2;
+            upcomingObject.data = historyDataArray;
+            sectionArray.push(historyObject);
+            sectionArray.push(upcomingObject);
+            return sectionArray;
+        }
     }
 
     renderHeader(title) {
@@ -155,30 +157,29 @@ class BokkingScreen extends Component {
                     </View>
                 );
             } else {
-                return (
-                    // <FlatList
-                    //     data={this.props.bookingList}
-                    //     renderItem={this.renderItem.bind(this)}
-                    //     keyExtractor={item => item.reservation_id.toString()}
-                    //     onRefresh={() => this.onRefresh()}
-                    //     refreshing={this.state.isFetching}
-                    //     initialNumToRender={5}
-                    //     removeClippedSubviews
-                    //     windowSize={11}
-                    // />
-                    <SectionList
-                        renderItem={({ item, section }) => (
-                            this.renderItem(item, section)
-                        )}
-                        renderSectionHeader={({ section: { title } }) => (
-                            this.renderHeader(title)
-                        )}
-                        sections={this.generateSectionData()}
-                        keyExtractor={(item) => item.reservation_id.toString()}
-                        onRefresh={() => this.onRefresh()}
-                        refreshing={this.state.isFetching}
-                    />
-                );
+                if (this.props.bookingList.length > 0) {
+                    return (
+                        <SectionList
+                            renderItem={({ item, section }) => (
+                                this.renderItem(item, section)
+                            )}
+                            renderSectionHeader={({ section: { title } }) => (
+                                this.renderHeader(title)
+                            )}
+                            sections={this.generateSectionData()}
+                            keyExtractor={(item) => item.reservation_id.toString()}
+                            onRefresh={() => this.onRefresh()}
+                            refreshing={this.state.isFetching}
+                        />
+                    );
+                } else {
+                    return (
+                        <View style={styles.emptyListMainContainer}>
+                            <Icon name={'restaurant-menu'} type={'MaterialIcons'} style={styles.iconStyle} />
+                            <Text style={styles.errorText}>Booking list is empty</Text>
+                        </View>
+                    )
+                }
             }
         } else if (!this.isConnected) {
             return (
@@ -219,6 +220,11 @@ const styles = EStyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
+    emptyListMainContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     errorContainer: {
         flex: 1,
         alignSelf: 'stretch',
@@ -237,6 +243,11 @@ const styles = EStyleSheet.create({
     headerTextStyle: {
         fontSize: '13rem',
         color: colors.ash_dark
+    },
+    iconStyle: {
+        fontSize: '42rem',
+        alignSelf: 'center',
+        color: colors.green_light
     }
 });
 

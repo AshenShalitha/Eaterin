@@ -14,7 +14,7 @@ import {
 } from 'native-base';
 
 import { CustomHeader } from '../../components/CustomHeader';
-import { BookingSummary } from '../../components/BookingSummary';
+import { CancelBookingSummary } from '../../components/CancelBookingSummary';
 import { AlertPopUp } from '../../components/AlertPopUp';
 import { colors } from '../../utils/Colors';
 import * as actions from '../../redux/actions';
@@ -114,7 +114,7 @@ class CancelBookingScreen extends Component {
                     onBackPressed={() => this.props.navigation.pop()}
                 />
                 <View style={{ flex: 6.1 }}>
-                    <BookingSummary
+                    <CancelBookingSummary
                         date={moment(new Date(this.props.selectedBooking.date), 'MM/DD/YYYY', true).format('DD MMM YYYY')}
                         time={this.props.selectedBooking.time}
                         paxCount={this.props.selectedBooking.guest_number}

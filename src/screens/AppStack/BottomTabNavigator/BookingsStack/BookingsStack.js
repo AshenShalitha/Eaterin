@@ -19,21 +19,22 @@ export const BookingsStack = createStackNavigator(
                 headerStyle: {
                     backgroundColor: colors.white,
                 },
+                title: 'Bookings'
                 // headerRight: (<HeaderRight />),
-                // headerLeft: (<HeaderLeft />),
-                headerTitle: (
-                    <View style={{ flex: 1, alignItems: 'center' }}>
-                        <Image
-                            source={logo}
-                            style={{
-                                height: EStyleSheet.value('28rem'),
-                                width: EStyleSheet.value('110rem'),
-                                alignSelf: 'center'
-                            }}
-                            resizeMode={'contain'}
-                        />
-                    </View>
-                ),
+                // headerLeft: (<View />),
+                // headerTitle: (
+                //     <View style={{ flex: 1, alignItems: 'center' }}>
+                //         <Image
+                //             source={logo}
+                //             style={{
+                //                 height: EStyleSheet.value('28rem'),
+                //                 width: EStyleSheet.value('110rem'),
+                //                 alignSelf: 'center'
+                //             }}
+                //             resizeMode={'contain'}
+                //         />
+                //     </View>
+                // ),
             }
         }
     },

@@ -164,8 +164,10 @@ export const updateProfilePicture = (fileName, fileType, fileUri, userId, access
         }).then(response => {
             dispatch({ type: UPDATE_PROFILE_PICTURE_SUCCESS, payload: response.data.data.image_url });
             AsyncStorage.setItem('imageUrl', response.data.data.image_url);
+            console.log(response.data)
         }).catch((error) => {
             dispatch({ type: UPDATE_PROFILE_PICTURE_FAILED });
+            console.log(error.response);
         });
     };
 };
@@ -212,11 +214,9 @@ export const changePassword = (userId, oldPassword, newPassword, confirmPassword
             }
         }).then(response => {
             dispatch({ type: PROFILE_PASSWORD_CHANGE_SUCCESS });
-            console.log(response.data)
         }).catch(error => {
             dispatch({ type: PROFILE_PASSWORD_CHANGE_FAILED, payload: error.response.data.errors.detail });
-            console.log(error.response);
-        })
+        });
     };
 };
 

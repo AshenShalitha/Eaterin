@@ -47,7 +47,7 @@ const INITIAL_STATE = {
     colorPasswordChange: colors.ash_dark,
     disabledPasswordChange: true,
     profileUpdateLoading: false,
-    profileUpdateError: '',
+    profileUpdateError: false,
     passwordChangeLoading: false,
     passwordChangeError: false,
     passwordChangeErrorMessage: '',
