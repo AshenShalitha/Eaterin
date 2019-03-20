@@ -23,10 +23,12 @@ const TimeSlotItem = ({
     onItemPressed,
     timeSlot,
     discount,
-    isValueDeal
+    isValueDeal,
+    paxCount,
+    disabled,
 }) => {
     return (
-        <TouchableOpacity activeOpacity={0.6} onPress={onItemPressed}>
+        <TouchableOpacity activeOpacity={0.6} onPress={onItemPressed} disabled={disabled}>
             <Card style={styles.listItem}>
                 <View style={styles.left}>
                     {
@@ -38,10 +40,13 @@ const TimeSlotItem = ({
                             :
                             <View style={styles.emptyView} />
                     }
-                    <Text style={styles.timeText}>{moment(timeSlot, 'HH:mm').format('LT')}</Text>
+                    <View style={styles.textContainer}>
+                        <Text style={disabled ? styles.timeTextDisabled : styles.timeText}>{moment(timeSlot, 'HH:mm').format('LT')}</Text>
+                        <Text style={disabled ? styles.paxCountTextDisabled : styles.paxCountText}>{paxCount} pax remaining</Text>
+                    </View>
                 </View>
                 <View style={styles.right}>
-                    <Text style={styles.discountText}>{discount}%</Text>
+                    <Text style={disabled ? styles.discountTextDisabled : styles.discountText}>{discount}%</Text>
                     <Icon name={'arrow-right'} type={'SimpleLineIcons'} style={styles.arrowIcon} />
                 </View>
             </Card>
@@ -71,11 +76,21 @@ const styles = EStyleSheet.create({
     timeText: {
         fontSize: '16rem',
         color: colors.black,
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
+    },
+    timeTextDisabled: {
+        fontSize: '16rem',
+        color: colors.ash_light,
+        alignSelf: 'flex-start',
     },
     discountText: {
         fontSize: '22rem',
         color: colors.green_light,
+        fontWeight: '500'
+    },
+    discountTextDisabled: {
+        fontSize: '22rem',
+        color: colors.ash_light,
         fontWeight: '500'
     },
     arrowIcon: {
@@ -91,7 +106,19 @@ const styles = EStyleSheet.create({
         height: '35rem',
         width: '35rem',
         alignSelf: 'flex-start'
-    }
+    },
+    textContainer: {
+        flex: 1,
+        paddingLeft: '0rem'
+    },
+    paxCountText: {
+        fontSize: '11rem',
+        color: colors.ash_dark
+    },
+    paxCountTextDisabled: {
+        fontSize: '11rem',
+        color: colors.ash_light
+    },
 });
 
 export { TimeSlotItem };

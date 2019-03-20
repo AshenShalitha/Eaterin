@@ -32,6 +32,8 @@ const entireScreenWidth = Dimensions.get('window').width;
 const entireScreenHeight = Dimensions.get('window').height;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
+let disableArray = [];
+
 class SelectBookingScreen extends Component {
 
     constructor(props) {
@@ -40,6 +42,7 @@ class SelectBookingScreen extends Component {
             incrementDisabled: false,
             decrementDisabled: false,
             modalVisible: false,
+            isDisabled: false,
         };
         this.isConnected = true;
         NetInfo.isConnected.fetch().then(isConnected => {
@@ -58,6 +61,7 @@ class SelectBookingScreen extends Component {
     componentWillUnmount() {
         NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
         if (this.interaction) this.interaction.cancel();
+        disableArray = [];
     }
 
     handleConnectivityChange = isConnected => {
@@ -74,6 +78,7 @@ class SelectBookingScreen extends Component {
             this.setState({ incrementDisabled: true });
         } else {
             this.props.guestsIncreased(this.props.numberOfGuests);
+            this.checkDisable(this.props.numberOfGuests + 1);
         }
     }
 
@@ -83,6 +88,7 @@ class SelectBookingScreen extends Component {
             this.setState({ decrementDisabled: true });
         } else {
             this.props.guestsDecreased(this.props.numberOfGuests);
+            this.checkDisable(this.props.numberOfGuests - 1);
         }
     }
 
@@ -119,14 +125,57 @@ class SelectBookingScreen extends Component {
     }
 
     renderItem(item) {
+        let disabled;
+        disableArray.map(element => {
+            if (element.id === item.item.time_slot_id) {
+                disabled = element.isDisabled;
+            }
+            return null;
+        })
         return (
             <TimeSlotItem
+                timeSlotId={item.item.time_slot_id}
                 timeSlot={item.item.time}
                 discount={item.item.discount}
                 onItemPressed={() => this.onTimeSlotPressed(item.item)}
                 isValueDeal={item.item.is_value_deal}
+                paxCount={item.item.available_pax_count}
+                disabled={disabled}
             />
         );
+    }
+
+    checkDisable(paxCount) {
+        this.props.timeSlots.forEach(element => {
+            let item = {};
+            let isDuplicate = false;
+            console.log(paxCount);
+            if (paxCount > element.available_pax_count) {
+                this.setState({ isDisabled: true });
+                for (let i = 0; i < disableArray.length; i++) {
+                    if (disableArray[i].id === element.time_slot_id) {
+                        isDuplicate = true;
+                        return;
+                    } else {
+                        isDuplicate = false;
+                    }
+                }
+                if (!isDuplicate) {
+                    item.isDisabled = true;
+                    item.id = element.time_slot_id;
+                    disableArray.push(item);
+                    item = {};
+                }
+            } else {
+                this.setState({ isDisabled: false });
+                for (let j = 0; j < disableArray.length; j++) {
+                    if (disableArray[j].id === element.time_slot_id) {
+                        disableArray.splice(j, 1);
+                    }
+                }
+            }
+            console.log(disableArray);
+        });
     }
 
     renderTimeSlots() {
@@ -146,7 +195,8 @@ class SelectBookingScreen extends Component {
                     <FlatList
                         data={this.props.timeSlots}
                         renderItem={this.renderItem.bind(this)}
-                        keyExtractor={item => item.time}
+                        keyExtractor={item => item.time_slot_id.toString()}
+                        extraData={this.state}
                     />
                 );
             }
