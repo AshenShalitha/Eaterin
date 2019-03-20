@@ -109,7 +109,7 @@ const styles = EStyleSheet.create({
     },
     addressText: {
         fontSize: '11rem',
-        color: colors.ash
+        color: colors.ash,
     },
     ratingsView: {
         width: '40rem',

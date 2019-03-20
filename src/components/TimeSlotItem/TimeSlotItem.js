@@ -19,6 +19,13 @@ import { colors } from '../../utils/Colors';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
+const setPaxText = (paxCount) => {
+    if (paxCount <= 4) {
+        return `${paxCount} pax remaining`;
+    }
+    return null;
+};
+
 const TimeSlotItem = ({
     onItemPressed,
     timeSlot,
@@ -42,7 +49,7 @@ const TimeSlotItem = ({
                     }
                     <View style={styles.textContainer}>
                         <Text style={disabled ? styles.timeTextDisabled : styles.timeText}>{moment(timeSlot, 'HH:mm').format('LT')}</Text>
-                        <Text style={disabled ? styles.paxCountTextDisabled : styles.paxCountText}>{paxCount} pax remaining</Text>
+                        <Text style={disabled ? styles.paxCountTextDisabled : styles.paxCountText}>{setPaxText(paxCount)}</Text>
                     </View>
                 </View>
                 <View style={styles.right}>

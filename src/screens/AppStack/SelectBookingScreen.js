@@ -149,7 +149,6 @@ class SelectBookingScreen extends Component {
         this.props.timeSlots.forEach(element => {
             let item = {};
             let isDuplicate = false;
-            console.log(paxCount);
             if (paxCount > element.available_pax_count) {
                 this.setState({ isDisabled: true });
                 for (let i = 0; i < disableArray.length; i++) {
@@ -174,7 +173,6 @@ class SelectBookingScreen extends Component {
                     }
                 }
             }
-            console.log(disableArray);
         });
     }
 
