@@ -7,6 +7,7 @@ import {
 import { connect } from 'react-redux';
 import moment from 'moment';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SkypeIndicator } from 'react-native-indicators';
 import { Icon } from 'native-base';
 
 import { CustomHeader } from '../../components/CustomHeader';
@@ -21,6 +22,33 @@ const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 class FinishBookingScreen extends Component {
+
+    renderBottomContainer() {
+        if (this.props.reservationLoading) {
+            return (
+                <View style={styles.errorContainer}>
+                    <SkypeIndicator color={colors.green_light} size={EStyleSheet.value('40rem')} />
+                </View>
+            );
+        } else {
+            if (this.props.reservationError) {
+                return (
+                    <View style={styles.errorContainer}>
+                        <Icon name={'ios-close-circle-outline'} type={'Ionicons'} style={styles.iconStyle} />
+                        <Text style={styles.errorText}>{strings.errors.reservationError}</Text>
+                    </View>
+                );
+            } else {
+                return (
+                    <RefNoView
+                        refNo={this.props.refNumber}
+                        onPress={() => this.props.navigation.popToTop()}
+                    />
+                );
+            }
+        }
+    }
+
     render() {
         return (
             <View style={styles.mainContainer}>
@@ -39,16 +67,7 @@ class FinishBookingScreen extends Component {
                         discount={this.props.selectedTimeSlotObj.discount}
                     />
                     {
-                        this.props.reservationError ?
-                            <View style={styles.errorContainer}>
-                                <Icon name={'ios-close-circle-outline'} type={'Ionicons'} style={styles.iconStyle} />
-                                <Text style={styles.errorText}>{strings.errors.reservationError}</Text>
-                            </View>
-                            :
-                            <RefNoView
-                                refNo={'3197187'}
-                                onPress={() => this.props.navigation.popToTop()}
-                            />
+                        this.renderBottomContainer()
                     }
                 </View>
             </View >
@@ -85,6 +104,8 @@ const mapStateToProps = state => {
         selectedTimeSlotObj: state.booking.selectedTimeSlotObj,
         selectedDate: state.booking.selectedDate,
         reservationError: state.booking.reservationError,
+        refNumber: state.booking.refNumber,
+        reservationLoading: state.booking.reservationLoading
     };
 };
 

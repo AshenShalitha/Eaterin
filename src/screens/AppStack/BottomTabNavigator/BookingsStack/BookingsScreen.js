@@ -53,10 +53,6 @@ class BokkingScreen extends Component {
         });
     }
 
-    componentDidUpdate() {
-        console.log(this.generateSectionData());
-    }
-
     componentWillUnmount() {
         NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
         if (this.interaction) this.interaction.cancel();

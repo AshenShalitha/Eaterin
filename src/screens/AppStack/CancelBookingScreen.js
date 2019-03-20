@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {
     Dimensions,
     View,
-    Text
+    Text,
+    AsyncStorage,
+    NetInfo
 } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -13,6 +15,7 @@ import {
 
 import { CustomHeader } from '../../components/CustomHeader';
 import { BookingSummary } from '../../components/BookingSummary';
+import { AlertPopUp } from '../../components/AlertPopUp';
 import { colors } from '../../utils/Colors';
 import * as actions from '../../redux/actions';
 import { PROTOCOL, HOST } from '../../api/API';
@@ -22,6 +25,74 @@ const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 class CancelBookingScreen extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            modalVisible: false,
+            noInternet: false
+        };
+        this.isConnected = true;
+        NetInfo.isConnected.fetch().then(isConnected => {
+            this.isConnected = isConnected;
+        });
+    }
+
+    componentDidMount() {
+        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+    }
+
+    componentDidUpdate() {
+        if (this.props.bookingDeleteSuccess) {
+            this.props.navigation.pop();
+        }
+    }
+
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+        if (this.interaction) this.interaction.cancel();
+    }
+
+    handleConnectivityChange = isConnected => {
+        if (isConnected) {
+            this.isConnected = isConnected;
+        } else {
+            this.isConnected = isConnected;
+        }
+    };
+
+    onCancelPressed() {
+        if (this.isConnected) {
+            this.setState({
+                modalVisible: true
+            });
+        } else {
+            this.setState({
+                noInternet: true
+            });
+        }
+    }
+
+    closeModal() {
+        this.setState({
+            modalVisible: false
+        });
+    }
+
+    noInternetPopupCancelled() {
+        this.setState({
+            noInternet: false
+        });
+    }
+
+    onOkPressed() {
+        const { reservation_id: reservationId } = this.props.selectedBooking;
+        const { id } = this.props;
+        AsyncStorage.getItem('accessToken').then(accessToken => {
+            this.props.deleteBooking(reservationId, id, accessToken);
+        });
+        this.closeModal();
+    }
 
     checkDate() {
         const now = moment().format('YYYY-MM-DD HH:mm');
@@ -54,7 +125,7 @@ class CancelBookingScreen extends Component {
                         {
                             this.checkDate() ?
                                 <View style={styles.buttonContainer}>
-                                    <Button block style={styles.buttonStyle} >
+                                    <Button block style={styles.buttonStyle} onPress={() => this.onCancelPressed()}>
                                         <Text style={styles.buttonTextStyle}>Cancel my booking</Text>
                                     </Button>
                                 </View>
@@ -63,6 +134,32 @@ class CancelBookingScreen extends Component {
                         }
                     </View>
                 </View>
+                <AlertPopUp
+                    isVisible={this.state.modalVisible}
+                    onBackdropPress={() => this.closeModal()}
+                    onBackButtonPress={() => this.closeModal()}
+                    title={'Confirm'}
+                    text={'Press Ok to delete the reservation'}
+                    positiveButtonText={'Ok'}
+                    negativeButtonText={'Cancel'}
+                    buttonCount={2}
+                    iconName={'infocirlceo'}
+                    iconType={'AntDesign'}
+                    onPositivePress={() => this.onOkPressed()}
+                    onNegativePress={() => this.closeModal()}
+                />
+                <AlertPopUp
+                    isVisible={this.state.noInternet}
+                    onBackdropPress={() => this.noInternetPopupCancelled()}
+                    onBackButtonPress={() => this.noInternetPopupCancelled()}
+                    title={'Alert'}
+                    text={'No internet connection!'}
+                    buttonText={'Ok'}
+                    buttonCount={1}
+                    onPress={() => this.noInternetPopupCancelled()}
+                    iconName={'alert-circle'}
+                    iconType={'Feather'}
+                />
             </View >
         );
     }
@@ -110,6 +207,8 @@ const styles = EStyleSheet.create({
 const mapStateToProps = state => {
     return {
         selectedBooking: state.booking.selectedBooking,
+        bookingDeleteSuccess: state.booking.bookingDeleteSuccess,
+        id: state.profile.id,
     };
 };
 

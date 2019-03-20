@@ -22,7 +22,11 @@ import {
     BOOKING_SELECTED,
     SEARCH_PRESSED,
     SET_ARRAYHOLDER,
-    SEARCH_FIELD_CHANGED
+    SEARCH_FIELD_CHANGED,
+    DELETE_BOOKING,
+    DELETE_BOOKING_SUCCESS,
+    DELETE_BOOKING_FAILED,
+    RESET_DELETE_STATE
 } from '../types';
 
 const INITIAL_STATE = {
@@ -48,11 +52,20 @@ const INITIAL_STATE = {
     selectedBooking: {},
     isSearchVisible: false,
     arrayholder: [],
+    bookingDeleteLoading: false,
+    bookingDeleteError: false,
+    bookingDeleteSuccess: false,
 };
 
 const ERROR_RESET_STATE = {
     reservationError: false,
     reservationErrorMessage: ''
+};
+
+const DELETE_RESET_STATE = {
+    bookingDeleteLoading: false,
+    bookingDeleteError: false,
+    bookingDeleteSuccess: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -103,6 +116,14 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, arrayholder: action.payload };
         case SEARCH_FIELD_CHANGED:
             return { ...state, restaurantList: action.payload };
+        case DELETE_BOOKING:
+            return { ...state, bookingDeleteLoading: true };
+        case DELETE_BOOKING_SUCCESS:
+            return { ...state, bookingDeleteLoading: false, bookingDeleteSuccess: true, bookingDeleteError: false };
+        case DELETE_BOOKING_FAILED:
+            return { ...state, bookingDeleteLoading: false, bookingDeleteSuccess: false, bookingDeleteError: true };
+        case RESET_DELETE_STATE:
+            return { ...state, ...DELETE_RESET_STATE };
         default:
             return state;
     }

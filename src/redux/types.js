@@ -41,6 +41,12 @@ export const FETCH_BOOKING_LIST_SUCCESS = 'fetch_booking_list_success';
 export const FETCH_BOOKING_LIST_FAILED = 'fetch_booking_list_failed';
 export const BOOKING_SELECTED = 'booking_selected';
 export const SEARCH_PRESSED = 'search_pressed';
+export const SET_ARRAYHOLDER = 'set_arrayholder';
+export const SEARCH_FIELD_CHANGED = 'search_field_changed';
+export const DELETE_BOOKING = 'delete_booking';
+export const DELETE_BOOKING_SUCCESS = 'delete_booking_success';
+export const DELETE_BOOKING_FAILED = 'delete_booking_failed';
+export const RESET_DELETE_STATE = 'reset_delete_state';
 
 //profile
 export const UPDATE_PROFILE_PICTURE = 'update_profile_picture';
@@ -63,8 +69,6 @@ export const PROFILE_PASSWORD_CHANGE = 'profile_password_change';
 export const PROFILE_PASSWORD_CHANGE_SUCCESS = 'profile_password_change_success';
 export const PROFILE_PASSWORD_CHANGE_FAILED = 'profile_password_change_failed';
 export const PROFILE_RESET_PASSOWRD_ERROR = 'reset_password_error';
-export const SET_ARRAYHOLDER = 'set_arrayholder';
-export const SEARCH_FIELD_CHANGED = 'search_field_changed';
 
 //User
 export const SET_ID = 'set_id';

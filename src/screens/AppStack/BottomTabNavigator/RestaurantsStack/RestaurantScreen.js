@@ -8,12 +8,11 @@ import {
     TouchableOpacity,
     InteractionManager,
     AsyncStorage,
-    Animated
 } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SkypeIndicator } from 'react-native-indicators';
-import { Container, Header, Item, Input, Icon, Button } from 'native-base';
+import { Container, Item, Input, Icon } from 'native-base';
 
 import { OfflineNotice } from '../../../../components/OfflineNotice';
 import { RestaurantCard } from '../../../../components/RestaurantCard';
@@ -166,7 +165,7 @@ class RestaurantScreen extends Component {
                                 <Item style={styles.searchItem}>
                                     <Icon name="ios-search" />
                                     <Input
-                                        placeholder="Search by Name, Location"
+                                        placeholder="Search by name or address"
                                         style={styles.input}
                                         onChangeText={text => this.searchFilterFunction(text)}
                                     />

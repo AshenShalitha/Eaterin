@@ -22,7 +22,11 @@ import {
     BOOKING_SELECTED,
     SEARCH_PRESSED,
     SEARCH_FIELD_CHANGED,
-    SET_ARRAYHOLDER
+    SET_ARRAYHOLDER,
+    DELETE_BOOKING,
+    DELETE_BOOKING_SUCCESS,
+    DELETE_BOOKING_FAILED,
+    RESET_DELETE_STATE
 } from '../types';
 import {
     GET_RESTAURANTS,
@@ -138,6 +142,7 @@ export const addBooking = (
     fullName,
     email,
     contactNumber,
+    timeSlotId,
     accessToken,
 ) => {
     return (dispatch) => {
@@ -157,14 +162,14 @@ export const addBooking = (
                 discount,
                 full_name: fullName,
                 email,
-                mobile_number: contactNumber
+                mobile_number: contactNumber,
+                time_slot_id: timeSlotId
             }
         }).then(response => {
-            dispatch({ type: MAKE_RESERVATION_SUCCESS });
+            dispatch({ type: MAKE_RESERVATION_SUCCESS, payload: response.data.data.reference_number });
             refreshBookingList(userId, accessToken, dispatch);
         }).catch(error => {
             dispatch({ type: MAKE_RESERVATION_FAILED, payload: 'Something went wrong' });
-            console.log(error.response)
         });
     };
 };
@@ -217,4 +222,27 @@ export const searchFilterAction = (text, arrayHolder) => {
     return (dispatch) => {
         dispatch({ type: SEARCH_FIELD_CHANGED, payload: newData });
     };
+};
+
+export const deleteBooking = (bookingId, userId, accessToken) => {
+    return (dispatch) => {
+        dispatch({ type: DELETE_BOOKING });
+        axios({
+            method: 'delete',
+            url: `${CREATE_RESERVATION}/${bookingId}`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then(response => {
+            dispatch({ type: DELETE_BOOKING_SUCCESS });
+            refreshBookingList(userId, accessToken, dispatch);
+            resetBookingDeleteState(dispatch);
+        }).catch(error => {
+            dispatch({ type: DELETE_BOOKING_FAILED });
+        });
+    };
+};
+
+const resetBookingDeleteState = (dispatch) => {
+    dispatch({ type: RESET_DELETE_STATE });
 };
