@@ -19,8 +19,8 @@ import { colors } from '../../utils/Colors';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-const setPaxText = (paxCount) => {
-    if (paxCount <= 4) {
+const setPaxText = (paxCount, currentPaxCount) => {
+    if (paxCount <= 4 && currentPaxCount > paxCount) {
         return `${paxCount} pax remaining`;
     }
     return null;
@@ -33,7 +33,9 @@ const TimeSlotItem = ({
     isValueDeal,
     paxCount,
     disabled,
+    currentPaxCount,
 }) => {
+    console.log('current', currentPaxCount);
     return (
         <TouchableOpacity activeOpacity={0.6} onPress={onItemPressed} disabled={disabled}>
             <Card style={styles.listItem}>
@@ -49,7 +51,7 @@ const TimeSlotItem = ({
                     }
                     <View style={styles.textContainer}>
                         <Text style={disabled ? styles.timeTextDisabled : styles.timeText}>{moment(timeSlot, 'HH:mm').format('LT')}</Text>
-                        <Text style={disabled ? styles.paxCountTextDisabled : styles.paxCountText}>{setPaxText(paxCount)}</Text>
+                        <Text style={disabled ? styles.paxCountTextDisabled : styles.paxCountText}>{setPaxText(paxCount, currentPaxCount)}</Text>
                     </View>
                 </View>
                 <View style={styles.right}>

@@ -141,6 +141,7 @@ class SelectBookingScreen extends Component {
                 isValueDeal={item.item.is_value_deal}
                 paxCount={item.item.available_pax_count}
                 disabled={disabled}
+                currentPaxCount={this.props.numberOfGuests}
             />
         );
     }
