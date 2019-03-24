@@ -116,12 +116,12 @@ class SelectBookingScreen extends Component {
 
     dateSelected(date) {
         this.props.dateSelected(date);
-        this.fetchTimeSlots(date);
+        this.fetchTimeSlots(moment(new Date(date)).format('dddd'));
     }
 
     fetchTimeSlots(date) {
-        const day = moment(new Date(date)).format('dddd');
-        this.props.fetchTimeSlots(this.props.selectedRestaurant.id, day);
+        // const day = moment(new Date(date)).format('dddd');
+        this.props.fetchTimeSlots(this.props.selectedRestaurant.id, date);
     }
 
     renderItem(item) {
@@ -201,7 +201,7 @@ class SelectBookingScreen extends Component {
         } else if (!this.isConnected) {
             return (
                 <View style={styles.errorContainer}>
-                    <TouchableOpacity onPress={() => this.fetchTimeSlots(this.props.selectedDate)}>
+                    <TouchableOpacity onPress={() => this.fetchTimeSlots(moment(new Date(this.props.selectedDate)).format('dddd'))}>
                         <Text style={styles.errorText}>{strings.errors.noInternet} {'\n'}{strings.errors.retry}</Text>
                     </TouchableOpacity>
                 </View>

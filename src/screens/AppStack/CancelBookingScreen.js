@@ -86,10 +86,10 @@ class CancelBookingScreen extends Component {
     }
 
     onOkPressed() {
-        const { reservation_id: reservationId } = this.props.selectedBooking;
+        const { reservation_id: reservationId, time_slot_id: timeSlotId } = this.props.selectedBooking;
         const { id } = this.props;
         AsyncStorage.getItem('accessToken').then(accessToken => {
-            this.props.deleteBooking(reservationId, id, accessToken);
+            this.props.deleteBooking(reservationId, id, timeSlotId, accessToken);
         });
         this.closeModal();
     }

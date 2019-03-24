@@ -20,8 +20,10 @@ const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 const cropAddress = address => {
-    if (address.length > 42) {
-        return `${address.slice(0, 42)}...`;
+    if (address !== null) {
+        if (address.length > 42) {
+            return `${address.slice(0, 42)}...`;
+        }
     }
     return address;
 };

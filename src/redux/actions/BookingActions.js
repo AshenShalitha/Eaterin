@@ -224,7 +224,7 @@ export const searchFilterAction = (text, arrayHolder) => {
     };
 };
 
-export const deleteBooking = (bookingId, userId, accessToken) => {
+export const deleteBooking = (bookingId, userId, timeSlotId, accessToken) => {
     return (dispatch) => {
         dispatch({ type: DELETE_BOOKING });
         axios({
@@ -232,6 +232,9 @@ export const deleteBooking = (bookingId, userId, accessToken) => {
             url: `${CREATE_RESERVATION}/${bookingId}`,
             headers: {
                 Authorization: `Bearer ${accessToken}`
+            },
+            data: {
+                time_slot_id: timeSlotId
             }
         }).then(response => {
             dispatch({ type: DELETE_BOOKING_SUCCESS });
