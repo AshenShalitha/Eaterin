@@ -11,6 +11,6 @@ export const MainSwitchNavigator = createAppContainer(createSwitchNavigator(
         App: AppStackNavigator
     },
     {
-        initialRouteName: 'App',
+        initialRouteName: 'Splash',
     }
 ));

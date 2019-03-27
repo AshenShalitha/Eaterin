@@ -180,7 +180,11 @@ class SelectBookingScreen extends Component {
     }
 
     setTimeslotArray(timeSlots) {
-
+        //filter 0 pax timeslots
+        const filteredTimeSlots = timeSlots.filter(timeSlot => {
+            return timeSlot.available_pax_count > 0;
+        });
+        //check is date is today
         if (moment(this.props.selectedDate).isSame(moment().format('MM/DD/YYYY'))) {
             //round up current time to nearest 2 hours
             const currentTime = moment();
@@ -188,7 +192,7 @@ class SelectBookingScreen extends Component {
             const currentTimeRoundedUp = moment(currentTime).add(minutesDifference, 'minutes').format('HH:mm');
             const roundedUpTwoHours = moment(currentTimeRoundedUp, 'HH:mm').add(2, 'h').format('HH:mm');
             //filter past timeslots
-            const newTimeSlots = timeSlots.filter(timeSlot => {
+            const newTimeSlots = filteredTimeSlots.filter(timeSlot => {
                 if (moment(timeSlot.time, 'HH:mm').isAfter(moment(roundedUpTwoHours, 'HH:mm'))) {
                     return timeSlot;
                 }
@@ -196,7 +200,7 @@ class SelectBookingScreen extends Component {
             });
             return newTimeSlots;
         }
-        return timeSlots;
+        return filteredTimeSlots;
     }
 
     renderTimeSlots() {

@@ -40,7 +40,7 @@ export const strings = {
         time: 'Time',
         paxCount: 'Pax Count',
         discount: 'Discount',
-        refNo: 'ref No'
+        refNo: 'Ref No'
     },
     errors: {
         noInternet: 'Failed to load content',

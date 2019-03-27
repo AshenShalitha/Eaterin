@@ -58,10 +58,10 @@ const RestaurantCard = ({
                             <Text style={styles.addressText}>{cropAddress(address)}</Text>
                         </View>
                         <View style={styles.footerRight}>
-                            <View style={styles.ratingsView}>
+                            {/* <View style={styles.ratingsView}>
                                 <Text style={styles.ratingsText}>{ratings}</Text>
                                 <Icon name={'star'} type={'AntDesign'} style={styles.starIcon} />
-                            </View>
+                            </View> */}
                         </View>
                     </View>
                 </View>

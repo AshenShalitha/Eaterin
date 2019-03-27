@@ -43,7 +43,6 @@ class RestaurantScreen extends Component {
             this.fetchRestaurantList();
         });
         this.checkLoginStatus();
-        this.setUserData();
     }
 
     componentWillUnmount() {
@@ -58,25 +57,6 @@ class RestaurantScreen extends Component {
             this.isConnected = isConnected;
         }
     };
-
-    setUserData() {
-        const keys = ['id', 'name', 'email', 'mobileNumber', 'imageUrl', 'accessToken'];
-        AsyncStorage.multiGet(keys).then((result) => {
-            const id = result[0][1];
-            const name = result[1][1];
-            const email = result[2][1];
-            const mobileNumber = result[3][1];
-            const imageUrl = result[4][1];
-            const accessToken = result[5][1];
-
-            this.props.setId(id);
-            this.props.setName(name);
-            this.props.setEmail(email);
-            this.props.setContactNumber(mobileNumber);
-            this.props.setProfilePic(imageUrl);
-            this.props.setAccessToken(accessToken);
-        });
-    }
 
     checkLoginStatus() {
         AsyncStorage.getItem('accessToken').then(accessToken => {

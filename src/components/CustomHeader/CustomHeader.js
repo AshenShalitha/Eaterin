@@ -50,10 +50,10 @@ const CustomHeader = ({
                         <Text style={styles.titleStyle}>{restaurantName}</Text>
                     </View>
                     <View style={styles.right}>
-                        <View style={styles.ratingsView}>
+                        {/* <View style={styles.ratingsView}>
                             <Text style={styles.ratingsText}>{ratings}</Text>
                             <Icon name={'star'} type={'AntDesign'} style={styles.starIcon} />
-                        </View>
+                        </View> */}
                     </View>
                 </View>
                 <View style={styles.cardItem}>
