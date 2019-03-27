@@ -177,6 +177,26 @@ class SelectBookingScreen extends Component {
         });
     }
 
+    setTimeslotArray(timeSlots) {
+
+        if (moment(this.props.selectedDate).isSame(moment().format('MM/DD/YYYY'))) {
+            //round up current time to nearest 30 min
+            const currentTime = moment();
+            const minutesDifference = 30 - (currentTime.minute() % 30);
+            const currentTimeRoundedUp = moment(currentTime).add(minutesDifference, 'minutes').format('HH:mm');
+            const roundedUpTwoHours = moment(currentTimeRoundedUp, 'HH:mm').add(2, 'h').format('HH:mm');
+            //filter past timeslots
+            const newTimeSlots = timeSlots.filter(timeSlot => {
+                if (moment(timeSlot.time, 'HH:mm').isAfter(moment(roundedUpTwoHours, 'HH:mm'))) {
+                    return timeSlot;
+                }
+                return null;
+            });
+            return newTimeSlots;
+        }
+        return timeSlots;
+    }
+
     renderTimeSlots() {
         if (this.isConnected) {
             if (this.props.timeSlotsLoading) {
@@ -191,12 +211,17 @@ class SelectBookingScreen extends Component {
                 );
             } else {
                 return (
-                    <FlatList
-                        data={this.props.timeSlots}
-                        renderItem={this.renderItem.bind(this)}
-                        keyExtractor={item => item.time_slot_id.toString()}
-                        extraData={this.state}
-                    />
+                    this.setTimeslotArray(this.props.timeSlots).length === 0 ?
+                        <View style={styles.errorContainer}>
+                            <Text style={styles.errorText}>{this.props.timeSlotErrorMessage}</Text>
+                        </View>
+                        :
+                        <FlatList
+                            data={this.setTimeslotArray(this.props.timeSlots)}
+                            renderItem={this.renderItem.bind(this)}
+                            keyExtractor={item => item.time_slot_id.toString()}
+                            extraData={this.state}
+                        />
                 );
             }
         } else if (!this.isConnected) {

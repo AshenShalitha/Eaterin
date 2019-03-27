@@ -35,7 +35,6 @@ const TimeSlotItem = ({
     disabled,
     currentPaxCount,
 }) => {
-    console.log('current', currentPaxCount);
     return (
         <TouchableOpacity activeOpacity={0.6} onPress={onItemPressed} disabled={disabled}>
             <Card style={styles.listItem}>
