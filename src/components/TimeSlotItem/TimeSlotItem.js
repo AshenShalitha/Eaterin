@@ -20,7 +20,7 @@ const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 const setPaxText = (paxCount, currentPaxCount) => {
-    if (paxCount <= 4 && currentPaxCount > paxCount) {
+    if (currentPaxCount > paxCount) {
         return `${paxCount} pax remaining`;
     }
     return null;

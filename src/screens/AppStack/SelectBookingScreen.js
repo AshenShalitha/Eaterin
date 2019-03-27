@@ -117,6 +117,8 @@ class SelectBookingScreen extends Component {
     dateSelected(date) {
         this.props.dateSelected(date);
         this.fetchTimeSlots(moment(new Date(date)).format('dddd'));
+        this.props.guestCountChanged(1);
+        this.checkDisable(1);
     }
 
     fetchTimeSlots(date) {
@@ -180,7 +182,7 @@ class SelectBookingScreen extends Component {
     setTimeslotArray(timeSlots) {
 
         if (moment(this.props.selectedDate).isSame(moment().format('MM/DD/YYYY'))) {
-            //round up current time to nearest 30 min
+            //round up current time to nearest 2 hours
             const currentTime = moment();
             const minutesDifference = 30 - (currentTime.minute() % 30);
             const currentTimeRoundedUp = moment(currentTime).add(minutesDifference, 'minutes').format('HH:mm');
