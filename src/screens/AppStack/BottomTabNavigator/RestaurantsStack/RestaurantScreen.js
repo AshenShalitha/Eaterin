@@ -10,6 +10,7 @@ import {
     AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SkypeIndicator } from 'react-native-indicators';
 import { Container, Item, Input, Icon } from 'native-base';
@@ -70,9 +71,9 @@ class RestaurantScreen extends Component {
     }
 
     fetchRestaurantList() {
-        this.props.fetchRestaurants();
+        this.props.fetchRestaurants(moment().format('dddd'));
         if (this.state.isFetching) {
-            this.setState({ isFetching: false })
+            this.setState({ isFetching: false });
         }
     }
 

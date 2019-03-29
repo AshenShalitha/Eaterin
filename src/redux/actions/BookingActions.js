@@ -93,12 +93,12 @@ export const onSearchPressed = status => {
     };
 };
 
-export const fetchRestaurants = () => {
+export const fetchRestaurants = (date) => {
     return (dispatch) => {
         dispatch({ type: FETCH_RESTAURANTS });
         axios({
             method: 'get',
-            url: GET_RESTAURANTS,
+            url: `${GET_RESTAURANTS}/${date}`,
         }).then(response => {
             dispatch({ type: FETCH_RESTAURANTS_SUCCESS, payload: response.data.data });
             dispatch({ type: SET_ARRAYHOLDER, payload: response.data.data });

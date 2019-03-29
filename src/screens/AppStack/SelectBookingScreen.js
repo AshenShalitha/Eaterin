@@ -193,7 +193,9 @@ class SelectBookingScreen extends Component {
             const roundedUpTwoHours = moment(currentTimeRoundedUp, 'HH:mm').add(2, 'h').format('HH:mm');
             //filter past timeslots
             const newTimeSlots = filteredTimeSlots.filter(timeSlot => {
-                if (moment(timeSlot.time, 'HH:mm').isAfter(moment(roundedUpTwoHours, 'HH:mm'))) {
+                if (moment(currentTime, 'HH:mm').isAfter(moment('21:30', 'HH:mm'))) {
+                    return null;
+                } else if (moment(timeSlot.time, 'HH:mm').isAfter(moment(roundedUpTwoHours, 'HH:mm'))) {
                     return timeSlot;
                 }
                 return null;
