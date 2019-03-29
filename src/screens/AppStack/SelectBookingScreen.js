@@ -74,7 +74,7 @@ class SelectBookingScreen extends Component {
 
     incrementPressed() {
         this.setState({ decrementDisabled: false });
-        if (this.props.numberOfGuests >= this.props.selectedRestaurant.max_guests) {
+        if (this.props.numberOfGuests >= this.props.selectedRestaurant.no_of_bookings_per_person) {
             this.setState({ incrementDisabled: true });
         } else {
             this.props.guestsIncreased(this.props.numberOfGuests);
