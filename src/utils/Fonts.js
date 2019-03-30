@@ -1,4 +1,4 @@
 export const Fonts = {
-    HelveticaNeueLight: 'HelveticaNeueLight',
-    HelveticaNeueLightItalic: 'HelveticaNeueLightItalic'
+    HelveticaNeueLight: 'HelveticaNeue-Light',
+    // HelveticaNeueLightItalic: 'HelveticaNeueLightItalic'
 };
