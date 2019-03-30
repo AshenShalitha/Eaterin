@@ -47,6 +47,9 @@ export const DELETE_BOOKING = 'delete_booking';
 export const DELETE_BOOKING_SUCCESS = 'delete_booking_success';
 export const DELETE_BOOKING_FAILED = 'delete_booking_failed';
 export const RESET_DELETE_STATE = 'reset_delete_state';
+export const FETCH_UPCOMING_BOOKINGS = 'fetch_upcoming_bookings';
+export const FETCH_UPCOMING_BOOKINGS_SUCCESS = 'fetch_upcoming_bookings_success';
+export const FETCH_UPCOMING_BOOKINGS_FAILED = 'fetch_upcoming_bookings_failed';
 
 //profile
 export const UPDATE_PROFILE_PICTURE = 'update_profile_picture';

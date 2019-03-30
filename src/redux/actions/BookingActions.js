@@ -26,13 +26,17 @@ import {
     DELETE_BOOKING,
     DELETE_BOOKING_SUCCESS,
     DELETE_BOOKING_FAILED,
-    RESET_DELETE_STATE
+    RESET_DELETE_STATE,
+    FETCH_UPCOMING_BOOKINGS,
+    FETCH_UPCOMING_BOOKINGS_SUCCESS,
+    FETCH_UPCOMING_BOOKINGS_FAILED
 } from '../types';
 import {
     GET_RESTAURANTS,
     GET_TIME_SLOTS,
     CREATE_RESERVATION,
     GET_BOOKINGS,
+    GET_UPCOMING_BOOKINGS,
 } from '../../api/API';
 
 export const restaurantSelected = (restaurant) => {
@@ -248,4 +252,21 @@ export const deleteBooking = (bookingId, userId, timeSlotId, accessToken) => {
 
 const resetBookingDeleteState = (dispatch) => {
     dispatch({ type: RESET_DELETE_STATE });
+};
+
+export const fetchUpcomingBookings = (userId, accessToken) => {
+    return (dispatch) => {
+        dispatch({ type: FETCH_UPCOMING_BOOKINGS });
+        axios({
+            method: 'get',
+            url: `${GET_UPCOMING_BOOKINGS}/${userId}`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+        }).then(response => {
+            dispatch({ type: FETCH_UPCOMING_BOOKINGS_SUCCESS, payload: response.data.data });
+        }).catch(() => {
+            dispatch({ type: FETCH_UPCOMING_BOOKINGS_FAILED });
+        });
+    };
 };

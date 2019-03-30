@@ -44,6 +44,7 @@ class SelectBookingScreen extends Component {
             modalVisible: false,
             isDisabled: false,
         };
+        this.triggerArray = false;
         this.isConnected = true;
         NetInfo.isConnected.fetch().then(isConnected => {
             this.isConnected = isConnected;
@@ -56,6 +57,13 @@ class SelectBookingScreen extends Component {
             this.fetchTimeSlots(moment().format('dddd'));
         });
         this.props.guestCountChanged(1);
+    }
+
+    componentDidUpdate() {
+        if (this.props.timeSlotSuccess) {
+            console.log('okkk')
+            this.filterConcurrentTimeSlots();
+        }
     }
 
     componentWillUnmount() {
@@ -126,6 +134,10 @@ class SelectBookingScreen extends Component {
         this.props.fetchTimeSlots(this.props.selectedRestaurant.id, date);
     }
 
+    toggleFlatListRender() {
+        this.triggerArray = !this.triggerArray;
+    }
+
     renderItem(item) {
         let disabled;
         disableArray.map(element => {
@@ -154,6 +166,7 @@ class SelectBookingScreen extends Component {
             let isDuplicate = false;
             if (paxCount > element.available_pax_count) {
                 this.setState({ isDisabled: true });
+                this.toggleFlatListRender();
                 for (let i = 0; i < disableArray.length; i++) {
                     if (disableArray[i].id === element.time_slot_id) {
                         isDuplicate = true;
@@ -170,13 +183,34 @@ class SelectBookingScreen extends Component {
                 }
             } else {
                 this.setState({ isDisabled: false });
+                this.toggleFlatListRender();
                 for (let j = 0; j < disableArray.length; j++) {
-                    if (disableArray[j].id === element.time_slot_id) {
+                    if (disableArray[j].id === element.time_slot_id && !disableArray[j].isConcurrent) {
                         disableArray.splice(j, 1);
                     }
                 }
             }
         });
+    }
+
+    filterConcurrentTimeSlots() {
+        const timeSlots = this.setTimeslotArray(this.props.timeSlots);
+        const { upcomingBookings } = this.props;
+        let item = {};
+        for (let i = 0; i < timeSlots.length; i++) {
+            for (let j = 0; j < upcomingBookings.length; j++) {
+                // console.log('ts', timeSlots[i].time, '=>', upcomingBookings[j].time)
+                if (upcomingBookings[j].time === timeSlots[i].time) {
+                    item.isDisabled = true;
+                    item.id = timeSlots[i].time_slot_id;
+                    item.isConcurrent = true;
+                    disableArray.push(item);
+                    item = {};
+                    console.log('trr');
+                    this.toggleFlatListRender();
+                }
+            }
+        }
     }
 
     setTimeslotArray(timeSlots) {
@@ -206,6 +240,8 @@ class SelectBookingScreen extends Component {
     }
 
     renderTimeSlots() {
+        console.log('rre');
+        console.log(this.triggerArray)
         if (this.isConnected) {
             if (this.props.timeSlotsLoading) {
                 return (
@@ -228,7 +264,7 @@ class SelectBookingScreen extends Component {
                             data={this.setTimeslotArray(this.props.timeSlots)}
                             renderItem={this.renderItem.bind(this)}
                             keyExtractor={item => item.time_slot_id.toString()}
-                            extraData={this.state}
+                            extraData={this.triggerArray}
                         />
                 );
             }
@@ -396,7 +432,9 @@ const mapStateToProps = state => {
         timeSlots: state.booking.timeSlots,
         timeSlotsLoading: state.booking.timeSlotsLoading,
         timeSlotError: state.booking.timeSlotError,
-        timeSlotErrorMessage: state.booking.timeSlotErrorMessage
+        timeSlotErrorMessage: state.booking.timeSlotErrorMessage,
+        upcomingBookings: state.booking.upcomingBookings,
+        timeSlotSuccess: state.booking.timeSlotSuccess
     };
 };
 

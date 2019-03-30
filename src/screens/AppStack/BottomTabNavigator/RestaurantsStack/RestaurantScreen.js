@@ -42,6 +42,7 @@ class RestaurantScreen extends Component {
         NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
         this.interaction = InteractionManager.runAfterInteractions(() => {
             this.fetchRestaurantList();
+            this.fetchUpcomingBookings();
         });
         this.checkLoginStatus();
     }
@@ -75,6 +76,14 @@ class RestaurantScreen extends Component {
         if (this.state.isFetching) {
             this.setState({ isFetching: false });
         }
+    }
+
+    fetchUpcomingBookings() {
+        AsyncStorage.getItem('accessToken').then(accessToken => {
+            if (accessToken !== null) {
+                this.props.fetchUpcomingBookings(this.props.id, accessToken);
+            }
+        });
     }
 
     onItemPressed(item) {
@@ -222,6 +231,7 @@ const mapStateToProps = state => {
         restaurantFetchError: state.booking.restaurantFetchError,
         isSearchVisible: state.booking.isSearchVisible,
         arrayholder: state.booking.arrayholder,
+        id: state.profile.id,
     };
 };
 

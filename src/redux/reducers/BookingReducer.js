@@ -26,7 +26,10 @@ import {
     DELETE_BOOKING,
     DELETE_BOOKING_SUCCESS,
     DELETE_BOOKING_FAILED,
-    RESET_DELETE_STATE
+    RESET_DELETE_STATE,
+    FETCH_UPCOMING_BOOKINGS,
+    FETCH_UPCOMING_BOOKINGS_SUCCESS,
+    FETCH_UPCOMING_BOOKINGS_FAILED
 } from '../types';
 
 const INITIAL_STATE = {
@@ -40,6 +43,7 @@ const INITIAL_STATE = {
     timeSlots: [],
     timeSlotsLoading: false,
     timeSlotError: false,
+    timeSlotSuccess: false,
     timeSlotErrorMessage: '',
     refNumber: '',
     reservationError: false,
@@ -55,6 +59,8 @@ const INITIAL_STATE = {
     bookingDeleteLoading: false,
     bookingDeleteError: false,
     bookingDeleteSuccess: false,
+    upcomingBookingsLoading: false,
+    upcomingBookings: [],
 };
 
 const ERROR_RESET_STATE = {
@@ -91,9 +97,9 @@ export default (state = INITIAL_STATE, action) => {
         case FETCH_TIME_SLOTS:
             return { ...state, timeSlotsLoading: true };
         case FETCH_TIME_SLOTS_SUCCESS:
-            return { ...state, timeSlotsLoading: false, timeSlots: action.payload, timeSlotError: false };
+            return { ...state, timeSlotsLoading: false, timeSlots: action.payload, timeSlotError: false, timeSlotSuccess: true };
         case FETCH_TIME_SLOTS_FAILED:
-            return { ...state, timeSlotsLoading: false, timeSlotError: true, timeSlotErrorMessage: action.payload };
+            return { ...state, timeSlotsLoading: false, timeSlotError: true, timeSlotErrorMessage: action.payload, timeSlotSuccess: false };
         case MAKE_RESERVATION:
             return { ...state, reservationLoading: true };
         case MAKE_RESERVATION_SUCCESS:
@@ -124,6 +130,12 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, bookingDeleteLoading: false, bookingDeleteSuccess: false, bookingDeleteError: true };
         case RESET_DELETE_STATE:
             return { ...state, ...DELETE_RESET_STATE };
+        case FETCH_UPCOMING_BOOKINGS:
+            return { ...state, upcomingBookingsLoading: true };
+        case FETCH_UPCOMING_BOOKINGS_SUCCESS:
+            return { ...state, upcomingBookingsLoading: false, upcomingBookings: action.payload };
+        case FETCH_UPCOMING_BOOKINGS_FAILED:
+            return { ...state, upcomingBookingsLoading: false };
         default:
             return state;
     }
