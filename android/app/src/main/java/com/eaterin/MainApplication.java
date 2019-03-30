@@ -3,6 +3,11 @@ package com.eaterin;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+
 import com.imagepicker.ImagePickerPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -24,10 +29,13 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new ImagePickerPackage(),
-            new RNGestureHandlerPackage()
-      );
+              new MainReactPackage(),
+              new RNFirebasePackage(),
+              new ImagePickerPackage(),
+              new RNGestureHandlerPackage(),
+              new RNFirebaseMessagingPackage(),
+              new RNFirebaseNotificationsPackage(),
+              new RNFirebaseAnalyticsPackage());
     }
 
     @Override

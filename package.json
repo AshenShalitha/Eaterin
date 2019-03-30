@@ -19,6 +19,7 @@
     "react-native": "0.58.4",
     "react-native-custom-radio-group": "^1.0.1",
     "react-native-extended-stylesheet": "^0.11.1",
+    "react-native-firebase": "^5.2.3",
     "react-native-gesture-handler": "^1.0.15",
     "react-native-global-props": "^1.1.5",
     "react-native-image-picker": "^0.28.0",
