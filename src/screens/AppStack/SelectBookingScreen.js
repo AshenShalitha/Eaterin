@@ -241,7 +241,6 @@ class SelectBookingScreen extends Component {
 
     renderTimeSlots() {
         console.log('rre');
-        console.log(this.triggerArray)
         if (this.isConnected) {
             if (this.props.timeSlotsLoading) {
                 return (

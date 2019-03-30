@@ -6,7 +6,13 @@ import {
     LOGIN_USER,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILED,
-    USER_IS_LOGGED_IN
+    USER_IS_LOGGED_IN,
+    SET_PROFILE_PIC,
+    SET_ACCESS_TOKEN,
+    SET_CONTACT_NUMBER,
+    SET_EMAIL,
+    SET_NAME,
+    SET_ID
 } from '../types';
 import {
     LOGIN,
@@ -45,6 +51,12 @@ export const loginUser = (email, password) => {
             AsyncStorage.setItem('email', response.data.data.email);
             AsyncStorage.setItem('mobileNumber', response.data.data.mobile_number);
             AsyncStorage.setItem('imageUrl', response.data.data.image_url);
+            setId(response.data.data.user_id.toString(), dispatch);
+            setName(response.data.data.name, dispatch);
+            setEmail(response.data.data.email, dispatch);
+            setContactNumber(response.data.data.mobile_number, dispatch);
+            setProfilePic(response.data.data.image_url, dispatch);
+            setAccessToken(response.data.data.access_token, dispatch);
             NavigationService.navigate('App');
         }).catch(error => {
             dispatch({ type: LOGIN_USER_FAILED });
@@ -100,4 +112,28 @@ export const checkLoggedInStatus = (status) => {
         type: USER_IS_LOGGED_IN,
         payload: status
     };
+};
+
+const setId = (value, dispatch) => {
+    dispatch({ type: SET_ID, payload: value });
+};
+
+const setName = (value, dispatch) => {
+    dispatch({ type: SET_NAME, payload: value });
+};
+
+const setEmail = (value, dispatch) => {
+    dispatch({ type: SET_EMAIL, payload: value });
+};
+
+const setContactNumber = (value, dispatch) => {
+    dispatch({ type: SET_CONTACT_NUMBER, payload: value });
+};
+
+const setProfilePic = (value, dispatch) => {
+    dispatch({ type: SET_PROFILE_PIC, payload: value });
+};
+
+const setAccessToken = (value, dispatch) => {
+    dispatch({ type: SET_ACCESS_TOKEN, payload: value });
 };
