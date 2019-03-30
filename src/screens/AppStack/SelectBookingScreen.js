@@ -55,13 +55,14 @@ class SelectBookingScreen extends Component {
         NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
         this.interaction = InteractionManager.runAfterInteractions(() => {
             this.fetchTimeSlots(moment().format('dddd'));
+            this.props.dateSelected(moment().format('MM/DD/YYYY'));
         });
         this.props.guestCountChanged(1);
     }
 
     componentDidUpdate() {
         if (this.props.timeSlotSuccess) {
-            console.log('okkk')
+            // console.log('okkk')
             this.filterConcurrentTimeSlots();
         }
     }
@@ -206,7 +207,7 @@ class SelectBookingScreen extends Component {
                     item.isConcurrent = true;
                     disableArray.push(item);
                     item = {};
-                    console.log('trr');
+                    // console.log('trr');
                     this.toggleFlatListRender();
                 }
             }
@@ -240,7 +241,7 @@ class SelectBookingScreen extends Component {
     }
 
     renderTimeSlots() {
-        console.log('rre');
+        // console.log('rre');       
         if (this.isConnected) {
             if (this.props.timeSlotsLoading) {
                 return (
