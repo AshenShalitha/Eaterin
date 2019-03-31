@@ -40,13 +40,18 @@ const RestaurantCard = ({
                     source={{ uri: image }}
                     resizeMode={'cover'}
                 >
-                    <ImageBackground
-                        style={styles.greenTabStyle}
-                        source={greenTab}
-                    >
-                        <Text style={styles.textLarge}>Up to {maxDiscount} % off</Text>
-                        <Text style={styles.textSmall}>on your reservation</Text>
-                    </ImageBackground>
+                    {
+                        maxDiscount !== null ?
+                            <ImageBackground
+                                style={styles.greenTabStyle}
+                                source={greenTab}
+                            >
+                                <Text style={styles.textLarge}>Up to {maxDiscount} % off</Text>
+                                <Text style={styles.textSmall}>on your reservation</Text>
+                            </ImageBackground>
+                            :
+                            null
+                    }
                 </ImageBackground>
                 <View style={styles.footerStyle}>
                     <View style={styles.footerItem}>
