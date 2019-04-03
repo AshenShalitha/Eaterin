@@ -63,7 +63,6 @@ class SelectBookingScreen extends Component {
 
     componentDidUpdate() {
         if (this.props.timeSlotSuccess) {
-            console.log('state updates')
             this.filterConcurrentTimeSlots();
         }
     }
@@ -211,7 +210,6 @@ class SelectBookingScreen extends Component {
                     item.isConcurrent = true;
                     disableArray.push(item);
                     item = {};
-                    console.log('toggle');
                     this.toggleFlatListRender();
                 }
             }
@@ -247,7 +245,6 @@ class SelectBookingScreen extends Component {
     }
 
     renderTimeSlots() {
-        console.log('re render');
         const currentTime = moment();
         if (this.isConnected) {
             if (this.props.timeSlotsLoading) {
