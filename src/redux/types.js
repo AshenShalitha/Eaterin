@@ -50,6 +50,7 @@ export const RESET_DELETE_STATE = 'reset_delete_state';
 export const FETCH_UPCOMING_BOOKINGS = 'fetch_upcoming_bookings';
 export const FETCH_UPCOMING_BOOKINGS_SUCCESS = 'fetch_upcoming_bookings_success';
 export const FETCH_UPCOMING_BOOKINGS_FAILED = 'fetch_upcoming_bookings_failed';
+export const RESTAURANT_STATUS_UPDATES = 'restaurant_status_updates';
 
 //profile
 export const UPDATE_PROFILE_PICTURE = 'update_profile_picture';

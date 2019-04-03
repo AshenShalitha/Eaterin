@@ -5,7 +5,6 @@ import {
     Text,
     AsyncStorage,
     TouchableOpacity,
-    FlatList,
     SectionList,
     NetInfo,
     InteractionManager

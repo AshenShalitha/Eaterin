@@ -29,7 +29,8 @@ import {
     RESET_DELETE_STATE,
     FETCH_UPCOMING_BOOKINGS,
     FETCH_UPCOMING_BOOKINGS_SUCCESS,
-    FETCH_UPCOMING_BOOKINGS_FAILED
+    FETCH_UPCOMING_BOOKINGS_FAILED,
+    RESTAURANT_STATUS_UPDATES
 } from '../types';
 
 const INITIAL_STATE = {
@@ -45,6 +46,7 @@ const INITIAL_STATE = {
     timeSlotError: false,
     timeSlotSuccess: false,
     timeSlotErrorMessage: '',
+    isHollyday: false,
     refNumber: '',
     reservationError: false,
     reservationErrorMessage: '',
@@ -136,6 +138,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, upcomingBookingsLoading: false, upcomingBookings: action.payload };
         case FETCH_UPCOMING_BOOKINGS_FAILED:
             return { ...state, upcomingBookingsLoading: false };
+        case RESTAURANT_STATUS_UPDATES:
+            return { ...state, isHollyday: action.payload, timeSlotsLoading: false };
         default:
             return state;
     }
