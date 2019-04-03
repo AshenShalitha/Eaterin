@@ -43,6 +43,7 @@ class SelectBookingScreen extends Component {
             decrementDisabled: false,
             modalVisible: false,
             isDisabled: false,
+            paxModalVisible: false,
         };
         this.triggerArray = false;
         this.isConnected = true;
@@ -54,15 +55,15 @@ class SelectBookingScreen extends Component {
     componentDidMount() {
         NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
         this.interaction = InteractionManager.runAfterInteractions(() => {
-            this.fetchTimeSlots(moment().format('dddd'));
+            this.fetchTimeSlots(moment().format('dddd'), moment().format('YYYY-MM-DD'));
             this.props.dateSelected(moment().format('MM/DD/YYYY'));
         });
-        this.props.guestCountChanged(1);
+        this.props.guestCountChanged(0);
     }
 
     componentDidUpdate() {
         if (this.props.timeSlotSuccess) {
-            // console.log('okkk')
+            console.log('state updates')
             this.filterConcurrentTimeSlots();
         }
     }
@@ -106,8 +107,12 @@ class SelectBookingScreen extends Component {
             this.setState({ hasToken: accessToken !== null });
         }).then(() => {
             if (this.state.hasToken) {
-                this.props.timeSlotSelected(item);
-                this.props.navigation.navigate('ConfirmBookingScreen');
+                if (this.props.numberOfGuests === 0) {
+                    this.setState({ paxModalVisible: true });
+                } else {
+                    this.props.timeSlotSelected(item);
+                    this.props.navigation.navigate('ConfirmBookingScreen');
+                }
             } else {
                 this.setState({ modalVisible: true });
             }
@@ -125,14 +130,14 @@ class SelectBookingScreen extends Component {
 
     dateSelected(date) {
         this.props.dateSelected(date);
-        this.fetchTimeSlots(moment(new Date(date)).format('dddd'));
-        this.props.guestCountChanged(1);
+        this.fetchTimeSlots(moment(new Date(date)).format('dddd'), moment(new Date(date)).format('YYYY-MM-DD'));
+        this.props.guestCountChanged(0);
         this.checkDisable(1);
     }
 
-    fetchTimeSlots(date) {
+    fetchTimeSlots(day, date) {
         // const day = moment(new Date(date)).format('dddd');
-        this.props.fetchTimeSlots(this.props.selectedRestaurant.id, date);
+        this.props.fetchTimeSlots(this.props.selectedRestaurant.id, day, date);
     }
 
     toggleFlatListRender() {
@@ -200,14 +205,13 @@ class SelectBookingScreen extends Component {
         let item = {};
         for (let i = 0; i < timeSlots.length; i++) {
             for (let j = 0; j < upcomingBookings.length; j++) {
-                // console.log('ts', timeSlots[i].time, '=>', upcomingBookings[j].time)
                 if (upcomingBookings[j].time === timeSlots[i].time) {
                     item.isDisabled = true;
                     item.id = timeSlots[i].time_slot_id;
                     item.isConcurrent = true;
                     disableArray.push(item);
                     item = {};
-                    // console.log('trr');
+                    console.log('toggle');
                     this.toggleFlatListRender();
                 }
             }
@@ -235,17 +239,27 @@ class SelectBookingScreen extends Component {
                 }
                 return null;
             });
+            this.toggleFlatListRender();
             return newTimeSlots;
         }
+        this.toggleFlatListRender();
         return filteredTimeSlots;
     }
 
     renderTimeSlots() {
-        // console.log('rre');       
+        console.log('re render');
+        const currentTime = moment();
         if (this.isConnected) {
             if (this.props.timeSlotsLoading) {
                 return (
                     <SkypeIndicator color={colors.green_light} size={EStyleSheet.value('40rem')} />
+                );
+            } else if (moment(currentTime, 'HH:mm').isAfter(moment('21:30', 'HH:mm')) &&
+                moment(this.props.selectedDate).isSame(moment().format('MM/DD/YYYY'))) {
+                return (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>Online bookings unavailable after 9:30 PM</Text>
+                    </View>
                 );
             } else if (this.props.timeSlotError) {
                 return (
@@ -253,12 +267,18 @@ class SelectBookingScreen extends Component {
                         <Text style={styles.errorText}>{this.props.timeSlotErrorMessage}</Text>
                     </View>
                 );
+            } else if (this.props.isHollyday) {
+                return (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>Time slots not available</Text>
+                    </View>
+                );
             } else {
                 return (
                     this.setTimeslotArray(this.props.timeSlots).length === 0 ?
-                        <View style={styles.errorContainer}>
-                            <Text style={styles.errorText}>{this.props.timeSlotErrorMessage}</Text>
-                        </View>
+                        < View style={styles.errorContainer} >
+                            <Text style={styles.errorText}>Time slots not available</Text>
+                        </View >
                         :
                         <FlatList
                             data={this.setTimeslotArray(this.props.timeSlots)}
@@ -271,7 +291,11 @@ class SelectBookingScreen extends Component {
         } else if (!this.isConnected) {
             return (
                 <View style={styles.errorContainer}>
-                    <TouchableOpacity onPress={() => this.fetchTimeSlots(moment(new Date(this.props.selectedDate)).format('dddd'))}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.fetchTimeSlots(moment(new Date(this.props.selectedDate)).format('dddd'), moment(new Date(this.props.selectedDate)).format('YYYY-MM-DD'));
+                        }}
+                    >
                         <Text style={styles.errorText}>{strings.errors.noInternet} {'\n'}{strings.errors.retry}</Text>
                     </TouchableOpacity>
                 </View>
@@ -322,6 +346,18 @@ class SelectBookingScreen extends Component {
                     buttonText={strings.login.buttonText}
                     buttonCount={1}
                     onPress={() => this.onLoginPressed()}
+                    iconName={'alert-circle'}
+                    iconType={'Feather'}
+                />
+                <AlertPopUp
+                    isVisible={this.state.paxModalVisible}
+                    onBackdropPress={() => this.setState({ paxModalVisible: false })}
+                    onBackButtonPress={() => this.setState({ paxModalVisible: false })}
+                    title={strings.errors.alert}
+                    text={strings.errors.paxCountError}
+                    buttonText={strings.login.buttonText}
+                    buttonCount={1}
+                    onPress={() => this.setState({ paxModalVisible: false })}
                     iconName={'alert-circle'}
                     iconType={'Feather'}
                 />
@@ -434,7 +470,9 @@ const mapStateToProps = state => {
         timeSlotError: state.booking.timeSlotError,
         timeSlotErrorMessage: state.booking.timeSlotErrorMessage,
         upcomingBookings: state.booking.upcomingBookings,
-        timeSlotSuccess: state.booking.timeSlotSuccess
+        timeSlotSuccess: state.booking.timeSlotSuccess,
+        reRender: state.booking.reRender,
+        isHollyday: state.booking.isHollyday
     };
 };
 

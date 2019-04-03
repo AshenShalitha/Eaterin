@@ -29,7 +29,8 @@ import {
     RESET_DELETE_STATE,
     FETCH_UPCOMING_BOOKINGS,
     FETCH_UPCOMING_BOOKINGS_SUCCESS,
-    FETCH_UPCOMING_BOOKINGS_FAILED
+    FETCH_UPCOMING_BOOKINGS_FAILED,
+    RESTAURANT_STATUS_UPDATES
 } from '../types';
 import {
     GET_RESTAURANTS,
@@ -112,7 +113,7 @@ export const fetchRestaurants = (date) => {
     };
 };
 
-export const fetchTimeSlots = (restaurantId, date) => {
+export const fetchTimeSlots = (restaurantId, day, date) => {
     return (dispatch) => {
         dispatch({ type: FETCH_TIME_SLOTS });
         axios({
@@ -120,12 +121,19 @@ export const fetchTimeSlots = (restaurantId, date) => {
             url: GET_TIME_SLOTS,
             data: {
                 restaurant_id: restaurantId,
-                day: date
+                day,
+                date
             }
         }).then(response => {
-            dispatch({ type: FETCH_TIME_SLOTS_SUCCESS, payload: response.data.data });
+            if (response.status === 200) {
+                dispatch({ type: FETCH_TIME_SLOTS_SUCCESS, payload: response.data.data });
+                dispatch({ type: RESTAURANT_STATUS_UPDATES, payload: false });
+            } else if (response.status === 202) {
+                dispatch({ type: RESTAURANT_STATUS_UPDATES, payload: true });
+            }
         }).catch((error) => {
             if (error.response) {
+                dispatch({ type: RESTAURANT_STATUS_UPDATES, payload: false });
                 if (error.response.status === 500) {
                     dispatch({ type: FETCH_TIME_SLOTS_FAILED, payload: 'Time slots not available' });
                 } else {
@@ -172,6 +180,7 @@ export const addBooking = (
         }).then(response => {
             dispatch({ type: MAKE_RESERVATION_SUCCESS, payload: response.data.data.reference_number });
             refreshBookingList(userId, accessToken, dispatch);
+            refreshUpcomingBookings(userId, accessToken, dispatch);
         }).catch(error => {
             dispatch({ type: MAKE_RESERVATION_FAILED, payload: 'Something went wrong' });
         });
@@ -243,6 +252,7 @@ export const deleteBooking = (bookingId, userId, timeSlotId, accessToken) => {
         }).then(response => {
             dispatch({ type: DELETE_BOOKING_SUCCESS });
             refreshBookingList(userId, accessToken, dispatch);
+            refreshUpcomingBookings(userId, accessToken, dispatch);
             resetBookingDeleteState(dispatch);
         }).catch(error => {
             dispatch({ type: DELETE_BOOKING_FAILED });
@@ -269,4 +279,19 @@ export const fetchUpcomingBookings = (userId, accessToken) => {
             dispatch({ type: FETCH_UPCOMING_BOOKINGS_FAILED });
         });
     };
+};
+
+const refreshUpcomingBookings = (userId, accessToken, dispatch) => {
+    dispatch({ type: FETCH_UPCOMING_BOOKINGS });
+    axios({
+        method: 'get',
+        url: `${GET_UPCOMING_BOOKINGS}/${userId}`,
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        },
+    }).then(response => {
+        dispatch({ type: FETCH_UPCOMING_BOOKINGS_SUCCESS, payload: response.data.data });
+    }).catch(() => {
+        dispatch({ type: FETCH_UPCOMING_BOOKINGS_FAILED });
+    });
 };
