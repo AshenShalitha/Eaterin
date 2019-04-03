@@ -1,0 +1,36 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+target 'Eaterin' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for Eaterin
+
+  target 'Eaterin-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'EaterinTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+pod 'Firebase/Core', '~> 5.15.0'
+pod 'Firebase/Messaging'
+
+end
+
+#target 'Eaterin-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for Eaterin-tvOS
+
+  #target 'Eaterin-tvOSTests' do
+    #inherit! :search_paths
+    # Pods for testing
+  #end
+
+#end
