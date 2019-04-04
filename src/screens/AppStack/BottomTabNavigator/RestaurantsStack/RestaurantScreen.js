@@ -19,7 +19,6 @@ import { OfflineNotice } from '../../../../components/OfflineNotice';
 import { RestaurantCard } from '../../../../components/RestaurantCard';
 import { colors } from '../../../../utils/Colors';
 import * as actions from '../../../../redux/actions';
-import { PROTOCOL, HOST } from '../../../../api/API';
 import { strings } from '../../../../utils/Strings';
 
 const entireScreenWidth = Dimensions.get('window').width;
@@ -94,7 +93,7 @@ class RestaurantScreen extends Component {
     renderItem(item) {
         return (
             <RestaurantCard
-                image={`${PROTOCOL}${HOST}${item.item.image_url}`}
+                image={item.item.image_url}
                 restaurantName={item.item.name}
                 address={item.item.address}
                 ratings={item.item.ratings}

@@ -23,7 +23,6 @@ import { OfflineNotice } from '../../../../components/OfflineNotice';
 import { colors } from '../../../../utils/Colors';
 import { strings } from '../../../../utils/Strings';
 import * as actions from '../../../../redux/actions';
-import { PROTOCOL, HOST } from '../../../../api/API';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
@@ -125,7 +124,7 @@ class BokkingScreen extends Component {
         return (
             <BookingCard
                 onPress={() => this.onItemPressed(item)}
-                image={`${PROTOCOL}${HOST}${item.image_url}`}
+                image={item.image_url}
                 timeSlot={item.time}
                 date={item.date}
                 restaurantName={item.name}

@@ -29,7 +29,6 @@ import { AlertPopUp } from '../../../../components/AlertPopUp';
 import { colors } from '../../../../utils/Colors';
 import { strings } from '../../../../utils/Strings';
 import * as actions from '../../../../redux/actions';
-import { PROTOCOL, HOST } from '../../../../api/API';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
@@ -108,7 +107,7 @@ class ProileScreen extends Component {
         if (this.state.avatarSource !== null) {
             return { uri: `${this.state.avatarSource}` };
         } else {
-            return { uri: `${PROTOCOL}${HOST}${this.props.profilePic}` };
+            return { uri:this.props.profilePic};
         }
     }
 

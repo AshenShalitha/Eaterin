@@ -18,7 +18,6 @@ import { BookingSummary } from '../../components/BookingSummary';
 import { AlertPopUp } from '../../components/AlertPopUp';
 import { OfflineNotice } from '../../components/OfflineNotice';
 import { colors } from '../../utils/Colors';
-import { PROTOCOL, HOST } from '../../api/API';
 import * as actions from '../../redux/actions';
 
 const entireScreenWidth = Dimensions.get('window').width;
@@ -107,7 +106,7 @@ class ConfirmBookingScreen extends Component {
             <ScrollView style={styles.mainContainer} contentContainerStyle={styles.contentContainerStyle}>
                 <OfflineNotice />
                 <CustomHeader
-                    image={`${PROTOCOL}${HOST}${this.props.selectedRestaurant.image_url}`}
+                    image={this.props.selectedRestaurant.image_url}
                     restaurantName={this.props.selectedRestaurant.name}
                     ratings={this.props.selectedRestaurant.ratings}
                     address={this.props.selectedRestaurant.address}

@@ -18,7 +18,6 @@ import { CancelBookingSummary } from '../../components/CancelBookingSummary';
 import { AlertPopUp } from '../../components/AlertPopUp';
 import { colors } from '../../utils/Colors';
 import * as actions from '../../redux/actions';
-import { PROTOCOL, HOST } from '../../api/API';
 import { strings } from '../../utils/Strings';
 
 const entireScreenWidth = Dimensions.get('window').width;
@@ -107,7 +106,7 @@ class CancelBookingScreen extends Component {
         return (
             <View style={styles.mainContainer}>
                 <CustomHeader
-                    image={`${PROTOCOL}${HOST}${this.props.selectedBooking.image_url}`}
+                    image={this.props.selectedBooking.image_url}
                     restaurantName={this.props.selectedBooking.name}
                     ratings={this.props.selectedBooking.ratings}
                     address={this.props.selectedBooking.address}

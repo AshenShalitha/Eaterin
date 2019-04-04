@@ -306,7 +306,7 @@ class SelectBookingScreen extends Component {
             <View style={styles.mainContainer}>
                 <OfflineNotice />
                 <CustomHeader
-                    image={`${PROTOCOL}${HOST}${this.props.selectedRestaurant.image_url}`}
+                    image={this.props.selectedRestaurant.image_url}
                     restaurantName={this.props.selectedRestaurant.name}
                     ratings={this.props.selectedRestaurant.ratings}
                     address={this.props.selectedRestaurant.address}

@@ -15,7 +15,6 @@ import { BookingSummary } from '../../components/BookingSummary';
 import { RefNoView } from '../../components/RefNoView';
 import { colors } from '../../utils/Colors';
 import * as actions from '../../redux/actions';
-import { PROTOCOL, HOST } from '../../api/API';
 import { strings } from '../../utils/Strings';
 
 const entireScreenWidth = Dimensions.get('window').width;
@@ -53,7 +52,7 @@ class FinishBookingScreen extends Component {
         return (
             <View style={styles.mainContainer}>
                 <CustomHeader
-                    image={`${PROTOCOL}${HOST}${this.props.selectedRestaurant.image_url}`}
+                    image={this.props.selectedRestaurant.image_url}
                     restaurantName={this.props.selectedRestaurant.name}
                     ratings={this.props.selectedRestaurant.ratings}
                     address={this.props.selectedRestaurant.address}
