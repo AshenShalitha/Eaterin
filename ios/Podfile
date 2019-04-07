@@ -18,7 +18,7 @@ target 'Eaterin' do
   end
 
 pod 'Firebase/Core', '~> 5.15.0'
-pod 'Firebase/Messaging'
+pod 'Firebase/Messaging', '~> 5.15.0'
 
 end
 

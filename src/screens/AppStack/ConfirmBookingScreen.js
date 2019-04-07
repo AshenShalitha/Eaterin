@@ -4,7 +4,8 @@ import {
     View,
     ScrollView,
     Text,
-    NetInfo
+    NetInfo,
+    Linking
 } from 'react-native';
 import {
     Button
@@ -19,6 +20,7 @@ import { AlertPopUp } from '../../components/AlertPopUp';
 import { OfflineNotice } from '../../components/OfflineNotice';
 import { colors } from '../../utils/Colors';
 import * as actions from '../../redux/actions';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const entireScreenWidth = Dimensions.get('window').width;
 const entireScreenHeight = Dimensions.get('window').height;
@@ -101,6 +103,26 @@ class ConfirmBookingScreen extends Component {
         this.props.navigation.navigate('FinishBookingScreen');
     }
 
+    onPrivacyPressed() {
+        Linking.canOpenURL('http://www.eaterin.com/privacy').then(supported => {
+            if (supported) {
+              Linking.openURL('http://www.eaterin.com/privacy');
+            } else {
+              console.log("Don't know how to open URI: " + this.props.url);
+            }
+          });
+    }
+
+    onTermsPressed() {
+        Linking.canOpenURL('http://www.eaterin.com/terms').then(supported => {
+            if (supported) {
+              Linking.openURL('http://www.eaterin.com/terms');
+            } else {
+              console.log("Don't know how to open URI: " + this.props.url);
+            }
+          });
+    }
+
     render() {
         return (
             <ScrollView style={styles.mainContainer} contentContainerStyle={styles.contentContainerStyle}>
@@ -142,9 +164,18 @@ class ConfirmBookingScreen extends Component {
                             <Button block style={styles.buttonStyle} onPress={() => this.onNextPressed()}>
                                 <Text style={styles.buttonTextStyle}>Next</Text>
                             </Button>
-                            <Text style={styles.footerText}>
-                                By clicking next, you agree to our terms and conditions
-                            </Text>
+                            <View style={styles.footerTextContainer}>
+                                <Text style={styles.footerText}>
+                                    By clicking next, you agree to our
+                                </Text>
+                                <TouchableOpacity onPress={() => this.onTermsPressed()}>
+                                    <Text style={[styles.footerText, {color: '#5887d3'}]}> terms and conditions </Text>
+                                </TouchableOpacity>
+                                <Text style={styles.footerText}>and</Text> 
+                                <TouchableOpacity nPress={() => this.onPrivacyPressed()}>
+                                    <Text style={[styles.footerText, {color: '#5887d3'}]}> Privacy policy </Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -157,7 +188,7 @@ class ConfirmBookingScreen extends Component {
                     positiveButtonText={'Ok'}
                     negativeButtonText={'Cancel'}
                     buttonCount={2}
-                    iconName={'infocirlceo'}
+                    iconName={'infocirlceo'}  
                     iconType={'AntDesign'}
                     onPositivePress={() => this.onOkPressed()}
                     onNegativePress={() => this.closeModal()}
@@ -261,8 +292,12 @@ const styles = EStyleSheet.create({
     },
     footerText: {
         fontSize: '9rem',
-        color: colors.ash_dark,
+        color: colors.ash_dark, 
         alignSelf: 'center'
+    },
+    footerTextContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center'
     }
 });
 
