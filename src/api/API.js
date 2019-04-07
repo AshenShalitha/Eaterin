@@ -1,5 +1,5 @@
 export const PROTOCOL = 'http://';
-export const HOST = '68.183.91.43/';
+export const HOST = 'eaterin.com/';
 
 export const LOGIN = `${PROTOCOL}${HOST}api/login`;
 export const SIGNUP = `${PROTOCOL}${HOST}api/register`;

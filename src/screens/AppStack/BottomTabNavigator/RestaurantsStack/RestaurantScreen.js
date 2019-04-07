@@ -125,7 +125,9 @@ class RestaurantScreen extends Component {
                         keyExtractor={item => item.id.toString()}
                         onRefresh={() => this.onRefresh()}
                         refreshing={this.state.isFetching}
-                    />
+                        initialNumToRender={10}  
+                        windowSize={11}
+                    /> 
                 );
             }
         } else if (!this.isConnected) {
