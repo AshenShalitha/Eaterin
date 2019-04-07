@@ -4,7 +4,9 @@ import {
     View,
     Text,
     TouchableOpacity,
-    Animated
+    Animated,
+    KeyboardAvoidingView,
+    Platform
 } from 'react-native';
 import {
     Card,
@@ -55,6 +57,10 @@ class UserDetailCard extends Component {
 
     render() {
         return (
+            <KeyboardAvoidingView 
+                    style={{flex: 1}}
+                    behavior={Platform.OS === "ios" ? "padding" : null}
+            >
             <Animated.View style={[styles.expandableCard, { height: this.animation }]}>
                 <View style={styles.lableContainer}>
                     <View style={styles.left}>
@@ -100,6 +106,7 @@ class UserDetailCard extends Component {
                         null
                 }
             </Animated.View>
+            </KeyboardAvoidingView>
         );
     }
 }

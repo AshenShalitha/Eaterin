@@ -121,13 +121,13 @@ const styles = EStyleSheet.create({
     },
     positiveButtonStyle: {
         backgroundColor: colors.green_light,
-        height: '25rem',
+        height: '30rem',
         width: '100rem',
         alignSelf: 'center'
     },
     negativeButtonStyle: {
         backgroundColor: colors.red,
-        height: '25rem',
+        height: '30rem',
         width: '100rem',
         alignSelf: 'center'
     },

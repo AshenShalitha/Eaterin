@@ -63,7 +63,8 @@ const styles = EStyleSheet.create({
         flexDirection: 'row',
         width,
         position: 'absolute',
-        top: 0
+        top: 0,
+        zIndex: 1
     },
     offlineText: { color: '#fff' }
 });
