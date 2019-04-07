@@ -60,6 +60,7 @@
 		4534D6E82B3343A6AEEC4246 /* HelveticaNeueCondensedBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E0759586D34DC5BC5D9F92 /* HelveticaNeueCondensedBold.ttf */; };
 		49307A618A3143A09A27F3A6 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 848D739B798843F6979DB2FB /* Roboto.ttf */; };
 		4A6EC2CB225A836A00CB09A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A6EC2A1225A836A00CB09A5 /* GoogleService-Info.plist */; };
+		4A6EC2CE225AAF2100CB09A5 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6EC2CD225AAF2000CB09A5 /* UserNotifications.framework */; };
 		4C8E9F59B2F4429DBDD5E785 /* HelveticaNeue-LightExt.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD8513CEABA94C3382755B9D /* HelveticaNeue-LightExt.otf */; };
 		534433FEEAD24BAB8CE74AC0 /* HelveticaNeueUltraLightItal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D501BC3110C54B10B2E90F9B /* HelveticaNeueUltraLightItal.ttf */; };
 		55F45E2BB9994EFCBA009C6D /* HelveticaNeue-BoldCondObl.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0B6ED208B7F3432CBE5D0FAA /* HelveticaNeue-BoldCondObl.otf */; };
@@ -474,6 +475,8 @@
 		42EDE7356C854FCDB34171C6 /* HelveticaNeueCondensedBlack.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = HelveticaNeueCondensedBlack.ttf; path = ../assets/fonts/HelveticaNeueCondensedBlack.ttf; sourceTree = "<group>"; };
 		4965DADADE3D4656A7C2D416 /* HelveticaNeueLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = HelveticaNeueLightItalic.ttf; path = ../assets/fonts/HelveticaNeueLightItalic.ttf; sourceTree = "<group>"; };
 		4A6EC2A1225A836A00CB09A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4A6EC2CC225AA1B300CB09A5 /* Eaterin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Eaterin.entitlements; path = Eaterin/Eaterin.entitlements; sourceTree = "<group>"; };
+		4A6EC2CD225AAF2000CB09A5 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		4C0E2383D38E4D908A889F3F /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		4D6E0BF288444D3BB31905BE /* HelveticaNeue-Extended.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "HelveticaNeue-Extended.otf"; path = "../assets/fonts/HelveticaNeue-Extended.otf"; sourceTree = "<group>"; };
 		528CF9164A5C4F6D54C5F21F /* Pods-Eaterin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eaterin.debug.xcconfig"; path = "Target Support Files/Pods-Eaterin/Pods-Eaterin.debug.xcconfig"; sourceTree = "<group>"; };
@@ -556,6 +559,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A6EC2CE225AAF2100CB09A5 /* UserNotifications.framework in Frameworks */,
 				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
@@ -764,6 +768,7 @@
 		13B07FAE1A68108700A75B9A /* Eaterin */ = {
 			isa = PBXGroup;
 			children = (
+				4A6EC2CC225AA1B300CB09A5 /* Eaterin.entitlements */,
 				4A6EC2A1225A836A00CB09A5 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -802,6 +807,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4A6EC2CD225AAF2000CB09A5 /* UserNotifications.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
@@ -1040,6 +1046,14 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = D63S67X3HL;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1762,6 +1776,7 @@
 			baseConfigurationReference = 528CF9164A5C4F6D54C5F21F /* Pods-Eaterin.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Eaterin/Eaterin.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = D63S67X3HL;
@@ -1789,6 +1804,7 @@
 			baseConfigurationReference = 0647F12EF495D1CA3570A061 /* Pods-Eaterin.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Eaterin/Eaterin.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D63S67X3HL;
 				HEADER_SEARCH_PATHS = (
