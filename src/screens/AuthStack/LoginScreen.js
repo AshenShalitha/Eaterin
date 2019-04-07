@@ -6,8 +6,10 @@ import {
     Animated,
     ImageBackground,
     TouchableOpacity,
+    KeyboardAvoidingView,
     NetInfo,
-    Alert
+    Alert,
+    Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -143,7 +145,7 @@ class LoginScreen extends Component {
                     <View style={styles.logoContainer}>
                         <Text style={styles.logoStyle}>eaterin</Text>
                     </View>
-                    <View style={styles.formContainer}>
+                        <KeyboardAvoidingView style={styles.formContainer} behavior={Platform.OS === "ios" ? "padding" : null}>
                         <Form style={styles.formStyle}>
                             <Item
                                 floatingLabel
@@ -192,9 +194,9 @@ class LoginScreen extends Component {
                                 }
                             </Item>
                         </Form>
-                    </View>
+                        </KeyboardAvoidingView>
                     <View style={styles.buttonContainer}>
-                        {
+                        {  
                             this.props.loginLoading ?
                                 <SkypeIndicator color={colors.green_light} size={EStyleSheet.value('40rem')} />
                                 :

@@ -352,7 +352,7 @@ class SelectBookingScreen extends Component {
                     onBackButtonPress={() => this.setState({ paxModalVisible: false })}
                     title={strings.errors.alert}
                     text={strings.errors.paxCountError}
-                    buttonText={strings.login.buttonText}
+                    buttonText={'ok'}
                     buttonCount={1}
                     onPress={() => this.setState({ paxModalVisible: false })}
                     iconName={'alert-circle'}
