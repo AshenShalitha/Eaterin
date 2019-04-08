@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Alert } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
@@ -14,7 +14,7 @@ export default class App extends Component {
 
   async componentDidMount() {
     this.checkPermission();
-    this.createNotificationListeners(); 
+    this.createNotificationListeners();
   }
 
   componentWillUnmount() {
@@ -63,25 +63,25 @@ export default class App extends Component {
     * Triggered when a particular notification has been received in foreground
     * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
-        const { title, body } = notification;
-        this.showAlert(title, body);
+      const { title, body } = notification;
+      this.showAlert(title, body);
     });
-  
+
     /*
     * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-        const { title, body } = notificationOpen.notification;
-        this.showAlert(title, body);
+      const { title, body } = notificationOpen.notification;
+      this.showAlert(title, body);
     });
-  
+
     /*
     * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
     * */
     const notificationOpen = await firebase.notifications().getInitialNotification();
     if (notificationOpen) {
-        const { title, body } = notificationOpen.notification;
-        this.showAlert(title, body);
+      const { title, body } = notificationOpen.notification;
+      this.showAlert(title, body);
     }
     /*
     * Triggered for data only payload in foreground
@@ -91,12 +91,12 @@ export default class App extends Component {
       console.log(JSON.stringify(message));
     });
   }
-  
+
   showAlert(title, body) {
     Alert.alert(
       title, body,
       [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
       ],
       { cancelable: false },
     );
