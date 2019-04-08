@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Alert, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
@@ -23,11 +23,16 @@ export default class App extends Component {
   }
 
   async checkPermission() {
-    const enabled = await firebase.messaging().hasPermission();
-    if (enabled) {
-      console.log(enabled)
-      this.subscribe();
-    }
+    // const enabled = await firebase.messaging().hasPermission();
+    // console.log(enabled)
+    // if (enabled) {
+    //   console.log(enabled)
+    //   this.subscribe();
+    // } else if (Platform === 'ios') {
+    //   console.log('granted')
+    //   this.subscribe();
+    // }
+    this.subscribe();
   }
 
   async subscribe() {
