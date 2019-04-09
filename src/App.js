@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-import { AsyncStorage, Alert } from 'react-native';
-=======
 import { AsyncStorage, Alert, Platform } from 'react-native';
->>>>>>> 0b726267cdde7f4458aa59181edb6c8c8ca1ab76
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
