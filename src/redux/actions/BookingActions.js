@@ -107,8 +107,12 @@ export const fetchRestaurants = (date) => {
         }).then(response => {
             dispatch({ type: FETCH_RESTAURANTS_SUCCESS, payload: response.data.data });
             dispatch({ type: SET_ARRAYHOLDER, payload: response.data.data });
-        }).catch(() => {
-            dispatch({ type: FETCH_RESTAURANTS_FAILED });
+        }).catch((error) => {
+            if (error.response.status === 500) {
+                dispatch({ type: FETCH_RESTAURANTS_SUCCESS, payload: error.response.data.data.data });
+            } else {
+                dispatch({ type: FETCH_RESTAURANTS_FAILED });
+            }
         });
     };
 };
@@ -203,8 +207,10 @@ export const fetchBookingList = (userId, accessToken) => {
                 Authorization: `Bearer ${accessToken}`
             }
         }).then(response => {
+            console.log('res', response.data)
             dispatch({ type: FETCH_BOOKING_LIST_SUCCESS, payload: response.data.data });
         }).catch(error => {
+            console.log('err', error.response);
             dispatch({ type: FETCH_BOOKING_LIST_FAILED, payload: 'Failed to load data' });
         });
     };
@@ -275,8 +281,12 @@ export const fetchUpcomingBookings = (userId, accessToken) => {
             },
         }).then(response => {
             dispatch({ type: FETCH_UPCOMING_BOOKINGS_SUCCESS, payload: response.data.data });
-        }).catch(() => {
-            dispatch({ type: FETCH_UPCOMING_BOOKINGS_FAILED });
+        }).catch((error) => {
+            if (error.response.status === 500) {
+                dispatch({ type: FETCH_UPCOMING_BOOKINGS_SUCCESS, payload: error.response.data.data.data });
+            } else {
+                dispatch({ type: FETCH_UPCOMING_BOOKINGS_FAILED });
+            }
         });
     };
 };
@@ -291,7 +301,11 @@ const refreshUpcomingBookings = (userId, accessToken, dispatch) => {
         },
     }).then(response => {
         dispatch({ type: FETCH_UPCOMING_BOOKINGS_SUCCESS, payload: response.data.data });
-    }).catch(() => {
-        dispatch({ type: FETCH_UPCOMING_BOOKINGS_FAILED });
+    }).catch((error) => {
+        if (error.response.status === 500) {
+            dispatch({ type: FETCH_UPCOMING_BOOKINGS_SUCCESS, payload: error.response.data.data.data });
+        } else {
+            dispatch({ type: FETCH_UPCOMING_BOOKINGS_FAILED });
+        } dispatch({ type: FETCH_UPCOMING_BOOKINGS_FAILED });
     });
 };

@@ -117,6 +117,12 @@ class RestaurantScreen extends Component {
                         </TouchableOpacity>
                     </View>
                 );
+            } else if (this.props.restaurantList.length === 0) {
+                return (
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                        <Text style={styles.errorText}>{strings.restaurants.isEmpty}</Text>
+                    </View>
+                );
             } else {
                 return (
                     <FlatList
@@ -125,9 +131,9 @@ class RestaurantScreen extends Component {
                         keyExtractor={item => item.id.toString()}
                         onRefresh={() => this.onRefresh()}
                         refreshing={this.state.isFetching}
-                        initialNumToRender={10}  
+                        initialNumToRender={10}
                         windowSize={11}
-                    /> 
+                    />
                 );
             }
         } else if (!this.isConnected) {

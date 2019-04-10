@@ -23,20 +23,17 @@ export default class App extends Component {
   }
 
   async checkPermission() {
-    // const enabled = await firebase.messaging().hasPermission();
-    // console.log(enabled)
-    // if (enabled) {
-    //   console.log(enabled)
-    //   this.subscribe();
-    // } else if (Platform === 'ios') {
-    //   console.log('granted')
-    //   this.subscribe();
-    // }
-    this.subscribe();
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+      console.log(enabled);
+      this.subscribe();
+    } else if (Platform === 'ios') {
+      console.log('granted');
+      this.subscribe();
+    }
   }
 
   async subscribe() {
-    console.log('ok', topicName)
     firebase.messaging().subscribeToTopic(topicName);
   }
 

@@ -4,7 +4,9 @@ import {
     View,
     Text,
     AsyncStorage,
-    NetInfo
+    NetInfo,
+    TouchableOpacity,
+    Linking
 } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -19,6 +21,7 @@ import { AlertPopUp } from '../../components/AlertPopUp';
 import { colors } from '../../utils/Colors';
 import * as actions from '../../redux/actions';
 import { strings } from '../../utils/Strings';
+import { TERMS } from '../../api/API';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
@@ -102,6 +105,16 @@ class CancelBookingScreen extends Component {
         return false;
     }
 
+    onTermsPressed() {
+        Linking.canOpenURL(TERMS).then(supported => {
+            if (supported) {
+                Linking.openURL(TERMS);
+            } else {
+                console.log("Don't know how to open URI: " + this.props.url);
+            }
+        });
+    }
+
     render() {
         return (
             <View style={styles.mainContainer}>
@@ -124,6 +137,16 @@ class CancelBookingScreen extends Component {
                         {
                             this.checkDate() ?
                                 <View style={styles.buttonContainer}>
+                                    <View style={{ paddingVertical: 0 }}>
+                                        <Text style={styles.textSmall}>{strings.finishBooking.text2}</Text>
+                                    </View>
+                                    <View style={styles.textContainer}>
+                                        <Text style={styles.textSmall}>  Read our </Text>
+                                        <TouchableOpacity onPress={() => this.onTermsPressed()}>
+                                            <Text style={[styles.textSmall, { color: '#5887d3' }]}>terms & conditions</Text>
+                                        </TouchableOpacity>
+                                        <Text style={styles.textSmall}> here.</Text>
+                                    </View>
                                     <Button block style={styles.buttonStyle} onPress={() => this.onCancelPressed()}>
                                         <Text style={styles.buttonTextStyle}>Cancel my booking</Text>
                                     </Button>
@@ -170,11 +193,13 @@ const styles = EStyleSheet.create({
         backgroundColor: colors.ash_light
     },
     buttonContainer: {
-        height: '75rem',
+        height: '160rem',
         width: entireScreenWidth,
-        backgroundColor: colors.white,
+        paddingVertical: '5rem',
         paddingHorizontal: '20rem',
-        justifyContent: 'center'
+        justifyContent: 'space-around',
+        alignSelf: 'center',
+        backgroundColor: colors.white
     },
     errorContainer: {
         flex: 3,
@@ -201,6 +226,17 @@ const styles = EStyleSheet.create({
         fontSize: '14rem',
         alignSelf: 'center'
     },
+    textContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingVertical: '0rem'
+    },
+    textSmall: {
+        fontSize: '13rem',
+        color: colors.ash_dark,
+        alignSelf: 'center',
+        textAlign: 'center'
+    }
 });
 
 const mapStateToProps = state => {

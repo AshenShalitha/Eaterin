@@ -55,7 +55,9 @@ export const strings = {
         thanksYou: 'Thank you',
         text1: 'Your reservation has been confirmed.',
         refNo: 'Ref No',
-        text2: 'Please be at restaurant on time to grab above mentioned discount. You will have 15 mins grace period.',
+        text2: 'Your reservation will only be held up to 15 mins from your selected time.' +
+            ' The discount will be applied to all food items in the menu but excludes drinks and/or other items sold at the restaurant.' +
+            ' The discount cannot be combined with any other promotion.',
         buttonText: 'Let\'s go',
     },
     profile: {
@@ -75,7 +77,9 @@ export const strings = {
         },
         logoutCard: {
             title: 'Logout'
-        }
-
+        },
+    },
+    restaurants: {
+        isEmpty: 'No restaurants available'
     }
 };

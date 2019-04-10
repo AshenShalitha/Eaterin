@@ -21,6 +21,7 @@ import { OfflineNotice } from '../../components/OfflineNotice';
 import { colors } from '../../utils/Colors';
 import * as actions from '../../redux/actions';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { PRIVACY, TERMS } from '../../api/API';
 
 const entireScreenWidth = Dimensions.get('window').width;
 const entireScreenHeight = Dimensions.get('window').height;
@@ -32,7 +33,8 @@ class ConfirmBookingScreen extends Component {
         super(props);
         this.state = {
             modalVisible: false,
-            noInternet: false
+            noInternet: false,
+            disabled: false
         };
         this.isConnected = true;
         NetInfo.isConnected.fetch().then(isConnected => {
@@ -82,6 +84,7 @@ class ConfirmBookingScreen extends Component {
     }
 
     onOkPressed() {
+        this.setState({ disabled: true });
         const { id: restaurantId } = this.props.selectedRestaurant;
         const { time, discount, time_slot_id: timeSlotId } = this.props.selectedTimeSlotObj;
         const { id: userId, selectedDate, numberOfGuests, name, email, contactNo, accessToken } = this.props;
@@ -104,23 +107,23 @@ class ConfirmBookingScreen extends Component {
     }
 
     onPrivacyPressed() {
-        Linking.canOpenURL('http://www.eaterin.com/privacy').then(supported => {
+        Linking.canOpenURL(PRIVACY).then(supported => {
             if (supported) {
-              Linking.openURL('http://www.eaterin.com/privacy');
+                Linking.openURL(PRIVACY);
             } else {
-              console.log("Don't know how to open URI: " + this.props.url);
+                console.log("Don't know how to open URI: " + this.props.url);
             }
-          });
+        });
     }
 
     onTermsPressed() {
-        Linking.canOpenURL('http://www.eaterin.com/terms').then(supported => {
+        Linking.canOpenURL(TERMS).then(supported => {
             if (supported) {
-              Linking.openURL('http://www.eaterin.com/terms');
+                Linking.openURL(TERMS);
             } else {
-              console.log("Don't know how to open URI: " + this.props.url);
+                console.log("Don't know how to open URI: " + this.props.url);
             }
-          });
+        });
     }
 
     render() {
@@ -169,11 +172,11 @@ class ConfirmBookingScreen extends Component {
                                     By clicking next, you agree to our
                                 </Text>
                                 <TouchableOpacity onPress={() => this.onTermsPressed()}>
-                                    <Text style={[styles.footerText, {color: '#5887d3'}]}> terms and conditions </Text>
+                                    <Text style={[styles.footerText, { color: '#5887d3' }]}> terms and conditions </Text>
                                 </TouchableOpacity>
-                                <Text style={styles.footerText}>and</Text> 
-                                <TouchableOpacity nPress={() => this.onPrivacyPressed()}>
-                                    <Text style={[styles.footerText, {color: '#5887d3'}]}> Privacy policy </Text>
+                                <Text style={styles.footerText}>and</Text>
+                                <TouchableOpacity onPress={() => this.onPrivacyPressed()}>
+                                    <Text style={[styles.footerText, { color: '#5887d3' }]}> Privacy policy </Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -188,10 +191,11 @@ class ConfirmBookingScreen extends Component {
                     positiveButtonText={'Ok'}
                     negativeButtonText={'Cancel'}
                     buttonCount={2}
-                    iconName={'infocirlceo'}  
+                    iconName={'infocirlceo'}
                     iconType={'AntDesign'}
                     onPositivePress={() => this.onOkPressed()}
                     onNegativePress={() => this.closeModal()}
+                    disabled={this.state.disabled}
                 />
                 <AlertPopUp
                     isVisible={this.state.noInternet}
@@ -292,7 +296,7 @@ const styles = EStyleSheet.create({
     },
     footerText: {
         fontSize: '9rem',
-        color: colors.ash_dark, 
+        color: colors.ash_dark,
         alignSelf: 'center'
     },
     footerTextContainer: {

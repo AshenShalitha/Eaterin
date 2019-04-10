@@ -31,7 +31,8 @@ const AlertPopUp = ({
     onPositivePress,
     onNegativePress,
     iconName,
-    iconType
+    iconType,
+    disabled
 }) => {
     return (
         <Modal
@@ -62,7 +63,7 @@ const AlertPopUp = ({
                         </View>
                         :
                         <View style={styles.modalBottom}>
-                            <Button block style={styles.positiveButtonStyle} onPress={onPositivePress}>
+                            <Button block style={styles.positiveButtonStyle} onPress={onPositivePress} disabled={disabled}>
                                 <Text style={styles.buttonTextStyle}>{positiveButtonText}</Text>
                             </Button>
                             <Button block style={styles.negativeButtonStyle} onPress={onNegativePress}>

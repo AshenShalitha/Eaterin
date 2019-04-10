@@ -11,3 +11,7 @@ export const CHANGE_PASSWORD = `${PROTOCOL}${HOST}api/update_password`;
 export const CREATE_RESERVATION = `${PROTOCOL}${HOST}api/reservation`;
 export const GET_BOOKINGS = `${PROTOCOL}${HOST}api/get_bookings`;
 export const GET_UPCOMING_BOOKINGS = `${PROTOCOL}${HOST}api/get_upcoming_reservations`;
+
+export const TERMS = 'http://www.eaterin.com/terms';
+export const PRIVACY = 'http://www.eaterin.com/privacy';
+

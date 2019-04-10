@@ -107,12 +107,12 @@ class ProileScreen extends Component {
         if (this.state.avatarSource !== null) {
             return { uri: `${this.state.avatarSource}` };
         } else {
-            return { uri:this.props.profilePic};
+            return { uri: this.props.profilePic };
         }
     }
 
     onLogoutPressed() {
-        AsyncStorage.clear()
+        AsyncStorage.clear();
         this.props.navigation.navigate('Auth');
     }
 
