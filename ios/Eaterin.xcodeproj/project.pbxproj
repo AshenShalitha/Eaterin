@@ -59,7 +59,7 @@
 		422FD5E7B925488C89E85908 /* HelveticaNeue-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 137372B710B34362AD3ADA88 /* HelveticaNeue-HeavyItalic.otf */; };
 		4534D6E82B3343A6AEEC4246 /* HelveticaNeueCondensedBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E0759586D34DC5BC5D9F92 /* HelveticaNeueCondensedBold.ttf */; };
 		49307A618A3143A09A27F3A6 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 848D739B798843F6979DB2FB /* Roboto.ttf */; };
-		4A6EC2CB225A836A00CB09A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A6EC2A1225A836A00CB09A5 /* GoogleService-Info.plist */; };
+		4A570552225E5ADB006692C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A570551225E5ADB006692C8 /* GoogleService-Info.plist */; };
 		4A6EC2CE225AAF2100CB09A5 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6EC2CD225AAF2000CB09A5 /* UserNotifications.framework */; };
 		4C8E9F59B2F4429DBDD5E785 /* HelveticaNeue-LightExt.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD8513CEABA94C3382755B9D /* HelveticaNeue-LightExt.otf */; };
 		534433FEEAD24BAB8CE74AC0 /* HelveticaNeueUltraLightItal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D501BC3110C54B10B2E90F9B /* HelveticaNeueUltraLightItal.ttf */; };
@@ -474,7 +474,7 @@
 		3B8F7D2BAB054439B2CABBA2 /* HelveticaNeue-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "HelveticaNeue-ThinItalic.otf"; path = "../assets/fonts/HelveticaNeue-ThinItalic.otf"; sourceTree = "<group>"; };
 		42EDE7356C854FCDB34171C6 /* HelveticaNeueCondensedBlack.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = HelveticaNeueCondensedBlack.ttf; path = ../assets/fonts/HelveticaNeueCondensedBlack.ttf; sourceTree = "<group>"; };
 		4965DADADE3D4656A7C2D416 /* HelveticaNeueLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = HelveticaNeueLightItalic.ttf; path = ../assets/fonts/HelveticaNeueLightItalic.ttf; sourceTree = "<group>"; };
-		4A6EC2A1225A836A00CB09A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4A570551225E5ADB006692C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4A6EC2CC225AA1B300CB09A5 /* Eaterin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Eaterin.entitlements; path = Eaterin/Eaterin.entitlements; sourceTree = "<group>"; };
 		4A6EC2CD225AAF2000CB09A5 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		4C0E2383D38E4D908A889F3F /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
@@ -769,11 +769,11 @@
 			isa = PBXGroup;
 			children = (
 				4A6EC2CC225AA1B300CB09A5 /* Eaterin.entitlements */,
-				4A6EC2A1225A836A00CB09A5 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				4A570551225E5ADB006692C8 /* GoogleService-Info.plist */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -1048,6 +1048,9 @@
 						DevelopmentTeam = D63S67X3HL;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
 								enabled = 1;
 							};
 							com.apple.Push = {
@@ -1488,7 +1491,7 @@
 				0143F45D6610446E8988EE81 /* HelveticaNeue-MediumExtObl.otf in Resources */,
 				8A617B267CAF4B7C88930516 /* HelveticaNeue-Roman.otf in Resources */,
 				DC275891DE41418480ED661C /* HelveticaNeue-Thin.otf in Resources */,
-				4A6EC2CB225A836A00CB09A5 /* GoogleService-Info.plist in Resources */,
+				4A570552225E5ADB006692C8 /* GoogleService-Info.plist in Resources */,
 				8DCDD66E29C94E1DA28DE894 /* HelveticaNeue-ThinCond.otf in Resources */,
 				1C4D8355F2054BE3A6DEAE58 /* HelveticaNeue-ThinCondObl.otf in Resources */,
 				DA3BFEB74E1D4D47BB5EE01A /* HelveticaNeue-ThinExtObl.otf in Resources */,
@@ -1788,6 +1791,8 @@
 				);
 				INFOPLIST_FILE = Eaterin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				NEW_SETTING = "";
+				NEW_SETTING1 = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1795,6 +1800,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Eaterin;
+				STRIP_BITCODE_FROM_COPIED_FILES = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1815,6 +1821,8 @@
 				);
 				INFOPLIST_FILE = Eaterin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				NEW_SETTING = "";
+				NEW_SETTING1 = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1822,6 +1830,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Eaterin;
+				STRIP_BITCODE_FROM_COPIED_FILES = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

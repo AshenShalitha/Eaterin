@@ -8,7 +8,7 @@ import { MainSwitchNavigator } from './screens/MainSwitchNavigator';
 import reducers from './redux/reducers';
 import NavigationService from './services/NavigationService';
 
-const topicName = 'Notifications';
+const topicName = 'Test';
 
 export default class App extends Component {
 
@@ -24,16 +24,18 @@ export default class App extends Component {
 
   async checkPermission() {
     const enabled = await firebase.messaging().hasPermission();
+    console.log('okkkkk')
     if (enabled) {
       console.log(enabled);
       this.subscribe();
-    } else if (Platform === 'ios') {
-      console.log('granted');
+    } else if (Platform.OS === 'ios') {
+      console.log(topicName);  
       this.subscribe();
     }
   }
 
   async subscribe() {
+    console.log('sub');
     firebase.messaging().subscribeToTopic(topicName);
   }
 
@@ -66,6 +68,7 @@ export default class App extends Component {
     * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       const { title, body } = notification;
+      console.log(notification)
       this.showAlert(title, body);
     });
 
