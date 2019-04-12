@@ -8,7 +8,7 @@ import { MainSwitchNavigator } from './screens/MainSwitchNavigator';
 import reducers from './redux/reducers';
 import NavigationService from './services/NavigationService';
 
-const topicName = 'Test';
+const topicName = 'Notifications';
 
 export default class App extends Component {
 
@@ -24,12 +24,9 @@ export default class App extends Component {
 
   async checkPermission() {
     const enabled = await firebase.messaging().hasPermission();
-    console.log('okkkkk')
     if (enabled) {
-      console.log(enabled);
       this.subscribe();
     } else if (Platform.OS === 'ios') {
-      console.log(topicName);  
       this.subscribe();
     }
   }
@@ -75,19 +72,19 @@ export default class App extends Component {
     /*
     * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
     * */
-    this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-      const { title, body } = notificationOpen.notification;
-      this.showAlert(title, body);
-    });
+    // this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+    //   const { title, body } = notificationOpen.notification;
+    //   this.showAlert(title, body);
+    // });
 
     /*
     * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
     * */
-    const notificationOpen = await firebase.notifications().getInitialNotification();
-    if (notificationOpen) {
-      const { title, body } = notificationOpen.notification;
-      this.showAlert(title, body);
-    }
+    // const notificationOpen = await firebase.notifications().getInitialNotification();
+    // if (notificationOpen) {
+    //   const { title, body } = notificationOpen.notification;
+    //   this.showAlert(title, body);
+    // }
     /*
     * Triggered for data only payload in foreground
     * */

@@ -225,12 +225,12 @@ class SelectBookingScreen extends Component {
         if (moment(this.props.selectedDate).isSame(moment().format('MM/DD/YYYY'))) {
             //round up current time to nearest 2 hours
             const currentTime = moment();
-            const minutesDifference = 30 - (currentTime.minute() % 30);
-            const currentTimeRoundedUp = moment(currentTime).add(minutesDifference, 'minutes').format('HH:mm');
-            const roundedUpTwoHours = moment(currentTimeRoundedUp, 'HH:mm').add(2, 'h').format('HH:mm');
+            // const minutesDifference = 30 - (currentTime.minute() % 30);
+            // const currentTimeRoundedUp = moment(currentTime).add(minutesDifference, 'minutes').format('HH:mm');
+            const roundedUpTwoHours = moment(currentTime, 'HH:mm').add(2, 'h').format('HH:mm');
             //filter past timeslots
             const newTimeSlots = filteredTimeSlots.filter(timeSlot => {
-                if (moment(currentTime, 'HH:mm').isAfter(moment('21:30', 'HH:mm'))) {
+                if (moment(currentTime, 'HH:mm').isAfter(moment('22:00', 'HH:mm'))) {
                     return null;
                 } else if (moment(timeSlot.time, 'HH:mm').isAfter(moment(roundedUpTwoHours, 'HH:mm'))) {
                     return timeSlot;
@@ -251,11 +251,11 @@ class SelectBookingScreen extends Component {
                 return (
                     <SkypeIndicator color={colors.green_light} size={EStyleSheet.value('40rem')} />
                 );
-            } else if (moment(currentTime, 'HH:mm').isAfter(moment('21:30', 'HH:mm')) &&
+            } else if (moment(currentTime, 'HH:mm').isAfter(moment('20:00', 'HH:mm')) &&
                 moment(this.props.selectedDate).isSame(moment().format('MM/DD/YYYY'))) {
                 return (
                     <View style={styles.errorContainer}>
-                        <Text style={styles.errorText}>Online bookings unavailable after 9:30 PM</Text>
+                        <Text style={styles.errorText}>Online bookings unavailable after 10:00 PM</Text>
                     </View>
                 );
             } else if (this.props.timeSlotError) {
