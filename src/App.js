@@ -8,7 +8,7 @@ import { MainSwitchNavigator } from './screens/MainSwitchNavigator';
 import reducers from './redux/reducers';
 import NavigationService from './services/NavigationService';
 
-const topicName = 'Notifications';
+const topicName = 'Test';
 
 export default class App extends Component {
 
@@ -24,10 +24,11 @@ export default class App extends Component {
 
   async checkPermission() {
     const enabled = await firebase.messaging().hasPermission();
+    console.log(enabled);
     if (enabled) {
       this.subscribe();
-    } else if (Platform.OS === 'ios') {
-      this.subscribe();
+    } else {
+      this.requestPermission();
     }
   }
 
@@ -48,16 +49,17 @@ export default class App extends Component {
   //   }
   // }
 
-  // async requestPermission() {
-  //   try {
-  //     await firebase.messaging().requestPermission();
-  //     // User has authorised
-  //     this.getToken();
-  //   } catch (error) {
-  //     // User has rejected permissions
-  //     console.log('permission rejected');
-  //   }
-  // }
+  async requestPermission() {
+    try {
+      await firebase.messaging().requestPermission();
+      // User has authorised
+      this.subscribe();
+      console.log('subscribed!!!')
+    } catch (error) {
+      // User has rejected permissions
+      console.log('permission rejected');
+    }
+  }
 
   async createNotificationListeners() {
     /*
@@ -65,7 +67,7 @@ export default class App extends Component {
     * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       const { title, body } = notification;
-      console.log(notification)
+      console.log('nnnnn',notification)
       this.showAlert(title, body);
     });
 
