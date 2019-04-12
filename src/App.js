@@ -33,7 +33,6 @@ export default class App extends Component {
   }
 
   async subscribe() {
-    console.log('sub');
     firebase.messaging().subscribeToTopic(topicName);
   }
 
@@ -42,6 +41,7 @@ export default class App extends Component {
   //   console.log('tokennnnnnn', fcmToken);
   //   if (!fcmToken) {
   //     fcmToken = await firebase.messaging().getToken();
+  //     console.log('tokennnnnnn', fcmToken);
   //     if (fcmToken) {
   //       // user has a device token
   //       await AsyncStorage.setItem('fcmToken', fcmToken);
@@ -68,7 +68,7 @@ export default class App extends Component {
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       const { title, body } = notification;
       console.log('nnnnn',notification)
-      this.showAlert(title, body);
+      this.showAlert(title, body);  
     });
 
     /*
