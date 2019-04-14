@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'react-native-firebase';
-import DeviceInfo from 'react-native-device-info';
+import VersionNumber from 'react-native-version-number';
 import { MainSwitchNavigator } from './screens/MainSwitchNavigator';
 import reducers from './redux/reducers';
 import NavigationService from './services/NavigationService';
@@ -69,8 +69,7 @@ export default class App extends Component {
   }
 
   checkAppVersion() {
-    const version = DeviceInfo.getVersion();
-    console.log('v', version);
+    console.log('vv',VersionNumber.appVersion);  
   }
 
   render() {
