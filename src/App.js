@@ -69,7 +69,7 @@ export default class App extends Component {
   }
 
   checkAppVersion() {
-    console.log('vv',VersionNumber.appVersion);  
+    console.log('vv', VersionNumber.appVersion);
   }
 
   render() {
