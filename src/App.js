@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { AsyncStorage, Alert, Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'react-native-firebase';
+import DeviceInfo from 'react-native-device-info';
 import { MainSwitchNavigator } from './screens/MainSwitchNavigator';
 import reducers from './redux/reducers';
 import NavigationService from './services/NavigationService';
@@ -15,6 +16,7 @@ export default class App extends Component {
   async componentDidMount() {
     this.checkPermission();
     this.createNotificationListeners();
+    this.checkAppVersion();
   }
 
   componentWillUnmount() {
@@ -24,30 +26,12 @@ export default class App extends Component {
 
   async checkPermission() {
     const enabled = await firebase.messaging().hasPermission();
-    console.log(enabled);
     if (enabled) {
       this.subscribe();
     } else {
       this.requestPermission();
     }
   }
-
-  async subscribe() {
-    firebase.messaging().subscribeToTopic(topicName);
-  }
-
-  // async getToken() {
-  //   let fcmToken = await AsyncStorage.getItem('fcmToken');
-  //   console.log('tokennnnnnn', fcmToken);
-  //   if (!fcmToken) {
-  //     fcmToken = await firebase.messaging().getToken();
-  //     console.log('tokennnnnnn', fcmToken);
-  //     if (fcmToken) {
-  //       // user has a device token
-  //       await AsyncStorage.setItem('fcmToken', fcmToken);
-  //     }
-  //   }
-  // }
 
   async requestPermission() {
     try {
@@ -61,38 +45,16 @@ export default class App extends Component {
     }
   }
 
+  async subscribe() {
+    firebase.messaging().subscribeToTopic(topicName);
+  }
+
   async createNotificationListeners() {
-    /*
-    * Triggered when a particular notification has been received in foreground
-    * */
+    // Triggered when a particular notification has been received in foreground
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       const { title, body } = notification;
-      console.log('nnnnn',notification)
-      this.showAlert(title, body);  
-    });
-
-    /*
-    * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
-    * */
-    // this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-    //   const { title, body } = notificationOpen.notification;
-    //   this.showAlert(title, body);
-    // });
-
-    /*
-    * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
-    * */
-    // const notificationOpen = await firebase.notifications().getInitialNotification();
-    // if (notificationOpen) {
-    //   const { title, body } = notificationOpen.notification;
-    //   this.showAlert(title, body);
-    // }
-    /*
-    * Triggered for data only payload in foreground
-    * */
-    this.messageListener = firebase.messaging().onMessage((message) => {
-      //process data message
-      console.log(JSON.stringify(message));
+      console.log('nnnnn', notification)
+      this.showAlert(title, body);
     });
   }
 
@@ -104,6 +66,11 @@ export default class App extends Component {
       ],
       { cancelable: false },
     );
+  }
+
+  checkAppVersion() {
+    const version = DeviceInfo.getVersion();
+    console.log('v', version);
   }
 
   render() {

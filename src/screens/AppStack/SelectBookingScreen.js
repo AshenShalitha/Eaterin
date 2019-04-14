@@ -26,7 +26,6 @@ import { TimeSlotItem } from '../../components/TimeSlotItem';
 import { AlertPopUp } from '../../components/AlertPopUp';
 import { OfflineNotice } from '../../components/OfflineNotice';
 import * as actions from '../../redux/actions';
-import { PROTOCOL, HOST } from '../../api/API';
 
 const entireScreenWidth = Dimensions.get('window').width;
 const entireScreenHeight = Dimensions.get('window').height;
