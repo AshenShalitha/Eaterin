@@ -13,6 +13,8 @@ target 'Eaterin' do
 
     pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
+    pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   end
 
   target 'EaterinTests' do

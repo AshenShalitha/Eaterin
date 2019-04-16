@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import Splash from 'react-native-splash-screen'
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SkypeIndicator } from 'react-native-indicators';
 import { Container, Item, Input, Icon } from 'native-base';
@@ -38,6 +39,7 @@ class RestaurantScreen extends Component {
     }
 
     componentDidMount() {
+        Splash.hide();
         NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
         this.interaction = InteractionManager.runAfterInteractions(() => {
             this.fetchRestaurantList();
