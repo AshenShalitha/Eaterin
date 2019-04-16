@@ -8,7 +8,7 @@ import {
     Linking
 } from 'react-native';
 import { connect } from 'react-redux';
-import VersionNumber from 'react-native-version-number';
+import DeviceInfo from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { colors } from '../utils/Colors';
 import * as actions from '../redux/actions';
@@ -26,7 +26,7 @@ class SplashScreen extends Component {
 
     componentDidMount() {
         this.checkUpdate();
-    }
+    } 
 
     componentDidUpdate() {
         const { checkUpdateLoading, isUpdateAvailable } = this.props;
@@ -40,7 +40,7 @@ class SplashScreen extends Component {
     }
 
     checkUpdate() {
-        this.props.checkUpdate(Platform.OS, VersionNumber.appVersion);
+        this.props.checkUpdate(Platform.OS, DeviceInfo.getVersion());
     }
 
     forceUpdate() {
