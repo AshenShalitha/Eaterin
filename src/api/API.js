@@ -16,6 +16,6 @@ export const GET_UPCOMING_BOOKINGS = `${PROTOCOL}${HOST}api/get_upcoming_reserva
 export const TERMS = 'http://www.eaterin.com/terms';
 export const PRIVACY = 'http://www.eaterin.com/privacy';
 
-export const ANDROID_LINK = 'https://play.google.com/store/apps/details?id=com.eaterin';
-export const IOS_LINK = 'https://itunes.apple.com/us/app/eaterin/id1458989419?ls=1&mt=8';
+export const PLAYSTORE_URL = 'https://play.google.com/store/apps/details?id=com.eaterin';
+export const APPSTORE_URL = 'https://itunes.apple.com/us/app/eaterin/id1458989419?ls=1&mt=8';
 

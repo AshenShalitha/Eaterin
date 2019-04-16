@@ -12,7 +12,7 @@ import DeviceInfo from 'react-native-device-info';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { colors } from '../utils/Colors';
 import * as actions from '../redux/actions';
-import { IOS_LINK, ANDROID_LINK } from '../api/API';
+import { APPSTORE_URL, PLAYSTORE_URL } from '../api/API';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
@@ -26,7 +26,7 @@ class SplashScreen extends Component {
 
     componentDidMount() {
         this.checkUpdate();
-    } 
+    }
 
     componentDidUpdate() {
         const { checkUpdateLoading, isUpdateAvailable } = this.props;
@@ -56,9 +56,9 @@ class SplashScreen extends Component {
 
     openStore() {
         if (Platform.OS === 'ios') {
-            Linking.openURL(IOS_LINK);
+            Linking.openURL(APPSTORE_URL);
         } else {
-            Linking.openURL(ANDROID_LINK);
+            Linking.openURL(PLAYSTORE_URL);
         }
     }
 
