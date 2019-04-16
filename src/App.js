@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'react-native-firebase';
-import VersionNumber from 'react-native-version-number';
 import { MainSwitchNavigator } from './screens/MainSwitchNavigator';
 import reducers from './redux/reducers';
 import NavigationService from './services/NavigationService';
@@ -16,7 +15,6 @@ export default class App extends Component {
   async componentDidMount() {
     this.checkPermission();
     this.createNotificationListeners();
-    this.checkAppVersion();
   }
 
   componentWillUnmount() {
@@ -38,7 +36,7 @@ export default class App extends Component {
       await firebase.messaging().requestPermission();
       // User has authorised
       this.subscribe();
-      console.log('subscribed!!!')
+      console.log('subscribed!!!');
     } catch (error) {
       // User has rejected permissions
       console.log('permission rejected');
@@ -66,10 +64,6 @@ export default class App extends Component {
       ],
       { cancelable: false },
     );
-  }
-
-  checkAppVersion() {
-    console.log('vv', VersionNumber.appVersion);
   }
 
   render() {

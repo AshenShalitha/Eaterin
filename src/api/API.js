@@ -1,6 +1,7 @@
 export const PROTOCOL = 'http://';
 export const HOST = 'eaterin.com/';
 
+export const CHECK_UPDATE = `${PROTOCOL}${HOST}api/checkAppVersion`;
 export const LOGIN = `${PROTOCOL}${HOST}api/login`;
 export const SIGNUP = `${PROTOCOL}${HOST}api/register`;
 export const GET_RESTAURANTS = `${PROTOCOL}${HOST}api/get_restaurants`;
@@ -14,4 +15,7 @@ export const GET_UPCOMING_BOOKINGS = `${PROTOCOL}${HOST}api/get_upcoming_reserva
 
 export const TERMS = 'http://www.eaterin.com/terms';
 export const PRIVACY = 'http://www.eaterin.com/privacy';
+
+export const ANDROID_LINK = 'https://play.google.com/store/apps/details?id=com.eaterin';
+export const IOS_LINK = 'https://itunes.apple.com/us/app/eaterin/id1458989419?ls=1&mt=8';
 

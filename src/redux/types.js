@@ -5,6 +5,9 @@ export const LOGIN_USER = 'login_user';
 export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAILED = 'login_user_failed';
 export const USER_IS_LOGGED_IN = 'user_is_logged_in';
+export const CHECK_FORCE_UPDATE = 'check_force_update';
+export const CHECK_FORCE_UPDATE_SUCCESS = 'check_force_update_success';
+export const CHECK_FORCE_UPDATE_FAILED = 'check_force_update_failed';
 
 //Signup
 export const SIGNUP_NAME_CHANGED = 'signup_name_changed';
@@ -81,3 +84,5 @@ export const SET_EMAIL = 'set_email';
 export const SET_CONTACT_NUMBER = 'set_contact_number';
 export const SET_PROFILE_PIC = 'set_profile_pic';
 export const SET_ACCESS_TOKEN = 'set_access_token';
+
+

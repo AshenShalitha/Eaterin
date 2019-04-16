@@ -12,10 +12,13 @@ import {
     SET_CONTACT_NUMBER,
     SET_EMAIL,
     SET_NAME,
-    SET_ID
+    SET_ID,
+    CHECK_FORCE_UPDATE,
+    CHECK_FORCE_UPDATE_SUCCESS,
+    CHECK_FORCE_UPDATE_FAILED
 } from '../types';
 import {
-    LOGIN,
+    LOGIN, CHECK_UPDATE,
 } from '../../api/API';
 import NavigationService from '../../services/NavigationService';
 
@@ -136,4 +139,26 @@ const setProfilePic = (value, dispatch) => {
 
 const setAccessToken = (value, dispatch) => {
     dispatch({ type: SET_ACCESS_TOKEN, payload: value });
+};
+
+export const checkUpdate = (platform, version) => {
+    return (dispatch) => {
+        dispatch({ type: CHECK_FORCE_UPDATE });
+        axios({
+            method: 'post',
+            url: CHECK_UPDATE,
+            data: {
+                client: platform,
+                current_version: version
+            }
+        }).then(response => {
+            if (response.data.data.update_available === 1) {
+                dispatch({ type: CHECK_FORCE_UPDATE_SUCCESS, payload: true });
+            } else {
+                dispatch({ type: CHECK_FORCE_UPDATE_SUCCESS, payload: false });
+            }
+        }).catch(() => {
+            dispatch({ type: CHECK_FORCE_UPDATE_FAILED });
+        });
+    };
 };

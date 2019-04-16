@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import {
     Dimensions,
     View,
-    AsyncStorage
+    AsyncStorage,
+    Platform,
+    Alert,
+    Linking
 } from 'react-native';
 import { connect } from 'react-redux';
+import VersionNumber from 'react-native-version-number';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { colors } from '../utils/Colors';
 import * as actions from '../redux/actions';
+import { IOS_LINK, ANDROID_LINK } from '../api/API';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
@@ -20,7 +25,41 @@ class SplashScreen extends Component {
     }
 
     componentDidMount() {
-        this.setUserData();
+        this.checkUpdate();
+    }
+
+    componentDidUpdate() {
+        const { checkUpdateLoading, isUpdateAvailable } = this.props;
+        if (!checkUpdateLoading) {
+            if (isUpdateAvailable) {
+                this.forceUpdate();
+            } else {
+                this.setUserData();
+            }
+        }
+    }
+
+    checkUpdate() {
+        this.props.checkUpdate(Platform.OS, VersionNumber.appVersion);
+    }
+
+    forceUpdate() {
+        Alert.alert(
+            'New version',
+            'The current version of this application is no longer supported ',
+            [
+                { text: 'Update', onPress: () => this.openStore() },
+            ],
+            { cancelable: false },
+        );
+    }
+
+    openStore() {
+        if (Platform.OS === 'ios') {
+            Linking.openURL(IOS_LINK);
+        } else {
+            Linking.openURL(ANDROID_LINK);
+        }
     }
 
     setUserData() {
@@ -60,4 +99,11 @@ const styles = EStyleSheet.create({
     }
 });
 
-export default connect(null, actions)(SplashScreen);
+const mapStateToProps = state => {
+    return {
+        checkUpdateLoading: state.login.checkUpdateLoading,
+        isUpdateAvailable: state.login.isUpdateAvailable
+    };
+};
+
+export default connect(mapStateToProps, actions)(SplashScreen);

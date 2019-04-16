@@ -5,6 +5,9 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILED,
     USER_IS_LOGGED_IN,
+    CHECK_FORCE_UPDATE,
+    CHECK_FORCE_UPDATE_SUCCESS,
+    CHECK_FORCE_UPDATE_FAILED,
 } from '../types';
 
 const INITIAL_STATE = {
@@ -13,6 +16,8 @@ const INITIAL_STATE = {
     user: {},
     loginLoading: false,
     isLoggedIn: false,
+    isUpdateAvailable: false,
+    checkUpdateLoading: false,
 };
 
 const FORM_INITIAL_STATE = {
@@ -36,6 +41,12 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, loginLoading: false };
         case USER_IS_LOGGED_IN:
             return { ...state, isLoggedIn: action.payload };
+        case CHECK_FORCE_UPDATE:
+            return { ...state, checkUpdateLoading: true };
+        case CHECK_FORCE_UPDATE_SUCCESS:
+            return { ...state, checkUpdateLoading: false, isUpdateAvailable: action.payload };
+        case CHECK_FORCE_UPDATE_FAILED:
+            return { ...state, checkUpdateLoading: false };
         default:
             return state;
     }
