@@ -24,6 +24,7 @@ export default class App extends Component {
 
   async checkPermission() {
     const enabled = await firebase.messaging().hasPermission();
+    console.log(enabled)
     if (enabled) {
       this.subscribe();
     } else {
@@ -36,7 +37,6 @@ export default class App extends Component {
       await firebase.messaging().requestPermission();
       // User has authorised
       this.subscribe();
-      console.log('subscribed!!!');
     } catch (error) {
       // User has rejected permissions
       console.log('permission rejected');
@@ -45,13 +45,14 @@ export default class App extends Component {
 
   async subscribe() {
     firebase.messaging().subscribeToTopic(topicName);
+    console.log('subscribed', topicName);
   }
 
   async createNotificationListeners() {
     // Triggered when a particular notification has been received in foreground
     this.notificationListener = firebase.notifications().onNotification((notification) => {
+      console.log(notification);
       const { title, body } = notification;
-      console.log('nnnnn', notification)
       this.showAlert(title, body);
     });
   }
