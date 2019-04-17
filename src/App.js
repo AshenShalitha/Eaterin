@@ -8,7 +8,7 @@ import { MainSwitchNavigator } from './screens/MainSwitchNavigator';
 import reducers from './redux/reducers';
 import NavigationService from './services/NavigationService';
 
-const topicName = 'Test';
+const topicName = 'Notifications';
 
 export default class App extends Component {
 
