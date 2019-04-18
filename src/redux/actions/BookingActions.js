@@ -118,6 +118,7 @@ export const fetchRestaurants = (date) => {
 };
 
 export const fetchTimeSlots = (restaurantId, day, date) => {
+    console.log(restaurantId, date, day);
     return (dispatch) => {
         dispatch({ type: FETCH_TIME_SLOTS });
         axios({
@@ -129,6 +130,7 @@ export const fetchTimeSlots = (restaurantId, day, date) => {
                 date
             }
         }).then(response => {
+            console.log(response);
             if (response.status === 200) {
                 dispatch({ type: FETCH_TIME_SLOTS_SUCCESS, payload: response.data.data });
                 dispatch({ type: RESTAURANT_STATUS_UPDATES, payload: false });

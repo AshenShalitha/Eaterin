@@ -19,7 +19,7 @@ export default class App extends Component {
 
   componentWillUnmount() {
     this.notificationListener();
-    this.notificationOpenedListener();
+    this.notificationOpenedListener();  
   }
 
   async checkPermission() {

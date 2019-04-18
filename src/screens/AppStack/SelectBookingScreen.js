@@ -250,7 +250,7 @@ class SelectBookingScreen extends Component {
                 return (
                     <SkypeIndicator color={colors.green_light} size={EStyleSheet.value('40rem')} />
                 );
-            } else if (moment(currentTime, 'HH:mm').isAfter(moment('20:00', 'HH:mm')) &&
+            } else if (moment(currentTime, 'HH:mm').isAfter(moment('22:00', 'HH:mm')) &&
                 moment(this.props.selectedDate).isSame(moment().format('MM/DD/YYYY'))) {
                 return (
                     <View style={styles.errorContainer}>
