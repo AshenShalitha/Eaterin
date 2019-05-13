@@ -1,8 +1,12 @@
+/* eslint-disable no-else-return */
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImagePicker from 'react-native-image-picker';
 import { SkypeIndicator } from 'react-native-indicators';
+import CheckBox from 'react-native-checkbox';
+import Hyperlink from 'react-native-hyperlink';
 import {
     Dimensions,
     View,
@@ -11,7 +15,8 @@ import {
     ImageBackground,
     TouchableOpacity,
     NetInfo,
-    Alert
+    Alert,
+    Linking
 } from 'react-native';
 import {
     Form,
@@ -24,10 +29,13 @@ import {
 } from 'native-base';
 
 import coverImg from '../../utils/images/login_bg.jpg';
+import checked from '../../utils/images/checkboxChecked.png';
+import unchecked from '../../utils/images/checkboxUnchecked.png';
 import { OfflineNotice } from '../../components/OfflineNotice';
 import { colors } from '../../utils/Colors';
 import { strings } from '../../utils/Strings';
 import * as actions from '../../redux/actions';
+import { TERMS, PRIVACY } from '../../api/API';
 
 const entireScreenWidth = Dimensions.get('window').width;
 const entireScreenHeight = Dimensions.get('window').height;
@@ -62,7 +70,8 @@ class SignupScreen extends Component {
             passwordLengthError: false,
             invalidEmailError: false,
             invalidContactNoError: false,
-            avatarSource: null
+            avatarSource: null,
+            isChecked: false,
         };
         this.isConnected = true;
         NetInfo.isConnected.fetch().then(isConnected => {
@@ -183,7 +192,17 @@ class SignupScreen extends Component {
     }
 
     onSignupPressed() {
-        this.validate();
+        if (!this.state.isChecked) {
+            Alert.alert(
+                'Alert!',
+                'Please check the ckeck box to proceed.',
+                [
+                    { text: 'Ok' },
+                ],
+            );
+        } else {
+            this.validate();
+        }
     }
 
     validate() {
@@ -231,7 +250,6 @@ class SignupScreen extends Component {
 
     onImagePickerPressed() {
         ImagePicker.showImagePicker(options, (response) => {
-
             if (!response.didCancel) {
                 fileName = response.fileName;
                 fileType = response.type;
@@ -243,6 +261,10 @@ class SignupScreen extends Component {
                 console.log(response.error);
             }
         });
+    }
+
+    onChecked(value) {
+        this.setState({ isChecked: value });
     }
 
     renderThumbnail() {
@@ -306,7 +328,7 @@ class SignupScreen extends Component {
                                 }
                             </Item>
                             <View>
-                                <Text></Text>
+                                <Text />
                             </View>
                             {/* contact number input */}
                             <Item
@@ -347,7 +369,7 @@ class SignupScreen extends Component {
                                     </View>
                                     :
                                     <View>
-                                        <Text></Text>
+                                        <Text />
                                     </View>
                             }
                             {/* email input */}
@@ -389,7 +411,7 @@ class SignupScreen extends Component {
                                     </View>
                                     :
                                     <View>
-                                        <Text></Text>
+                                        <Text />
                                     </View>
                             }
                             {/* password input */}
@@ -431,7 +453,7 @@ class SignupScreen extends Component {
                                     </View>
                                     :
                                     <View>
-                                        <Text></Text>
+                                        <Text />
                                     </View>
                             }
                             {/* confirm password input */}
@@ -470,12 +492,43 @@ class SignupScreen extends Component {
                                     </View>
                                     :
                                     <View>
-                                        <Text></Text>
+                                        <Text />
                                     </View>
                             }
                         </Form>
                     </View>
+                    <View style={styles.checkBoxContainer}>
+                        <View style={styles.left}>
+                            <CheckBox
+                                label={''}
+                                checked={this.state.isCheckedrue}
+                                onChange={(value) => this.onChecked(value)}
+                                checkboxStyle={{
+                                    width: EStyleSheet.value('20rem'),
+                                    height: EStyleSheet.value('20rem'),
+                                }}
+                                // containerStyle={{ justifyContent: 'center', alignSelf: 'center' }}
+                                checkedImage={checked}
+                                uncheckedImage={unchecked}
+                            />
+                        </View>
+                        <View style={styles.right}>
+                            <Hyperlink
+                                linkStyle={styles.linkText}
+                                onPress={url => Linking.openURL(url)}
+                                linkText={url => {
+                                    if (url === TERMS) return 'terms and conditons';
+                                    if (url === PRIVACY) return 'privacy policy';
+                                }}
+                            >
+                                <Text style={styles.checkText}>
+                                    I have read, understand and accept the {TERMS} and {PRIVACY}
+                                </Text>
+                            </Hyperlink>
+                        </View>
+                    </View>
                     <View style={styles.buttonContainer}>
+
                         {
                             signupLoading ?
                                 <SkypeIndicator color={colors.green_light} size={EStyleSheet.value('40rem')} />
@@ -499,7 +552,7 @@ class SignupScreen extends Component {
 
 const styles = EStyleSheet.create({
     mainContainer: {
-        height: entireScreenHeight
+        height: 'auto'
         // backgroundColor: colors.black,
     },
     imageContainer: {
@@ -589,6 +642,39 @@ const styles = EStyleSheet.create({
     errorMessageContainer: {
         flex: 1,
         alignItems: 'flex-end'
+    },
+    checkBoxContainer: {
+        flex: 2,
+        flexDirection: 'row',
+        // backgroundColor: 'green',
+        paddingHorizontal: '25rem',
+        alignItems: 'center',
+        marginTop: '20rem',
+        alignSelf: 'stretch'
+    },
+    left: {
+        flex: 1,
+        justifyContent: 'center',
+        alignSelf: 'stretch'
+    },
+    right: {
+        flex: 7,
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        // backgroundColor: 'yellow',
+    },
+    checkText: {
+        fontSize: '14rem',
+        color: colors.ash_lighter,
+        textAlign: 'center',
+        lineHeight: '18rem',
+    },
+    linkText: {
+        fontSize: '14rem',
+        lineHeight: '18rem',
+        color: colors.blue,
+        textAlign: 'center',
     }
 });
 
