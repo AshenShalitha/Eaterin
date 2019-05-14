@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Dimensions,
     View,
@@ -6,31 +6,32 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {
-    Card,
     Icon,
 } from 'native-base';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { colors } from '../../utils/Colors';
-import { strings } from '../../utils/Strings';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
-const LogoutCard = ({
-    onLogoutPress
+const SettingsButton = ({
+    onPress,
+    iconName,
+    iconType,
+    text
 }) => {
     return (
         <View style={styles.expandableCard}>
-            <TouchableOpacity style={styles.lableContainer} onPress={onLogoutPress}>
+            <TouchableOpacity style={styles.lableContainer} onPress={onPress}>
                 <View style={styles.left}>
-                    <Icon name={'sign-out-alt'} type={'FontAwesome5'} style={styles.iconStyle} />
-                    <Text style={styles.labelText}>{strings.profile.logoutCard.title}</Text>
+                    <Icon name={iconName} type={iconType} style={styles.iconStyle} />
+                    <Text style={styles.labelText}>{text}</Text>
                 </View>
             </TouchableOpacity>
         </View>
     );
-}
+};
 
 const styles = EStyleSheet.create({
     expandableCard: {
@@ -70,4 +71,4 @@ const styles = EStyleSheet.create({
 });
 
 
-export { LogoutCard };
+export { SettingsButton };

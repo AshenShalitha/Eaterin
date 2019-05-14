@@ -79,9 +79,9 @@ export const strings = {
             lbl3: 'Confirm Password',
             btn: 'Save'
         },
-        logoutCard: {
-            title: 'Logout'
-        },
+        logout: 'Logout',
+        terms: 'Terms and conditions',
+        privacy: 'Privacy policy'
     },
     restaurants: {
         isEmpty: 'No restaurants available'

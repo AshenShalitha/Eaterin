@@ -1,18 +1,17 @@
+/* eslint-disable no-else-return */
 import React, { Component } from 'react';
 import {
     Dimensions,
     View,
     ScrollView,
-    Text,
     AsyncStorage,
     ImageBackground,
-    TouchableOpacity
+    TouchableOpacity,
+    Linking
 } from 'react-native';
 import {
-    Card,
     Thumbnail,
     Icon,
-    Button
 } from 'native-base';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImagePicker from 'react-native-image-picker';
@@ -22,13 +21,14 @@ import { SkypeIndicator } from 'react-native-indicators';
 import { LoggedOutProfileView } from '../../../../components/LoggedOutProfileView';
 import { UserDetailCard } from '../../../../components/UserDetailCard';
 import { ChangePasswordCard } from '../../../../components/ChangePasswordCard';
-import { LogoutCard } from '../../../../components/LogoutCard';
+import { SettingsButton } from '../../../../components/SettingsButton';
 import { OfflineNotice } from '../../../../components/OfflineNotice';
 import profileBg from '../../../../utils/images/profile_bg.jpg';
 import { AlertPopUp } from '../../../../components/AlertPopUp';
 import { colors } from '../../../../utils/Colors';
 import { strings } from '../../../../utils/Strings';
 import * as actions from '../../../../redux/actions';
+import { TERMS, PRIVACY } from '../../../../api/API';
 
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
@@ -231,8 +231,23 @@ class ProileScreen extends Component {
                     onPress={() => this.onPasswordChanged()}
                     loading={this.props.passwordChangeLoading}
                 />
-                <LogoutCard
-                    onLogoutPress={() => this.setState({ modalVisible: true })}
+                <SettingsButton
+                    iconName={'list'}
+                    iconType={'FontAwesome'}
+                    text={strings.profile.terms}
+                    onPress={() => Linking.openURL(TERMS)}
+                />
+                <SettingsButton
+                    iconName={'shield'}
+                    iconType={'Entypo'}
+                    text={strings.profile.privacy}
+                    onPress={() => Linking.openURL(PRIVACY)}
+                />
+                <SettingsButton
+                    iconName={'sign-out-alt'}
+                    iconType={'FontAwesome5'}
+                    text={strings.profile.logout}
+                    onPress={() => this.setState({ modalVisible: true })}
                 />
             </View>
         );

@@ -277,7 +277,7 @@ class SelectBookingScreen extends Component {
                         </View >
                         :
                         <FlatList
-                            data={this.setTimeslotArray(this.props.timeSlots)}
+                            data={this.props.timeSlots}
                             renderItem={this.renderItem.bind(this)}
                             keyExtractor={item => item.time_slot_id.toString()}
                             extraData={this.triggerArray}
