@@ -323,7 +323,6 @@ class SelectBookingScreen extends Component {
                         onDecrementPressed={this.decrementPressed.bind(this)}
                         decrementDisabled={this.state.decrementDisabled}
                         incrementDisabled={this.state.incrementDisabled}
-
                     />
                 </View>
                 <View style={styles.timeSlotContainer}>
