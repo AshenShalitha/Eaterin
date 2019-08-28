@@ -89,6 +89,7 @@ class ConfirmBookingScreen extends Component {
         const { time, discount, time_slot_id: timeSlotId } = this.props.selectedTimeSlotObj;
         const { id: userId, selectedDate, numberOfGuests, name, email, contactNo, accessToken } = this.props;
         const date = moment(new Date(selectedDate), 'MM/DD/YYYY', true).format('YYYY-MM-DD');
+        console.log(numberOfGuests);
         this.props.addBooking(
             restaurantId,
             userId,

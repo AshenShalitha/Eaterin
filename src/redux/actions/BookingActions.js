@@ -163,6 +163,7 @@ export const addBooking = (
     timeSlotId,
     accessToken,
 ) => {
+    console.log(guestCount);
     return (dispatch) => {
         dispatch({ type: MAKE_RESERVATION });
         axios({
