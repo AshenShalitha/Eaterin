@@ -1,6 +1,6 @@
 export const PROTOCOL = 'http://';
-// export const HOST = 'eaterin.com/'; 
-export const HOST = '157.245.106.135/';
+export const HOST = 'eaterin.com/';
+// export const HOST = '157.245.106.135/';
 
 export const CHECK_UPDATE = `${PROTOCOL}${HOST}api/checkAppVersion`;
 export const LOGIN = `${PROTOCOL}${HOST}api/login`;
