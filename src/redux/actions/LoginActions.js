@@ -142,6 +142,7 @@ const setAccessToken = (value, dispatch) => {
 };
 
 export const checkUpdate = (platform, version) => {
+    console.log(platform, version);
     return (dispatch) => {
         dispatch({ type: CHECK_FORCE_UPDATE });
         axios({
@@ -152,6 +153,7 @@ export const checkUpdate = (platform, version) => {
                 current_version: version
             }
         }).then(response => {
+            console.log(response.data)
             if (response.data.data.update_available === 1) {
                 dispatch({ type: CHECK_FORCE_UPDATE_SUCCESS, payload: true });
             } else {

@@ -39,7 +39,7 @@ class RestaurantScreen extends Component {
     }
 
     componentDidMount() {
-        Splash.hide();
+        // Splash.hide();
         NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
         this.interaction = InteractionManager.runAfterInteractions(() => {
             this.fetchRestaurantList();

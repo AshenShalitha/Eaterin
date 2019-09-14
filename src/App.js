@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'react-native-firebase';
+import Splash from 'react-native-splash-screen';
 import { MainSwitchNavigator } from './screens/MainSwitchNavigator';
 import reducers from './redux/reducers';
 import NavigationService from './services/NavigationService';
@@ -13,6 +14,7 @@ const topicName = 'Notifications';
 export default class App extends Component {
 
   async componentDidMount() {
+    Splash.hide();
     this.checkPermission();
     this.createNotificationListeners();
   }

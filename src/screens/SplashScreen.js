@@ -56,6 +56,7 @@ class SplashScreen extends Component {
 
     openStore() {
         if (Platform.OS === 'ios') {
+            console.log('ok')
             Linking.openURL(APPSTORE_URL);
         } else {
             Linking.openURL(PLAYSTORE_URL);
