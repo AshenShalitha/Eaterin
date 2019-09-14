@@ -18,5 +18,5 @@ export const TERMS = 'http://www.eaterin.com/terms';
 export const PRIVACY = 'http://www.eaterin.com/privacy';
 
 export const PLAYSTORE_URL = 'https://play.google.com/store/apps/details?id=com.eaterin';
-export const APPSTORE_URL = 'https://itunes.apple.com/us/app/eaterin/id1458989419?ls=1&mt=8';
+export const APPSTORE_URL = 'https://apps.apple.com/us/developer/eaterin/id1458989418';
 

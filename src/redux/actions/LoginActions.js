@@ -149,7 +149,7 @@ export const checkUpdate = (platform, version) => {
             url: CHECK_UPDATE,
             data: {
                 client: platform,
-                current_version: version
+                current_version: 1.9
             }
         }).then(response => {
             console.log(response.data)
