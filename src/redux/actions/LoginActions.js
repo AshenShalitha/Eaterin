@@ -142,7 +142,6 @@ const setAccessToken = (value, dispatch) => {
 };
 
 export const checkUpdate = (platform, version) => {
-    console.log(platform, version);
     return (dispatch) => {
         dispatch({ type: CHECK_FORCE_UPDATE });
         axios({

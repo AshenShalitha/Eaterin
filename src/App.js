@@ -21,12 +21,11 @@ export default class App extends Component {
 
   componentWillUnmount() {
     this.notificationListener();
-    this.notificationOpenedListener();  
+    this.notificationOpenedListener();
   }
 
   async checkPermission() {
     const enabled = await firebase.messaging().hasPermission();
-    console.log(enabled)
     if (enabled) {
       this.subscribe();
     } else {
